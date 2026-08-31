@@ -127,7 +127,7 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
 
       <CtaBand
         title="Definitions are cheap. Execution is not."
-        body="Mengo turns a ten-minute brief into the strategy, the calendar, the content and the follow-up. Join the waitlist for early access."
+        body="Mengo turns a guided brief into the strategy, the calendar, the content and the follow-up. Join the waitlist for early access."
         secondary={{ label: "Browse the glossary", href: routes.glossary() }}
       />
     </>

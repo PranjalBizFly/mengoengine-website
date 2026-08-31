@@ -54,10 +54,17 @@ export interface Metric {
   source: "product" | "methodology";
 }
 
+export type ContentBlock = { type: "text"; text: string } | { type: "list"; items: string[] };
+
 export interface Section {
   heading: string;
   body?: string;
   bullets?: Bullet[];
+  /**
+   * Ordered prose/list blocks, for source documents that alternate between the
+   * two. Used by the legal pages, which are reproduced faithfully.
+   */
+  blocks?: ContentBlock[];
 }
 
 /* ------------------------------------------------------------------ */
@@ -201,7 +208,12 @@ export interface Guide extends Indexable {
 
 export interface Article extends Indexable {
   kind: "article";
-  category: "strategy" | "content" | "conversion" | "ai" | "founders";
+  category:
+    | "marketing-automation"
+    | "content-automation"
+    | "sales-automation"
+    | "ai-cofounder"
+    | "mengotalks";
   readingTime: number;
   published: string;
   sections: Section[];

@@ -26,7 +26,7 @@ const rows: Row[] = [
     "You have decided to be consistent and immediately hit the question of what, exactly, to be consistent about.",
     "A spreadsheet with a few post ideas, and a decision to make every morning.",
     "A themed calendar where every week has an argument, an audience and a format already assigned.",
-    [["Complete the brief", "Twelve questions establish what you sell, who buys, and what you are planning around."],
+    [["Complete the brief", "A guided questionnaire establishes what you sell, who buys, and what you are planning around."],
      ["Set themes before dates", "Each month gets one argument; each week gets an angle on it. Dates come after."],
      ["Sequence dependencies", "Awareness content is scheduled before the offers that depend on it, so nothing lands cold."],
      ["Firm up one quarter", "The next quarter is detailed to slot level; the rest stays thematic until it is closer."]],

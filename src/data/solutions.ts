@@ -42,7 +42,7 @@ const rows: Row[] = [
     ["business-brief", "annual-calendar", "channel-ranking", "review-cadence", "content-briefs"],
     ["saas", "professional-services", "b2b-services", "nonprofits"],
     ["plan-a-year-of-content", "audit-your-existing-marketing", "run-a-monthly-marketing-review"],
-    [["How long does it take to get a system running?", "The strategy layer and first quarter of calendar come out of a ten-minute brief. Getting the habit to stick takes a month of following it."],
+    [["How long does it take to get a system running?", "The strategy layer and first quarter of calendar come out of a guided brief. Getting the habit to stick takes a month of following it."],
      ["What if my business changes?", "The layers are separate objects. Changing the offer reflows the calendar rather than requiring a rewrite."]]],
 
   ["fix-inconsistent-posting", "Fix Inconsistent Posting", "goal",

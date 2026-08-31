@@ -23,6 +23,7 @@ const ALLOWED_INTENTS = new Set([
   "download",
   "enquiry",
   "investor",
+  "speaking",
   "newsletter",
 ]);
 
@@ -35,6 +36,12 @@ interface LeadPayload {
   phone?: string;
   website?: string;
   industry?: string;
+  designation?: string;
+  looking_for?: string;
+  organisation?: string;
+  event_type?: string;
+  event_date?: string;
+  audience_size?: string;
   message?: string;
   subject?: string | null;
 }
@@ -72,6 +79,12 @@ export async function POST(request: Request) {
     phone: clean(body.phone),
     website: clean(body.website),
     industry: clean(body.industry),
+    designation: clean(body.designation),
+    looking_for: clean(body.looking_for),
+    organisation: clean(body.organisation),
+    event_type: clean(body.event_type),
+    event_date: clean(body.event_date),
+    audience_size: clean(body.audience_size),
     message: clean(body.message),
     subject: clean(body.subject) ?? null,
   };

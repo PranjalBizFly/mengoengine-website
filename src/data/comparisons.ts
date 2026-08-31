@@ -28,7 +28,7 @@ const rows: Row[] = [
     [["Cost structure", "An agency retainer is a monthly headcount cost. Mengo is a tool cost, which changes what level of marketing is affordable for a small business."],
      ["Where the knowledge lives", "Agency knowledge leaves with the agency. A Mengo system — brief, positioning, calendar, sequences — stays with your business."],
      ["Who chases whom", "An agency chases you for inputs and holds the deadline. Mengo removes the work but not the responsibility for doing it."],
-     ["Speed to a plan", "An agency onboarding takes weeks. A strategy layer and a quarter of calendar comes out of a ten-minute brief."]],
+     ["Speed to a plan", "An agency onboarding takes weeks. A strategy layer and a quarter of calendar comes out of a guided brief."]],
     ["You want someone accountable for the outcome, not just the output",
      "You have budget for a retainer and would rather buy time than tooling",
      "You need media buying, PR or production capacity that software does not provide",

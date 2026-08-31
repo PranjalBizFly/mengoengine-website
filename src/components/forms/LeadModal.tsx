@@ -29,7 +29,8 @@ export type LeadIntent =
   | "expert"
   | "download"
   | "enquiry"
-  | "investor";
+  | "investor"
+  | "speaking";
 
 interface IntentConfig {
   heading: string;
@@ -40,14 +41,27 @@ interface IntentConfig {
   successBody: string;
 }
 
-type FieldName = "name" | "email" | "company" | "phone" | "website" | "industry" | "message";
+type FieldName =
+  | "name"
+  | "email"
+  | "company"
+  | "phone"
+  | "website"
+  | "industry"
+  | "designation"
+  | "looking_for"
+  | "organisation"
+  | "event_type"
+  | "event_date"
+  | "audience_size"
+  | "message";
 
 const INTENTS: Record<LeadIntent, IntentConfig> = {
   waitlist: {
     heading: "Join the Mengo waitlist",
     body: "Early access opens in batches. Tell us what is actually broken in your marketing and we will prioritise accordingly.",
-    submit: "Join the waitlist",
-    fields: ["name", "email", "website", "industry", "message"],
+    submit: "Join our waitlist",
+    fields: ["name", "email", "phone", "company", "designation", "looking_for"],
     successHeading: "You are on the list",
     successBody: "We will be in touch as access opens. If you described a specific problem, expect a reply about it rather than a newsletter.",
   },
@@ -91,6 +105,14 @@ const INTENTS: Record<LeadIntent, IntentConfig> = {
     successHeading: "Enquiry received",
     successBody: "We read everything that comes through here and reply to what needs a reply.",
   },
+  speaking: {
+    heading: "Invite Jainam to speak",
+    body: "For keynotes, workshops, webinars, panels, or school and startup events, send the details and the team will get back to you.",
+    submit: "Send invitation",
+    fields: ["name", "email", "phone", "organisation", "event_type", "event_date", "audience_size", "message"],
+    successHeading: "Invitation sent",
+    successBody: "Thank you. Your invitation has been received and the team will be in touch within 48 hours.",
+  },
   investor: {
     heading: "Investor enquiry",
     body: "Traction, financials and cap table detail are shared directly rather than published. Tell us a little about your fund or thesis.",
@@ -101,13 +123,47 @@ const INTENTS: Record<LeadIntent, IntentConfig> = {
   },
 };
 
-const FIELDS: Record<FieldName, { label: string; type: string; required: boolean; autoComplete?: string; textarea?: boolean; placeholder?: string }> = {
+const FIELDS: Record<
+  FieldName,
+  {
+    label: string;
+    type: string;
+    required: boolean;
+    autoComplete?: string;
+    textarea?: boolean;
+    placeholder?: string;
+    /** Renders a select rather than a free-text input. */
+    options?: string[];
+  }
+> = {
   name: { label: "Your name", type: "text", required: true, autoComplete: "name" },
   email: { label: "Work email", type: "email", required: true, autoComplete: "email" },
   company: { label: "Company", type: "text", required: false, autoComplete: "organization" },
   phone: { label: "Phone", type: "tel", required: false, autoComplete: "tel" },
   website: { label: "Website", type: "url", required: false, autoComplete: "url", placeholder: "https://" },
   industry: { label: "Industry", type: "text", required: false, placeholder: "e.g. dental practice, B2B services" },
+  designation: { label: "Designation", type: "text", required: false, autoComplete: "organization-title" },
+  looking_for: {
+    label: "What are you looking for?",
+    type: "text",
+    required: false,
+    textarea: true,
+    placeholder: "e.g. content creation, lead generation, marketing strategy",
+  },
+  organisation: { label: "Organisation / school", type: "text", required: false, autoComplete: "organization" },
+  event_type: {
+    label: "Event type",
+    type: "text",
+    required: false,
+    options: ["Keynote", "Workshop", "Webinar", "Panel", "School session", "Other"],
+  },
+  event_date: { label: "Event date", type: "date", required: false },
+  audience_size: {
+    label: "Expected audience size",
+    type: "text",
+    required: false,
+    options: ["Under 50", "50-200", "200-500", "500+"],
+  },
   message: { label: "What is not working right now?", type: "text", required: false, textarea: true },
 };
 
@@ -316,7 +372,18 @@ function Field({ name }: { name: FieldName }) {
         {config.label}
         {config.required ? <span className="text-lime-deep"> *</span> : null}
       </label>
-      {config.textarea ? (
+      {config.options ? (
+        <select id={id} name={name} required={config.required} defaultValue="" className={shared}>
+          <option value="" disabled>
+            Select {config.label.toLowerCase()}
+          </option>
+          {config.options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      ) : config.textarea ? (
         <textarea id={id} name={name} rows={3} required={config.required} placeholder={config.placeholder} className={shared} />
       ) : (
         <input

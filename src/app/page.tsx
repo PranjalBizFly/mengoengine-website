@@ -36,8 +36,8 @@ export const metadata: Metadata = pageMetadata({
 
 const HOW_IT_WORKS = [
   {
-    title: "Answer twelve questions",
-    body: "What you sell, who buys it, what stops them, and where you already have traction. About ten minutes, no integrations, no onboarding call.",
+    title: "Answer the guided questionnaire",
+    body: "What you sell, who buys it, what stops them, and where you already have traction. No integrations, no onboarding call.",
   },
   {
     title: "Get the strategy layer",
@@ -94,7 +94,7 @@ export default function HomePage() {
           faqSchema(HOME_FAQS),
           howToSchema({
             name: "How Mengo builds a marketing system",
-            description: "From a twelve-question business brief to a running marketing system.",
+            description: "From a guided business questionnaire to a running marketing system.",
             steps: HOW_IT_WORKS,
           }),
         ]}
@@ -107,7 +107,7 @@ export default function HomePage() {
             Your AI <span className="editorial text-lime">co-founder</span> for the whole marketing function
           </>
         }
-        lead="Answer twelve questions about your business. Mengo returns the strategy most founders never get around to writing, a year of calendar, the content that fills it, and the follow-up that converts it — then keeps executing."
+        lead="Answer a guided questionnaire about your business. Mengo returns the strategy most founders never get around to writing, a year of calendar, the content that fills it, and the follow-up that converts it — then keeps executing."
         actions={
           <>
             <LeadButton intent="waitlist">Join the waitlist</LeadButton>
@@ -122,7 +122,7 @@ export default function HomePage() {
         aside={
           <dl className="grid grid-cols-2 gap-x-8">
             {[
-              { k: "In", v: "12 questions about your business" },
+              { k: "In", v: "One guided questionnaire" },
               { k: "Out", v: "365 days of themed calendar" },
               { k: "Formats", v: `${assetTypes.length} defined asset structures` },
               { k: "Runs", v: "Without a daily decision" },

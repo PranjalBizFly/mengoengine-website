@@ -25,9 +25,10 @@ export async function generateMetadata({ params }: { params: Promise<{ page: str
 }
 
 /** Page-specific conversion intent, so the invest page does not ask for a waitlist signup. */
-const INTENT: Record<string, { intent: "waitlist" | "investor" | "expert"; cta: string }> = {
+const INTENT: Record<string, { intent: "waitlist" | "investor" | "expert" | "speaking"; cta: string }> = {
   invest: { intent: "investor", cta: "Start an investor conversation" },
   "who-its-for": { intent: "expert", cta: "Ask whether it fits you" },
+  founder: { intent: "speaking", cta: "Invite Jainam to speak" },
 };
 
 export default async function CompanyPage({ params }: { params: Promise<{ page: string }> }) {
@@ -40,7 +41,7 @@ export default async function CompanyPage({ params }: { params: Promise<{ page: 
     { label: "Company", href: routes.company("about") },
     { label: page.title, href: path },
   ];
-  const action = INTENT[page.slug] ?? { intent: "waitlist" as const, cta: "Join the waitlist" };
+  const action = INTENT[page.slug] ?? { intent: "waitlist" as const, cta: "Join our waitlist" };
 
   return (
     <>

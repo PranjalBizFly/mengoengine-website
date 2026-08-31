@@ -99,7 +99,7 @@ export default async function BlogCategoryPage({ params }: { params: Promise<{ c
 
       <CtaBand
         title="Reading is the cheap part"
-        body="Mengo does the work described in these pieces from a ten-minute brief, and keeps doing it during the weeks you would otherwise stop."
+        body="Mengo does the work described in these pieces from a guided brief, and keeps doing it during the weeks you would otherwise stop."
         secondary={{ label: "How it works", href: routes.company("how-it-works") }}
       />
     </>

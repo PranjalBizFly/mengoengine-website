@@ -11,10 +11,17 @@ page-type system rather than 500 hand-built pages.
 | `npm run build` | static build (503 routes prerendered) |
 | `npm run audit` | post-build SEO/link audit: duplicate metadata, H1 counts, canonicals, broken internal links |
 | `npm run qa:responsive` | headless Chrome pass over every page type at 320–1920px |
+| `npm run docs` | regenerate `docs/page-inventory.csv` and `docs/architecture.md` from the content data |
 | `npm run verify` | typecheck + build + audit |
 
 `qa:responsive` needs a running server: `npx next start -p 4313` then
 `npm run qa:responsive -- http://localhost:4313`.
+
+## Documentation
+
+- [`docs/audit.md`](docs/audit.md) — audit of the existing mengoengine.com, content inventory with retain/rewrite/expand decisions, redirect map, and the list of missing content and assets.
+- [`docs/architecture.md`](docs/architecture.md) — hierarchy, page-type mapping, priorities and the internal linking graph. Generated.
+- [`docs/page-inventory.csv`](docs/page-inventory.csv) — every URL with type, template, parent, topic, intent, related pages, CTA and priority. Generated.
 
 ## Architecture
 

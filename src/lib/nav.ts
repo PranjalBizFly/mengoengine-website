@@ -120,7 +120,7 @@ export const primaryNav: NavGroup[] = [
     feature: {
       eyebrow: "Start here",
       title: "How Mengo works",
-      body: "Twelve questions, then a strategy layer, a year of calendar, the assets and the follow-up.",
+      body: "A guided questionnaire, then a strategy layer, a year of calendar, the assets and the follow-up.",
       href: routes.company("how-it-works"),
       cta: "See the five steps",
     },

@@ -22,7 +22,7 @@ export const products: Product[] = [
     how: [
       {
         title: "You give it the brief",
-        body: "Twelve questions about what you sell, who buys it, what they pay, what stops them buying, and where you already have traction. No integrations, no data warehouse, no onboarding call.",
+        body: "A guided questionnaire about what you sell, who buys it, what they pay, what stops them buying, and where you already have traction. No integrations, no data warehouse, no onboarding call.",
       },
       {
         title: "It builds the positioning layer",
@@ -69,7 +69,7 @@ export const products: Product[] = [
     faqs: [
       {
         q: "How long does it take to get the first plan?",
-        a: "The brief takes about ten minutes to fill in. The plan is generated in one pass — you read it, edit what is wrong, and regenerate the parts you changed.",
+        a: "The brief is a single guided pass. The plan is generated in one pass — you read it, edit what is wrong, and regenerate the parts you changed.",
       },
       {
         q: "Can I edit the strategy, or is it fixed?",

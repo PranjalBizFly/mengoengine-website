@@ -33,7 +33,7 @@ const WHAT_HAPPENS = [
   },
   {
     title: "You start with the brief",
-    body: "Twelve questions, about ten minutes, and the strategy layer and first quarter of calendar come out of it. No integrations and no onboarding call.",
+    body: "A guided questionnaire, and the strategy layer and first quarter of calendar come out of it. No integrations and no onboarding call.",
   },
 ];
 
@@ -63,7 +63,7 @@ export default function GetStartedPage() {
               <Eyebrow className="mb-4">What you get on day one</Eyebrow>
               <MarkerList
                 items={[
-                  "Positioning, segments and an offer ladder from a ten-minute brief",
+                  "Positioning, segments and an offer ladder from a guided brief",
                   "A ranked channel strategy naming what to stop running",
                   "The first quarter of calendar, detailed to slot level",
                   "Assets in the formats your channels actually use",

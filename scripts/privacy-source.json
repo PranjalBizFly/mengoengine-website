@@ -1,0 +1,446 @@
+[
+ {
+  "heading": "1. Information We Collect",
+  "blocks": [
+   [
+    "text",
+    "We collect information to provide, improve, secure, and personalize our Services."
+   ],
+   [
+    "text",
+    "Information You Provide Directly"
+   ],
+   [
+    "text",
+    "This may include:"
+   ],
+   [
+    "list",
+    [
+     "Name",
+     "Email address",
+     "Phone number",
+     "Company name",
+     "Business details",
+     "Marketing goals",
+     "Billing information",
+     "Account credentials",
+     "Support communications",
+     "Survey responses",
+     "Waitlist submissions"
+    ]
+   ],
+   [
+    "text",
+    "Business and Marketing Inputs"
+   ],
+   [
+    "text",
+    "To generate outputs and recommendations, Mengo may collect:"
+   ],
+   [
+    "list",
+    [
+     "Business descriptions",
+     "Audience information",
+     "Brand positioning",
+     "Marketing objectives",
+     "Content preferences",
+     "Campaign details",
+     "Platform selections",
+     "Workflow instructions"
+    ]
+   ],
+   [
+    "text",
+    "Automatically Collected Information"
+   ],
+   [
+    "text",
+    "When you interact with our Services, we may automatically collect:"
+   ],
+   [
+    "list",
+    [
+     "IP address",
+     "Browser type",
+     "Device information",
+     "Operating system",
+     "Location information (approximate)",
+     "Referral URLs",
+     "Usage data",
+     "Session information",
+     "Cookies and tracking data"
+    ]
+   ],
+   [
+    "text",
+    "Generated Data"
+   ],
+   [
+    "text",
+    "We may create derived information including:"
+   ],
+   [
+    "list",
+    [
+     "AI generated content",
+     "Marketing workflows",
+     "Lead nurturing structures",
+     "Usage analytics",
+     "Performance insights",
+     "Platform recommendations"
+    ]
+   ]
+  ]
+ },
+ {
+  "heading": "2. How We Use Your Information",
+  "blocks": [
+   [
+    "text",
+    "We use collected information to:"
+   ],
+   [
+    "list",
+    [
+     "Provide and operate Mengo",
+     "Generate marketing systems and outputs",
+     "Improve platform performance",
+     "Personalize user experience",
+     "Process registrations and payments",
+     "Respond to support requests",
+     "Analyze platform usage",
+     "Detect fraud and misuse",
+     "Maintain security",
+     "Develop new features",
+     "Send product communications",
+     "Comply with legal obligations"
+    ]
+   ]
+  ]
+ },
+ {
+  "heading": "3. AI Processing and Generated Outputs",
+  "blocks": [
+   [
+    "text",
+    "Mengo uses automated systems and AI technologies to process information you provide."
+   ],
+   [
+    "text",
+    "By using Mengo:"
+   ],
+   [
+    "list",
+    [
+     "You authorize us to process submitted inputs to generate outputs.",
+     "Outputs may vary based on provided information and system improvements.",
+     "Generated outputs should be reviewed before publication or execution.",
+     "Users remain responsible for decisions, publishing activities, and implementation.",
+     "Mengo does not guarantee business outcomes, conversion rates, or marketing performance."
+    ]
+   ]
+  ]
+ },
+ {
+  "heading": "4. Ownership of Data and Intellectual Property",
+  "blocks": [
+   [
+    "text",
+    "Your Inputs"
+   ],
+   [
+    "text",
+    "You retain ownership of business information, materials, and content submitted to Mengo."
+   ],
+   [
+    "text",
+    "Generated Outputs"
+   ],
+   [
+    "text",
+    "Unless otherwise stated in a separate agreement:"
+   ],
+   [
+    "list",
+    [
+     "Outputs generated specifically for your account belong to you.",
+     "Mengo retains ownership of underlying software, models, systems, templates, algorithms, workflows, and platform infrastructure."
+    ]
+   ],
+   [
+    "text",
+    "Platform Rights"
+   ],
+   [
+    "text",
+    "You may not:"
+   ],
+   [
+    "list",
+    [
+     "Reverse engineer the platform",
+     "Replicate Mengo's architecture",
+     "Extract proprietary workflows",
+     "Train competing systems using Mengo outputs",
+     "Copy platform functionality for commercial redistribution"
+    ]
+   ]
+  ]
+ },
+ {
+  "heading": "5. Cookies and Tracking Technologies",
+  "blocks": [
+   [
+    "text",
+    "Mengo uses cookies and similar technologies to improve performance and user experience."
+   ],
+   [
+    "text",
+    "Cookies may be used for:"
+   ],
+   [
+    "list",
+    [
+     "Authentication",
+     "Preferences",
+     "Security",
+     "Analytics",
+     "Performance measurement",
+     "Session continuity",
+     "Marketing effectiveness"
+    ]
+   ],
+   [
+    "text",
+    "Types of cookies may include:"
+   ],
+   [
+    "text",
+    "Essential Cookies"
+   ],
+   [
+    "text",
+    "Required for platform functionality."
+   ],
+   [
+    "text",
+    "Analytics Cookies"
+   ],
+   [
+    "text",
+    "Help us understand usage patterns."
+   ],
+   [
+    "text",
+    "Functional Cookies"
+   ],
+   [
+    "text",
+    "Store preferences and improve experience."
+   ],
+   [
+    "text",
+    "Marketing Cookies"
+   ],
+   [
+    "text",
+    "Support communication and campaign measurement."
+   ],
+   [
+    "text",
+    "You may manage cookies through browser settings. Disabling cookies may limit some functionality."
+   ]
+  ]
+ },
+ {
+  "heading": "6. Data Sharing and Third Parties",
+  "blocks": [
+   [
+    "text",
+    "We do not sell personal information. We may share information with:"
+   ],
+   [
+    "list",
+    [
+     "Infrastructure providers",
+     "Analytics providers",
+     "Payment processors",
+     "Communication tools",
+     "Customer support services",
+     "Legal and regulatory authorities",
+     "Business partners supporting service delivery"
+    ]
+   ],
+   [
+    "text",
+    "Third parties are expected to process information according to applicable privacy obligations."
+   ]
+  ]
+ },
+ {
+  "heading": "7. Data Retention",
+  "blocks": [
+   [
+    "text",
+    "We retain information only for as long as necessary to:"
+   ],
+   [
+    "list",
+    [
+     "Provide Services",
+     "Maintain accounts",
+     "Meet legal obligations",
+     "Resolve disputes",
+     "Improve products",
+     "Enforce agreements"
+    ]
+   ],
+   [
+    "text",
+    "Retention periods may vary depending on account activity and regulatory requirements."
+   ]
+  ]
+ },
+ {
+  "heading": "8. Security Measures",
+  "blocks": [
+   [
+    "text",
+    "We implement commercially reasonable safeguards including:"
+   ],
+   [
+    "list",
+    [
+     "Encryption practices",
+     "Access controls",
+     "Authentication mechanisms",
+     "Monitoring systems",
+     "Infrastructure protections",
+     "Security review processes"
+    ]
+   ],
+   [
+    "text",
+    "No method of transmission or storage can be guaranteed to be completely secure."
+   ]
+  ]
+ },
+ {
+  "heading": "9. International Data Transfers",
+  "blocks": [
+   [
+    "text",
+    "Your information may be processed and stored in jurisdictions outside your country of residence. Where required, Mengo uses reasonable safeguards for cross border data transfers."
+   ]
+  ]
+ },
+ {
+  "heading": "10. Your Privacy Rights",
+  "blocks": [
+   [
+    "text",
+    "Depending on your location, you may have rights to:"
+   ],
+   [
+    "list",
+    [
+     "Access your information",
+     "Correct inaccurate data",
+     "Request deletion",
+     "Restrict processing",
+     "Withdraw consent",
+     "Export your information",
+     "Object to certain processing"
+    ]
+   ],
+   [
+    "text",
+    "Requests may be submitted using the contact details below."
+   ]
+  ]
+ },
+ {
+  "heading": "11. Account and Data Deletion",
+  "blocks": [
+   [
+    "text",
+    "You may request deletion of your account and associated personal information. Certain information may be retained where legally required or necessary for operational, fraud prevention, or compliance purposes."
+   ]
+  ]
+ },
+ {
+  "heading": "12. Children's Privacy",
+  "blocks": [
+   [
+    "text",
+    "Mengo is not directed toward children under the age required by applicable law. We do not knowingly collect information from children."
+   ]
+  ]
+ },
+ {
+  "heading": "13. Communications",
+  "blocks": [
+   [
+    "text",
+    "We may send:"
+   ],
+   [
+    "list",
+    [
+     "Account updates",
+     "Product announcements",
+     "Security notices",
+     "Service communications",
+     "Optional marketing messages"
+    ]
+   ],
+   [
+    "text",
+    "You may unsubscribe from marketing communications at any time."
+   ]
+  ]
+ },
+ {
+  "heading": "14. User Responsibilities",
+  "blocks": [
+   [
+    "text",
+    "You agree not to submit:"
+   ],
+   [
+    "list",
+    [
+     "Illegal content",
+     "Infringing materials",
+     "Harmful code",
+     "Sensitive personal information without authorization",
+     "Content you do not have rights to use"
+    ]
+   ],
+   [
+    "text",
+    "You remain responsible for all information submitted through your account."
+   ]
+  ]
+ },
+ {
+  "heading": "15. Changes to This Privacy Policy",
+  "blocks": [
+   [
+    "text",
+    "We may update this Privacy Policy periodically. Material updates will become effective upon publication unless otherwise required by law."
+   ]
+  ]
+ },
+ {
+  "heading": "16. Contact Us",
+  "blocks": [
+   [
+    "text",
+    "If you have questions about this Privacy Policy or privacy practices, contact:"
+   ]
+  ]
+ }
+]

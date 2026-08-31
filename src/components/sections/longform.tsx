@@ -51,6 +51,17 @@ export function LongForm({
               {section.heading}
             </h2>
             {section.body ? <p>{section.body}</p> : null}
+            {section.blocks?.map((block, i) =>
+              block.type === "text" ? (
+                <p key={i}>{block.text}</p>
+              ) : (
+                <ul key={i}>
+                  {block.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              ),
+            )}
             {section.bullets ? (
               <dl className="not-prose mt-6 grid gap-5">
                 {section.bullets.map((bullet) => (

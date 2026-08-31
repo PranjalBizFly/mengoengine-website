@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Eyebrow, RowLink, Section, TextLink } from "@/components/ui/primitives";
-import { LeadButton } from "@/components/forms/LeadModal";
+import { LeadButton, type LeadIntent } from "@/components/forms/LeadModal";
 import type { Crumb } from "@/seo/schema";
 import type { LinkRef } from "@/lib/registry";
 import { routes } from "@/lib/site";
@@ -262,7 +262,7 @@ export function CtaBand({
   eyebrow?: string;
   title: string;
   body: string;
-  intent?: "waitlist" | "demo" | "sales" | "expert" | "download" | "enquiry" | "investor";
+  intent?: LeadIntent;
   subject?: string;
   cta?: string;
   secondary?: { label: string; href: string };

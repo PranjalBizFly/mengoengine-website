@@ -95,7 +95,7 @@ export default async function GuidePage({ params }: { params: Promise<{ guide: s
 
       <CtaBand
         title="Following this by hand is entirely possible"
-        body="It is also the part that stops when the business gets busy. Mengo produces the same work from a ten-minute brief and keeps producing it."
+        body="It is also the part that stops when the business gets busy. Mengo produces the same work from a guided brief and keeps producing it."
         secondary={{ label: "See how it works", href: routes.company("how-it-works") }}
       />
     </>

@@ -1,4 +1,5 @@
 import type { CompanyPage, LegalPage } from "@/lib/types";
+import { privacySections } from "@/data/legal-privacy";
 
 /**
  * Company and legal pages.
@@ -54,16 +55,16 @@ export const companyPages: CompanyPage[] = [
     kind: "company",
     slug: "how-it-works",
     title: "How Mengo Works",
-    seoTitle: "How Mengo Works — from a ten-minute brief to a running marketing system | Mengo",
+    seoTitle: "How Mengo Works — from a guided brief to a running marketing system | Mengo",
     seoDescription:
       "A walkthrough of what happens between filling in the Mengo business brief and having a year of calendar, a month of assets and working follow-up sequences.",
     summary:
-      "Five steps, one brief. This is what actually happens between answering twelve questions about your business and having a marketing system that runs without a daily decision.",
+      "Five steps, one brief. This is what actually happens between answering a guided questionnaire about your business and having a marketing system that runs without a daily decision.",
     updated: "2026-08-25",
     sections: [
       {
         heading: "Step one — the brief",
-        body: "Twelve questions about what you sell, who buys it, what they pay, what stops them buying and where you already have traction. It takes about ten minutes. There are no integrations to connect and no onboarding call, because the answers you can give from memory are enough to produce a defensible first plan.",
+        body: "A guided questionnaire about what you sell, who buys it, what they pay, what stops them buying and where you already have traction. It is a single guided pass. There are no integrations to connect and no onboarding call, because the answers you can give from memory are enough to produce a defensible first plan.",
       },
       {
         heading: "Step two — the strategy layer",
@@ -127,25 +128,61 @@ export const companyPages: CompanyPage[] = [
   {
     kind: "company",
     slug: "founder",
-    title: "The Founder",
-    seoTitle: "The founder behind Mengo | Mengo",
+    title: "About the Founder",
+    navLabel: "The Founder",
+    seoTitle: "About the founder — Jainam Jain | Mengo",
     seoDescription:
-      "Mengo was founded by Jainam Jain. This page covers why the product exists and where to read more about the founder's other work.",
+      "Jainam Jain founded Mengo Engine at 14 and is Dubai's youngest AI startup founder. TEDx speaker, leadership coach, and available for keynotes and workshops.",
     summary:
-      "Mengo was founded by Jainam Jain. The product came out of a straightforward observation about why small businesses stop marketing, and an unwillingness to accept that the answer was simply discipline.",
-    updated: "2026-08-25",
+      "Mengo Engine was founded by Jainam Jain, a young entrepreneur, speaker and leadership coach. He built Mengo to solve a problem he kept seeing in the businesses around him: marketing was slow, scattered and inconsistent.",
+    updated: "2026-08-31",
     sections: [
       {
-        heading: "Why this product",
-        body: "The recurring pattern across small businesses is not a lack of effort or ideas. It is that marketing is the only function that can be postponed indefinitely without anything visibly breaking that week. Mengo was built on the premise that this is a systems problem rather than a character problem — that if the daily decision is removed, the consistency follows.",
+        heading: "Why Mengo exists",
+        blocks: [
+          {
+            type: "text",
+            text: "At 14, Jainam founded Mengo Engine to solve a problem he kept seeing in every business around him: marketing was slow, scattered and inconsistent. Founders were spending their days writing captions instead of building their companies.",
+          },
+          {
+            type: "text",
+            text: "Mengo is his answer — an AI co-founder that turns a few business inputs into a complete marketing system: channel-specific strategy, campaign frameworks and lead conversion flows. What used to take a team of marketers months now takes minutes.",
+          },
+        ],
       },
       {
-        heading: "How Mengo is being built",
-        body: "In the open, and against the waitlist. What gets built next is decided by what waitlist members say is actually broken in their marketing, rather than by a roadmap written in advance of any users.",
+        heading: "Milestones along the way",
+        blocks: [
+          {
+            type: "list",
+            items: [
+              "Dubai's youngest AI startup founder — founded Mengo Engine at 14",
+              "National Young Achievers Award, honoured by Suryadatta Institutes, February 2025",
+              "Change Your Life: Super Hero Award, presented by Bollywood actor Sonu Sood at LifeGurukul, January 2025",
+              "Jain Baal Ratna and Jain Star Puraskar, honoured by Shrirampur Shree Sangh and Bhagwan Mahavir Swami Samiti, 2024",
+              "Completed IGCSE 10th board exams at age 13",
+              "TEDx speaker",
+            ],
+          },
+        ],
       },
       {
-        heading: "Elsewhere",
-        body: "The founder's speaking, writing and other work sits at jainamjain.com.",
+        heading: "Speaker, coach, lifelong learner",
+        blocks: [
+          {
+            type: "text",
+            text: "Jainam delivers keynotes, webinars, workshops and seminars that help people, especially young people, build confidence, sharpen focus and turn potential into purpose. He mentors young minds to think like founders from day one.",
+          },
+          {
+            type: "text",
+            text: "“Success is built not on what you achieve, but on the mindset you shape and the steps you take to turn your dreams into reality.” — Jainam Jain",
+          },
+        ],
+      },
+      {
+        heading: "Invite Jainam to speak",
+        body:
+          "For keynotes, workshops, webinars, panels, or school and startup events, send the details through the speaking enquiry form and the team will get back to you. His speaking, writing and other work sits at jainamjain.com.",
       },
     ],
   },
@@ -223,26 +260,12 @@ export const legalPages: LegalPage[] = [
     title: "Privacy Policy",
     seoTitle: "Privacy Policy | Mengo",
     seoDescription:
-      "How Mengo collects, uses and protects personal information submitted through this website and the Mengo product.",
+      "How Mengo collects, uses, shares and protects personal information, including how AI processing and generated outputs are handled.",
     summary:
-      "This policy explains what personal information Mengo collects through this website, why it is collected, how long it is kept and what rights you have over it.",
-    updated: "2026-08-25",
-    effective: "2026-08-25",
-    sections: [
-      { heading: "Who we are", body: "Mengo operates this website and the Mengo product. Contact details for privacy enquiries are on the contact page. The registered entity details and data controller identity are to be confirmed by Mengo before this policy is published as final." },
-      { heading: "What we collect", bullets: [
-        { label: "Information you give us", body: "Name, email address, phone number, company name and anything you write into a form or message." },
-        { label: "Information about your visit", body: "Pages viewed, referring source and general device information, collected to understand how the site is used." },
-        { label: "Product data", body: "Where you use the Mengo product, the business information you enter and the content generated from it." },
-      ] },
-      { heading: "Why we use it", body: "To respond to enquiries, to operate and improve the product, to send communications you have asked for, and to meet legal obligations. We do not sell personal information." },
-      { heading: "Legal basis", body: "Where required, processing relies on your consent for marketing communications, on the performance of a contract for product use, and on legitimate interests for website analytics and security." },
-      { heading: "How long we keep it", body: "Enquiry records are kept for as long as needed to respond and for a reasonable period afterwards. Product data is kept for the life of the account and deleted on request, subject to any legal retention requirement. Specific retention periods are to be confirmed by Mengo." },
-      { heading: "Sharing", body: "Personal information is shared with service providers who host, send and support the service, under contract and only as needed to provide it. A current list of processors is available on request." },
-      { heading: "Your rights", body: "Depending on your location, you may have the right to access, correct, delete, restrict or port your personal information, and to object to processing or withdraw consent. Requests can be made through the contact page." },
-      { heading: "Cookies", body: "This site uses only what is necessary to operate and to understand aggregate usage. See the cookie policy for detail." },
-      { heading: "Changes", body: "Material changes to this policy will be reflected in the effective date above." },
-    ],
+      "This is Mengo's published privacy policy, covering what is collected, how AI processing and generated outputs are handled, who data is shared with, and the rights you hold over it.",
+    updated: "2026-07-08",
+    effective: "2026-07-08",
+    sections: privacySections,
   },
   {
     kind: "legal",
