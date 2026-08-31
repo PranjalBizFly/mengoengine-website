@@ -96,7 +96,11 @@ export interface LinkRef {
 
 /**
  * Resolve a list of slugs of one kind into renderable links.
- * Unknown slugs are dropped rather than throwing, and reported by `npm run check:links`.
+ *
+ * Unknown slugs are dropped rather than throwing, so a typo removes a link
+ * silently at runtime. `npm run validate` is what catches that: it checks every
+ * slug reference in the data against the registry and fails the build on a
+ * reference that points at nothing.
  */
 export function link(kind: EntityKind, slugs: Slug[] | undefined): LinkRef[] {
   if (!slugs) return [];

@@ -169,7 +169,7 @@ const rows: Row[] = [
      ["How old is too old?", "Consent validity matters more than age. Where consent stands and the message acknowledges the gap, old lists often perform surprisingly well."]]],
 
   ["qualify-leads-before-a-call", "Qualify Leads Before a Call",
-    "Stop spending calls establishing that someone was never a fit.",
+    "Stop spending thirty-minute calls establishing that someone was never a fit, by filtering on price and candidacy before the meeting is booked.",
     "Your calendar is full of calls and your conversion rate from those calls is low.",
     "Thirty-minute calls that end in the first five minutes being clear they were not right.",
     "An enquiry flow that filters on fit and a handoff note that starts the call informed.",
@@ -216,7 +216,7 @@ const rows: Row[] = [
      ["Review at one altitude", "Monthly reviews decide channel mix; they do not debate positioning or individual posts."],
      ["Record the decision", "Conclusions feed back into the calendar and channel ranking automatically."]],
     ["growth-signal"], ["review-cadence", "reporting-templates", "metric-selection", "experiment-log"],
-    ["small-marketing-teams", "saas", "nonprofits"],
+    ["b2b-services", "saas", "nonprofits"],
     [["What if nothing changed this month?", "Then the review is short and confirms you keep executing, which is a valid outcome."],
      ["Who should attend?", "Whoever can change what happens next. Reviews with observers become presentations."]]],
 
@@ -333,7 +333,7 @@ const rows: Row[] = [
      ["Show the calendar", "A themed year with the reasoning visible, so they understand why before they change it."],
      ["Share the voice profile", "Consistency survives the handover because the constraint is written down."]],
     ["marketing-engine", "content-studio"], ["business-brief", "content-briefs", "voice-profile", "reporting-templates"],
-    ["small-marketing-teams", "saas", "manufacturing"],
+    ["b2b-services", "saas", "manufacturing"],
     [["Will a new hire resent an existing system?", "Good hires value not having to invent one. The system is documented and editable, not fixed."],
      ["How long to productive?", "Substantially shorter, because the questions that normally take a quarter to answer are already answered in writing."]]],
 
@@ -346,12 +346,12 @@ const rows: Row[] = [
      ["Supply the evidence", "The specifics only you have, requested explicitly rather than left to be invented."],
      ["Define done", "What the asset is trying to move, so it can be judged on something other than taste."]],
     ["content-studio"], ["content-briefs", "voice-profile", "editorial-guardrails", "long-form-drafting"],
-    ["marketing-agencies", "small-marketing-teams", "consulting-firms"],
+    ["marketing-agencies", "creator-economy", "consulting-firms"],
     [["Does this work with any writer?", "Yes. The brief format is tool-agnostic and improves output from humans and models alike."],
      ["What if the writer disagrees with the brief?", "Good. The brief is the place to have that argument, which is far cheaper than having it about a finished draft."]]],
 
   ["handle-price-objections", "Handle Price Objections",
-    "Answer the price question with structure rather than with discount.",
+    "Answer the price question with structure rather than with discount, by making the cost of the status quo concrete before the cost of the solution.",
     "Enquiries stall at the price conversation and you have started dropping the number.",
     "Discounting to close, which resets your pricing and attracts the wrong buyers.",
     "Content and sequences that establish the cost of the problem before the cost of the solution.",
@@ -528,7 +528,7 @@ const rows: Row[] = [
      ["Write the banned list", "The words, claims and constructions you never want to see, enforced as hard constraints."],
      ["Apply it as a constraint", "Voice enforced at generation rather than corrected at editing, which is where consistency actually comes from."]],
     ["content-studio"], ["voice-profile", "editorial-guardrails", "batch-approval", "positioning-generator"],
-    ["consulting-firms", "creator-economy", "small-marketing-teams"],
+    ["consulting-firms", "creator-economy", "marketing-agencies"],
     [["What if our voice is still forming?", "Start from positioning and category norms, then tighten the profile as you approve and reject drafts."],
      ["Can different people have different voices?", "Yes. Profiles can be scoped per author under one shared positioning."]]],
 
@@ -541,7 +541,7 @@ const rows: Row[] = [
      ["Find the structural gaps", "Usually follow-up, measurement and the offer ladder, which are invisible until they are listed."],
      ["Sequence the fixes", "Ordered by return rather than by ease, with the first three named explicitly."]],
     ["marketing-engine", "growth-signal"], ["business-brief", "channel-ranking", "funnel-diagnostics", "metric-selection"],
-    ["marketing-agencies", "established-local-businesses", "b2b-services"],
+    ["marketing-agencies", "local-retail", "b2b-services"],
     [["Where do audits usually find the biggest gap?", "Follow-up. Most businesses generate more demand than they work, and it is the cheapest thing to fix."],
      ["How long does an audit take?", "The structured version is a session, not a project. A long audit usually indicates avoidance of the fixes."]]],
 ];

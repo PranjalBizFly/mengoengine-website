@@ -231,7 +231,7 @@ const rows: Row[] = [
     "The Repurposing Engine works from the underlying claim rather than from the finished asset.",
     ["evergreen-content", "content-pillar", "asset-format"]],
   ["evergreen-content", "Evergreen Content",
-    "Evergreen content stays useful and accurate long after publication.",
+    "Evergreen content stays useful and accurate long after publication, which makes it the only content that keeps earning rather than expiring.",
     "It is the only content that compounds. Timely content expires; evergreen content keeps earning through search and repurposing.",
     "Scheduled into quiet periods, since it is the work that never happens during a peak.",
     ["repurposing", "search-intent", "internal-linking"]],

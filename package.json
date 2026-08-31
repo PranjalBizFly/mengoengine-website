@@ -10,8 +10,10 @@
     "typecheck": "tsc --noEmit",
     "audit": "node scripts/audit.mjs",
     "qa:responsive": "node scripts/responsive.mjs",
-    "verify": "tsc --noEmit && next build && node scripts/audit.mjs",
-    "docs": "node --experimental-strip-types --no-warnings scripts/inventory.mjs"
+    "verify": "npm run validate && tsc --noEmit && next build && node scripts/audit.mjs",
+    "docs": "node --experimental-strip-types --no-warnings scripts/inventory.mjs",
+    "validate": "node --experimental-strip-types --no-warnings scripts/validate-content.mjs",
+    "prebuild": "npm run validate"
   },
   "dependencies": {
     "next": "15.5.4",

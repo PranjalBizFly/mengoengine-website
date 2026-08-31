@@ -158,7 +158,7 @@ const rows: Row[] = [
      ["The format and its anatomy", "Not just carousel or article, but the structure: what the opening must do, what carries the middle, what the close asks for. Format without anatomy is a label."],
      ["The success condition", "What this asset is trying to move, stated specifically enough that it can be judged on something other than whether everyone liked it."]],
     ["content-briefs", "voice-profile", "long-form-drafting", "editorial-guardrails"],
-    ["marketing-agencies", "consulting-firms", "small-marketing-teams"], ["organic-search", "linkedin"]],
+    ["marketing-agencies", "consulting-firms", "nonprofits"], ["organic-search", "linkedin"]],
 
   ["voice-profile-worksheet", "The Brand Voice Worksheet", "template", 6,
     "Write down how your business sounds, so consistency stops depending on one person editing everything.",
