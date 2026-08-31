@@ -13,9 +13,11 @@ import {
   Section,
 } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
+import { Cta } from "@/components/forms/Cta";
 import { entityMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, faqSchema, howToSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
+import { ctaFor, defaultCta } from "@/lib/cta";
 import { link, industriesBySolution, take } from "@/lib/registry";
 import { axisLabel } from "@/lib/nav";
 import { solutions, solutionBySlug } from "@/data/solutions";
@@ -67,7 +69,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
         lead={solution.summary}
         actions={
           <>
-            <LeadButton intent="waitlist">Join the waitlist</LeadButton>
+            <Cta cta={ctaFor("waitlist")} />
             <LeadButton intent="expert" variant="secondary" subject={solution.title}>
               Talk it through
             </LeadButton>
@@ -139,8 +141,9 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
       />
 
       <CtaBand
+        action={defaultCta(solution)}
         title={solution.title}
-        body="Join the waitlist and describe your version of this. Access opens in batches, and the situations people describe are what set the build order."
+        body="Join our waitlist and describe your version of this. Access opens in batches, and the situations people describe are what set the build order."
         subject={solution.title}
         secondary={{ label: "Compare the alternatives", href: routes.compare() }}
       />

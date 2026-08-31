@@ -14,9 +14,11 @@ import {
   TextLink,
 } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
+import { Cta } from "@/components/forms/Cta";
 import { entityMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, faqSchema, howToSchema, softwareApplicationSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
+import { ctaFor, defaultCta } from "@/lib/cta";
 import { link, solutionsByProduct, useCasesByProduct, take } from "@/lib/registry";
 import { products, productBySlug } from "@/data/products";
 import { featuresForProduct } from "@/data/features";
@@ -79,7 +81,7 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
         lead={product.summary}
         actions={
           <>
-            <LeadButton intent="waitlist">Join the waitlist</LeadButton>
+            <Cta cta={ctaFor("waitlist")} />
             <Link
               href={routes.platform()}
               className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
@@ -179,8 +181,9 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
       />
 
       <CtaBand
+        action={defaultCta(product)}
         title={`Put ${product.title} against your business`}
-        body="Join the waitlist and describe the part that keeps stalling. Access opens in batches, and what gets built next follows what the list needs."
+        body="Join our waitlist and describe the part that keeps stalling. Access opens in batches, and what gets built next follows what the list needs."
         secondary={{ label: "Compare the alternatives", href: routes.compare() }}
       />
     </>

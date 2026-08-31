@@ -14,9 +14,11 @@ import {
   TextLink,
 } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
+import { Cta } from "@/components/forms/Cta";
 import { entityMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, faqSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
+import { ctaFor, defaultCta } from "@/lib/cta";
 import { link, useCasesByIndustry, take } from "@/lib/registry";
 import { sectorLabel } from "@/lib/nav";
 import { industries, industryBySlug } from "@/data/industries";
@@ -65,7 +67,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
         ]}
         actions={
           <>
-            <LeadButton intent="waitlist">Join the waitlist</LeadButton>
+            <Cta cta={ctaFor("waitlist")} />
             <LeadButton intent="expert" variant="secondary" subject={`Marketing for ${industry.title}`}>
               Ask about your case
             </LeadButton>
@@ -226,8 +228,9 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
       />
 
       <CtaBand
+        action={defaultCta(industry)}
         title={`Marketing built around how ${industry.title.toLowerCase()} actually sell`}
-        body="Join the waitlist and tell us what you sell. The industry profile above is where Mengo starts, and your brief is what makes it specific."
+        body="Join our waitlist and tell us what you sell. The industry profile above is where Mengo starts, and your brief is what makes it specific."
         subject={industry.title}
         secondary={{ label: "Browse all industries", href: routes.industries() }}
       />

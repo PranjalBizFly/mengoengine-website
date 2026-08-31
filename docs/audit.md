@@ -166,7 +166,10 @@ Ordered by what blocks launch.
 
 1. **Lead destination.** `MENGO_LEAD_WEBHOOK` must point at the inbox, CRM or
    automation that should receive form submissions. Until it is set, `/api/lead`
-   validates and logs but delivers nowhere.
+   validates and logs but delivers nowhere. The `download` intent additionally
+   needs a delivery mechanism: the success state promises the resource by email,
+   and nothing sends it yet. That is the single integration point — no fake
+   download links exist anywhere in the UI.
 2. **Legal entity details.** Terms of service, cookie policy and acceptable use
    still contain sections marked "to be confirmed": registered entity, governing
    law, retention periods, cookie inventory. The privacy policy is complete

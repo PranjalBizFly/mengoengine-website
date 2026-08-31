@@ -140,7 +140,7 @@ console.log("checked mobile navigation", navState);
 // Modal form behaviour
 await nav.click("button[aria-controls='mobile-nav']");
 await nav.waitForTimeout(200);
-await nav.locator("button:has-text('Join the waitlist')").locator("visible=true").first().click();
+await nav.locator("button:has-text('waitlist')").locator("visible=true").first().click();
 await nav.waitForTimeout(300);
 const modalState = await nav.evaluate(() => {
   const dialog = document.querySelector("[role='dialog']");

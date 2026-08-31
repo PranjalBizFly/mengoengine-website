@@ -59,7 +59,7 @@ export default function FeaturesIndexPage() {
 
       <CtaBand
         title="Capabilities are not the point on their own"
-        body="What matters is that they share one brief. Join the waitlist and see the whole system built against your business rather than a feature at a time."
+        body="What matters is that they share one brief. Join our waitlist and see the whole system built against your business rather than a feature at a time."
         secondary={{ label: "See the platform", href: routes.platform() }}
       />
     </>

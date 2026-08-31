@@ -4,9 +4,11 @@ import type { Metadata } from "next";
 import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
 import { DefinitionList, Eyebrow, FaqList, Heading, JsonLd, MarkerList, Section } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
+import { Cta } from "@/components/forms/Cta";
 import { entityMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, faqSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
+import { ctaFor, defaultCta } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { comparisons, comparisonBySlug } from "@/data/comparisons";
 
@@ -44,7 +46,7 @@ export default async function ComparisonPage({ params }: { params: Promise<{ com
         title={comparison.title}
         lead={comparison.summary}
         facts={[{ label: "Compared with", value: comparison.against }]}
-        actions={<LeadButton intent="waitlist">Join the waitlist</LeadButton>}
+        actions={<Cta cta={ctaFor("waitlist")} />}
       />
 
       {/* The alternative's strength goes first, deliberately */}
@@ -116,8 +118,9 @@ export default async function ComparisonPage({ params }: { params: Promise<{ com
       />
 
       <CtaBand
+        action={defaultCta(comparison)}
         title="If the second column sounds like you"
-        body="Join the waitlist and describe the situation. If it turns out you need the alternative instead, we would rather tell you now."
+        body="Join our waitlist and describe the situation. If it turns out you need the alternative instead, we would rather tell you now."
         subject={comparison.title}
         secondary={{ label: "Talk it through", href: routes.contact() }}
       />

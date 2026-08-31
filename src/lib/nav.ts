@@ -206,7 +206,7 @@ export const primaryNav: NavGroup[] = [
         heading: "Talk to us",
         links: [
           { label: "Contact", href: routes.contact(), blurb: "Questions, partnerships, press" },
-          { label: "Join the waitlist", href: routes.waitlist(), blurb: "Early access as it opens" },
+          { label: "Join our waitlist", href: routes.waitlist(), blurb: "Early access as it opens" },
         ],
       },
     ],

@@ -8,6 +8,7 @@ import { LeadButton } from "@/components/forms/LeadModal";
 import { entityMetadata } from "@/seo/metadata";
 import { articleSchema, breadcrumbSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
+import { defaultCta } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { guides, guideBySlug } from "@/data/guides";
 
@@ -94,6 +95,7 @@ export default async function GuidePage({ params }: { params: Promise<{ guide: s
       />
 
       <CtaBand
+        action={defaultCta(guide)}
         title="Following this by hand is entirely possible"
         body="It is also the part that stops when the business gets busy. Mengo produces the same work from a guided brief and keeps producing it."
         secondary={{ label: "See how it works", href: routes.company("how-it-works") }}

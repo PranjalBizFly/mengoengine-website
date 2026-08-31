@@ -85,7 +85,7 @@ export default function ResourcesIndexPage() {
 
       <CtaBand
         title="Or have the system do it"
-        body="Everything above is what Mengo does automatically from a guided brief. Join the waitlist if you would rather review the work than produce it."
+        body="Everything above is what Mengo does automatically from a guided brief. Join our waitlist if you would rather review the work than produce it."
         secondary={{ label: "How Mengo works", href: routes.company("how-it-works") }}
       />
     </>

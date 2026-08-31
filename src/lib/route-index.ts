@@ -62,7 +62,7 @@ export function routeGroups(): RouteGroup[] {
       heading: "Main",
       entries: [
         { href: routes.home(), label: "Home", updated: LATEST_UPDATE, priority: 1, changeFrequency: "weekly" },
-        hub(routes.waitlist(), "Join the waitlist", 0.9),
+        hub(routes.waitlist(), "Join our waitlist", 0.9),
         hub(routes.contact(), "Contact", 0.7),
         hub(routes.sitemapPage(), "Sitemap", 0.3),
       ],

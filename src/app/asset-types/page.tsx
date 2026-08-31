@@ -60,7 +60,7 @@ export default function AssetTypesIndexPage() {
 
       <CtaBand
         title="Formats are only useful with a brief behind them"
-        body="Each of these gets its content from a calendar slot that already knows the theme, the segment and the funnel stage. Join the waitlist to see that against your business."
+        body="Each of these gets its content from a calendar slot that already knows the theme, the segment and the funnel stage. Join our waitlist to see that against your business."
         secondary={{ label: "How Mengo works", href: routes.company("how-it-works") }}
       />
     </>

@@ -4,9 +4,11 @@ import type { Metadata } from "next";
 import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
 import { DefinitionList, FaqList, Heading, JsonLd, PullQuote, Section, TextLink } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
+import { Cta } from "@/components/forms/Cta";
 import { entityMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, faqSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
+import { ctaFor, defaultCta } from "@/lib/cta";
 import { link, solutionsByFeature, useCasesByFeature, take } from "@/lib/registry";
 import { features, featureBySlug, featuresForProduct } from "@/data/features";
 import { productBySlug } from "@/data/products";
@@ -54,7 +56,7 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
           { label: "Engine", value: product?.title ?? "Mengo platform" },
           { label: "Removes", value: feature.problem },
         ]}
-        actions={<LeadButton intent="waitlist">Join the waitlist</LeadButton>}
+        actions={<Cta cta={ctaFor("waitlist")} />}
       />
 
       {/* Problem then mechanism — the two-beat structure every feature page uses */}
@@ -109,8 +111,9 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
       />
 
       <CtaBand
+        action={defaultCta(feature)}
         title="One capability is not a system"
-        body={`${feature.title} works because it shares a brief with everything else. Join the waitlist to see the whole thing built against your business.`}
+        body={`${feature.title} works because it shares a brief with everything else. Join our waitlist to see the whole thing built against your business.`}
         secondary={{ label: product ? `About ${product.title}` : "See the platform", href: product ? routes.product(product.slug) : routes.platform() }}
       />
     </>

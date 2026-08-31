@@ -4,9 +4,11 @@ import type { Metadata } from "next";
 import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
 import { DefinitionList, Eyebrow, Heading, JsonLd, MarkerList, Section, TextLink } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
+import { Cta } from "@/components/forms/Cta";
 import { entityMetadata } from "@/seo/metadata";
 import { breadcrumbSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
+import { ctaFor, defaultCta } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { assetTypes, assetTypeBySlug, assetTypesForChannel } from "@/data/asset-types";
 import { channelBySlug } from "@/data/channels";
@@ -55,7 +57,7 @@ export default async function AssetTypePage({ params }: { params: Promise<{ asse
           { label: "Spec", value: asset.spec },
           ...(channel ? [{ label: "Channel", value: channel.title }] : []),
         ]}
-        actions={<LeadButton intent="waitlist">Join the waitlist</LeadButton>}
+        actions={<Cta cta={ctaFor("waitlist")} />}
       />
 
       <Section tone="warm">
@@ -114,8 +116,9 @@ export default async function AssetTypePage({ params }: { params: Promise<{ asse
       />
 
       <CtaBand
+        action={defaultCta(asset)}
         title={`${asset.title}, written to the brief`}
-        body="Join the waitlist to see this format produced against your positioning, your segments and your voice profile rather than from a blank prompt."
+        body="Join our waitlist to see this format produced against your positioning, your segments and your voice profile rather than from a blank prompt."
         subject={asset.title}
         secondary={{ label: "Browse the asset library", href: routes.assetTypes() }}
       />

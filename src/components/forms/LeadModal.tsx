@@ -13,6 +13,7 @@ import {
 } from "react";
 import { usePathname } from "next/navigation";
 import { buttonClass } from "@/components/ui/primitives";
+import { EVENTS, track } from "@/lib/analytics";
 
 /**
  * One modal form architecture for the whole site.
@@ -167,6 +168,47 @@ const FIELDS: Record<
   message: { label: "What is not working right now?", type: "text", required: false, textarea: true },
 };
 
+/**
+ * Validation.
+ *
+ * Native constraint validation gives the browser's own messages, which vary by
+ * browser and locale and cannot be styled or announced consistently. This
+ * produces one human-readable message per field, wired to the input through
+ * `aria-describedby` and `aria-invalid`.
+ */
+const MAX_LENGTH: Partial<Record<FieldName, number>> = { message: 2000, looking_for: 2000 };
+
+function validate(fields: FieldName[], data: FormData): Partial<Record<FieldName, string>> {
+  const errors: Partial<Record<FieldName, string>> = {};
+
+  for (const field of fields) {
+    const config = FIELDS[field];
+    const raw = data.get(field);
+    const value = typeof raw === "string" ? raw.trim() : "";
+
+    if (config.required && value === "") {
+      errors[field] = `${config.label} is required.`;
+      continue;
+    }
+    if (value === "") continue;
+
+    if (config.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) {
+      errors[field] = "That does not look like an email address. Check for a typo.";
+    }
+    if (config.type === "tel" && !/^[\d\s()+.-]{6,}$/.test(value)) {
+      errors[field] = "Use digits, spaces and the usual phone punctuation only.";
+    }
+    if (config.type === "url" && !/^https?:\/\/\S+\.\S+/.test(value)) {
+      errors[field] = "Include the full address, starting with https://";
+    }
+    const max = MAX_LENGTH[field];
+    if (max && value.length > max) {
+      errors[field] = `Keep this under ${max.toLocaleString()} characters — currently ${value.length.toLocaleString()}.`;
+    }
+  }
+  return errors;
+}
+
 interface ModalState {
   intent: LeadIntent;
   /** Where the visitor was when they triggered it. Submitted with the form. */
@@ -192,7 +234,10 @@ export function LeadModalProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   const open = useCallback(
-    (intent: LeadIntent, subject?: string) => setState({ intent, source: pathname, subject }),
+    (intent: LeadIntent, subject?: string) => {
+      track(EVENTS.formOpen, { intent, source: pathname, subject: subject ?? null });
+      setState({ intent, source: pathname, subject });
+    },
     [pathname],
   );
 
@@ -212,6 +257,8 @@ function Modal({ state, onClose }: { state: ModalState; onClose: () => void }) {
   const titleId = useId();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldName, string>>>({});
+  const summaryRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const previouslyFocused = document.activeElement as HTMLElement | null;
@@ -252,14 +299,38 @@ function Modal({ state, onClose }: { state: ModalState; onClose: () => void }) {
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("sending");
-    setError(null);
+    // Guard against a double submit from a fast second click or Enter key.
+    if (status === "sending") return;
+
     const form = new FormData(event.currentTarget);
     // Honeypot: a real person never fills a field they cannot see.
     if (form.get("company_website")) {
       setStatus("sent");
       return;
     }
+
+    const errors = validate(config.fields, form);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      setError(null);
+      track(EVENTS.formValidationError, {
+        intent: state.intent,
+        source: state.source,
+        reason: Object.keys(errors).join(", "),
+      });
+      // Announce the summary, then send focus to the first field at fault.
+      requestAnimationFrame(() => {
+        const first = Object.keys(errors)[0];
+        dialogRef.current?.querySelector<HTMLElement>(`#${titleId}-${first}`)?.focus();
+      });
+      return;
+    }
+
+    setFieldErrors({});
+    setStatus("sending");
+    setError(null);
+    track(EVENTS.formSubmit, { intent: state.intent, source: state.source, subject: state.subject ?? null });
+
     try {
       const response = await fetch("/api/lead", {
         method: "POST",
@@ -273,9 +344,16 @@ function Modal({ state, onClose }: { state: ModalState; onClose: () => void }) {
       });
       if (!response.ok) throw new Error(String(response.status));
       setStatus("sent");
+      track(EVENTS.formSuccess, { intent: state.intent, source: state.source, subject: state.subject ?? null });
+      if (state.intent === "download") {
+        track(EVENTS.resourceRequest, { intent: state.intent, subject: state.subject ?? null, source: state.source });
+      }
     } catch {
       setStatus("error");
-      setError("Something went wrong sending that. Please try again, or email us directly.");
+      setError(
+        "That did not send — it may be a connection problem rather than anything you did. Try again, or reach us through the contact page.",
+      );
+      track(EVENTS.formError, { intent: state.intent, source: state.source, reason: "network-or-server" });
     }
   }
 
@@ -325,24 +403,32 @@ function Modal({ state, onClose }: { state: ModalState; onClose: () => void }) {
               <p className="eyebrow mt-4">Regarding: {state.subject}</p>
             ) : null}
 
-            <form onSubmit={onSubmit} className="mt-7 grid gap-5" noValidate={false}>
+            <form onSubmit={onSubmit} className="mt-7 grid gap-5" noValidate>
               <div aria-hidden className="absolute left-[-9999px] h-px w-px overflow-hidden">
                 <label htmlFor="company_website">Do not fill this in</label>
                 <input id="company_website" name="company_website" type="text" tabIndex={-1} autoComplete="off" />
               </div>
 
-              {config.fields.map((field) => (
-                <Field key={field} name={field} />
-              ))}
-
-              {error ? (
-                <p role="alert" className="text-small text-signal-error">
-                  {error}
+              {Object.keys(fieldErrors).length > 0 ? (
+                <p ref={summaryRef} role="alert" className="rounded-xl bg-signal-error/10 px-4 py-3 text-small text-signal-error">
+                  {Object.keys(fieldErrors).length === 1
+                    ? "One field needs attention before this can be sent."
+                    : `${Object.keys(fieldErrors).length} fields need attention before this can be sent.`}
                 </p>
               ) : null}
 
+              {config.fields.map((field) => (
+                <Field key={field} name={field} error={fieldErrors[field]} idPrefix={titleId} />
+              ))}
+
+              {error ? (
+                <div role="alert" className="rounded-xl bg-signal-error/10 px-4 py-3">
+                  <p className="text-small text-signal-error">{error}</p>
+                </div>
+              ) : null}
+
               <button type="submit" disabled={status === "sending"} className={buttonClass("primary", "w-full disabled:opacity-60")}>
-                {status === "sending" ? "Sending…" : config.submit}
+                {status === "sending" ? "Sending…" : status === "error" ? "Try again" : config.submit}
               </button>
 
               <p className="text-fine leading-relaxed text-graphite-soft">
@@ -360,20 +446,30 @@ function Modal({ state, onClose }: { state: ModalState; onClose: () => void }) {
   );
 }
 
-function Field({ name }: { name: FieldName }) {
+function Field({ name, error, idPrefix }: { name: FieldName; error?: string; idPrefix: string }) {
   const config = FIELDS[name];
-  const id = `lead-${name}`;
-  const shared =
-    "mt-2 w-full rounded-xl border border-paper-line bg-white px-4 py-3 text-body text-graphite outline-none transition-colors placeholder:text-graphite-soft/60 focus:border-lime-deep";
+  const id = `${idPrefix}-${name}`;
+  const errorId = `${id}-error`;
+  const shared = `mt-2 w-full rounded-xl border bg-white px-4 py-3 text-body text-graphite outline-none transition-colors placeholder:text-graphite-soft/60 ${
+    error ? "border-signal-error focus:border-signal-error" : "border-paper-line focus:border-lime-deep"
+  }`;
+  const a11y = {
+    "aria-invalid": error ? (true as const) : undefined,
+    "aria-describedby": error ? errorId : undefined,
+  };
 
   return (
     <div>
       <label htmlFor={id} className="text-fine font-semibold text-graphite">
         {config.label}
-        {config.required ? <span className="text-lime-deep"> *</span> : null}
+        {config.required ? (
+          <span className="text-lime-deep"> *</span>
+        ) : (
+          <span className="font-normal text-graphite-soft"> (optional)</span>
+        )}
       </label>
       {config.options ? (
-        <select id={id} name={name} required={config.required} defaultValue="" className={shared}>
+        <select id={id} name={name} defaultValue="" className={shared} {...a11y}>
           <option value="" disabled>
             Select {config.label.toLowerCase()}
           </option>
@@ -384,18 +480,23 @@ function Field({ name }: { name: FieldName }) {
           ))}
         </select>
       ) : config.textarea ? (
-        <textarea id={id} name={name} rows={3} required={config.required} placeholder={config.placeholder} className={shared} />
+        <textarea id={id} name={name} rows={3} placeholder={config.placeholder} className={shared} {...a11y} />
       ) : (
         <input
           id={id}
           name={name}
           type={config.type}
-          required={config.required}
           autoComplete={config.autoComplete}
           placeholder={config.placeholder}
           className={shared}
+          {...a11y}
         />
       )}
+      {error ? (
+        <p id={errorId} className="mt-1.5 text-fine text-signal-error">
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -410,16 +511,34 @@ function Field({ name }: { name: FieldName }) {
 export function InlineLeadForm({ intent, subject }: { intent: LeadIntent; subject?: string }) {
   const config = INTENTS[intent];
   const pathname = usePathname();
+  const formId = useId();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldName, string>>>({});
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (status === "sending") return;
+
     const form = new FormData(event.currentTarget);
     if (form.get("company_website")) {
       setStatus("sent");
       return;
     }
+
+    const errors = validate(config.fields, form);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      track(EVENTS.formValidationError, { intent, source: pathname, reason: Object.keys(errors).join(", ") });
+      requestAnimationFrame(() => {
+        document.getElementById(`${formId}-${Object.keys(errors)[0]}`)?.focus();
+      });
+      return;
+    }
+
+    setFieldErrors({});
     setStatus("sending");
+    track(EVENTS.formSubmit, { intent, source: pathname, subject: subject ?? null });
+
     try {
       const response = await fetch("/api/lead", {
         method: "POST",
@@ -433,8 +552,10 @@ export function InlineLeadForm({ intent, subject }: { intent: LeadIntent; subjec
       });
       if (!response.ok) throw new Error(String(response.status));
       setStatus("sent");
+      track(EVENTS.formSuccess, { intent, source: pathname, subject: subject ?? null });
     } catch {
       setStatus("error");
+      track(EVENTS.formError, { intent, source: pathname, reason: "network-or-server" });
     }
   }
 
@@ -448,24 +569,35 @@ export function InlineLeadForm({ intent, subject }: { intent: LeadIntent; subjec
   }
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-5">
+    <form onSubmit={onSubmit} className="grid gap-5" noValidate>
       <div aria-hidden className="absolute left-[-9999px] h-px w-px overflow-hidden">
         <label htmlFor="inline_company_website">Do not fill this in</label>
         <input id="inline_company_website" name="company_website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
-      {config.fields.map((field) => (
-        <Field key={field} name={field} />
-      ))}
-
-      {status === "error" ? (
-        <p role="alert" className="text-small text-signal-error">
-          That did not send. Please try again, or reach us on one of the social accounts in the footer.
+      {Object.keys(fieldErrors).length > 0 ? (
+        <p role="alert" className="rounded-xl bg-signal-error/10 px-4 py-3 text-small text-signal-error">
+          {Object.keys(fieldErrors).length === 1
+            ? "One field needs attention before this can be sent."
+            : `${Object.keys(fieldErrors).length} fields need attention before this can be sent.`}
         </p>
       ) : null}
 
+      {config.fields.map((field) => (
+        <Field key={field} name={field} error={fieldErrors[field]} idPrefix={formId} />
+      ))}
+
+      {status === "error" ? (
+        <div role="alert" className="rounded-xl bg-signal-error/10 px-4 py-3">
+          <p className="text-small text-signal-error">
+            That did not send — it may be a connection problem rather than anything you did. Try again, or reach us on
+            one of the social accounts in the footer.
+          </p>
+        </div>
+      ) : null}
+
       <button type="submit" disabled={status === "sending"} className={buttonClass("primary", "justify-self-start disabled:opacity-60")}>
-        {status === "sending" ? "Sending…" : config.submit}
+        {status === "sending" ? "Sending…" : status === "error" ? "Try again" : config.submit}
       </button>
 
       <p className="max-w-[46ch] text-fine leading-relaxed text-graphite-soft">
@@ -495,7 +627,14 @@ export function LeadButton({
 }) {
   const { open } = useLeadModal();
   return (
-    <button type="button" onClick={() => open(intent, subject)} className={buttonClass(variant, className)}>
+    <button
+      type="button"
+      onClick={() => {
+        track(EVENTS.ctaClick, { intent, subject: subject ?? null });
+        open(intent, subject);
+      }}
+      className={buttonClass(variant, className)}
+    >
       {children}
     </button>
   );

@@ -5,9 +5,11 @@ import type { Metadata } from "next";
 import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
 import { Eyebrow, FaqList, Heading, JsonLd, MarkerList, RowLink, Section } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
+import { Cta } from "@/components/forms/Cta";
 import { entityMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, faqSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
+import { ctaFor, defaultCta } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { channels, channelBySlug } from "@/data/channels";
 import { assetTypesForChannel } from "@/data/asset-types";
@@ -51,7 +53,7 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
           { label: "Cadence Mengo plans against", value: channel.cadence },
           { label: "Asset formats", value: `${formats.length} defined for this channel` },
         ]}
-        actions={<LeadButton intent="waitlist">Join the waitlist</LeadButton>}
+        actions={<Cta cta={ctaFor("waitlist")} />}
       />
 
       <Section tone="forest">
@@ -145,6 +147,7 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
       />
 
       <CtaBand
+        action={defaultCta(channel)}
         title={`Should ${channel.title} be one of your three?`}
         body="Channel Ranking scores it against your buying cycle, price point and capacity — and will tell you when the honest answer is no."
         secondary={{ label: "How channel ranking works", href: routes.feature("channel-ranking") }}

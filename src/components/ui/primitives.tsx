@@ -221,7 +221,7 @@ export function RowLink({
 export function FaqList({ faqs, className = "" }: { faqs: { q: string; a: string }[]; className?: string }) {
   if (faqs.length === 0) return null;
   return (
-    <div className={className}>
+    <div className={className} data-faq>
       {faqs.map((faq) => (
         <details key={faq.q} className="group rule-t">
           <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 type-title text-h7 transition-colors hover:text-lime-deep [&::-webkit-details-marker]:hidden [.on-dark_&]:hover:text-lime">

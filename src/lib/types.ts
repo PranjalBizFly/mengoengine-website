@@ -26,6 +26,8 @@ export interface Indexable {
   updated: string;
   /** Draft entities render but are excluded from the sitemap and set noindex. */
   status?: "published" | "draft";
+  /** Overrides the default call to action for this entity's kind. */
+  cta?: Cta;
 }
 
 /* ------------------------------------------------------------------ */
@@ -45,6 +47,32 @@ export interface Step {
 export interface Faq {
   q: string;
   a: string;
+}
+
+/**
+ * A call to action, declared as data.
+ *
+ * `type` decides behaviour — a modal intent or a navigation target — so a
+ * template never hardcodes which form opens. Every entity kind has a sensible
+ * default (see `defaultCta` in src/lib/cta.ts); a record only declares this
+ * when it needs to override that default.
+ */
+export interface Cta {
+  type:
+    | "waitlist"
+    | "demo"
+    | "sales"
+    | "expert"
+    | "download"
+    | "enquiry"
+    | "investor"
+    | "speaking"
+    | "explore"
+    | "learn";
+  /** Button text. Omitted means "use the default label for this type". */
+  label?: string;
+  /** Navigation target. Required for `explore` and `learn`; ignored otherwise. */
+  href?: string;
 }
 
 /** A quantified claim. `source` is required so nothing unverifiable ships. */

@@ -9,6 +9,7 @@ import { Eyebrow, JsonLd, RowLink, Section } from "@/components/ui/primitives";
 import { entityMetadata } from "@/seo/metadata";
 import { articleSchema, breadcrumbSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
+import { defaultCta } from "@/lib/cta";
 import { link, firstSentence } from "@/lib/registry";
 import { articles, articleBySlug, articleCategories, articlesByCategory } from "@/data/articles";
 
@@ -126,8 +127,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
       </Section>
 
       <CtaBand
+        action={defaultCta(article)}
         title="If this describes your situation"
-        body="Mengo is the system version of what this piece argues for. Join the waitlist and tell us which part you would fix first."
+        body="Mengo is the system version of what this piece argues for. Join our waitlist and tell us which part you would fix first."
         subject={article.title}
         secondary={{ label: "All writing", href: routes.blog() }}
       />

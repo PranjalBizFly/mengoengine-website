@@ -94,7 +94,7 @@ export default async function CompanyPage({ params }: { params: Promise<{ page: 
 
       <CtaBand
         title="Early access opens in batches"
-        body="Join the waitlist with a line about what is actually broken in your marketing. That is what sets the build order."
+        body="Join our waitlist with a line about what is actually broken in your marketing. That is what sets the build order."
         intent={action.intent}
         cta={action.cta}
         secondary={{ label: "Contact us", href: routes.contact() }}

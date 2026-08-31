@@ -86,7 +86,7 @@ export default function GlossaryIndexPage() {
 
       <CtaBand
         title="Knowing the words is not the hard part"
-        body="Deciding what to do on Tuesday is. Join the waitlist and have the year decided once rather than every morning."
+        body="Deciding what to do on Tuesday is. Join our waitlist and have the year decided once rather than every morning."
         secondary={{ label: "Read the playbooks", href: routes.resources() }}
       />
     </>

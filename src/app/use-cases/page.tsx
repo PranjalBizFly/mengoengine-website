@@ -81,7 +81,7 @@ export default function UseCasesIndexPage() {
 
       <CtaBand
         title="Your job is probably one of these"
-        body="Join the waitlist and say which. The list decides the build order, and specific jobs are considerably more useful to us than general interest."
+        body="Join our waitlist and say which. The list decides the build order, and specific jobs are considerably more useful to us than general interest."
         secondary={{ label: "All solutions", href: routes.solutions() }}
       />
     </>

@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Eyebrow, RowLink, Section, TextLink } from "@/components/ui/primitives";
 import { LeadButton, type LeadIntent } from "@/components/forms/LeadModal";
+import { Cta } from "@/components/forms/Cta";
+import type { Cta as CtaData } from "@/lib/types";
 import type { Crumb } from "@/seo/schema";
 import type { LinkRef } from "@/lib/registry";
 import { routes } from "@/lib/site";
@@ -254,19 +256,27 @@ export function CtaBand({
   eyebrow = "Next step",
   title,
   body,
-  intent = "waitlist",
+  action,
+  intent,
   subject,
-  cta = "Join the waitlist",
+  cta,
   secondary,
 }: {
   eyebrow?: string;
   title: string;
   body: string;
+  /**
+   * The CTA as data. Entity pages pass `defaultCta(entity)` so the conversion
+   * path is declared in src/lib/cta.ts rather than per template.
+   */
+  action?: CtaData;
+  /** Legacy shorthand for hub pages that do not have an entity. */
   intent?: LeadIntent;
   subject?: string;
   cta?: string;
   secondary?: { label: string; href: string };
 }) {
+  const resolved: CtaData = action ?? { type: intent ?? "waitlist", ...(cta ? { label: cta } : {}) };
   return (
     <Section tone="forest">
       <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end lg:gap-20">
@@ -280,9 +290,7 @@ export function CtaBand({
           </p>
         </div>
         <div className="flex flex-wrap gap-3 lg:justify-end" data-reveal>
-          <LeadButton intent={intent} subject={subject}>
-            {cta}
-          </LeadButton>
+          <Cta cta={resolved} subject={subject} />
           {secondary ? (
             <Link
               href={secondary.href}

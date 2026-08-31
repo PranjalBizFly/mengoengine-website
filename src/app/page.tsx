@@ -15,9 +15,11 @@ import {
   TextLink,
 } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
+import { Cta } from "@/components/forms/Cta";
 import { pageMetadata } from "@/seo/metadata";
 import { faqSchema, howToSchema } from "@/seo/schema";
 import { routes, site } from "@/lib/site";
+import { ctaFor } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { products } from "@/data/products";
 import { assetTypes } from "@/data/asset-types";
@@ -110,7 +112,7 @@ export default function HomePage() {
         lead="Answer a guided questionnaire about your business. Mengo returns the strategy most founders never get around to writing, a year of calendar, the content that fills it, and the follow-up that converts it — then keeps executing."
         actions={
           <>
-            <LeadButton intent="waitlist">Join the waitlist</LeadButton>
+            <Cta cta={ctaFor("waitlist")} />
             <Link
               href={routes.company("how-it-works")}
               className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
@@ -393,8 +395,7 @@ export default function HomePage() {
       <CtaBand
         eyebrow="Free to start"
         title="Decide the year once, not every morning"
-        body="Join the waitlist and tell us what is actually broken in your marketing. Early access opens in batches, and what gets built next is decided by what people on the list say they need."
-        cta="Join the waitlist"
+        body="Join our waitlist and tell us what is actually broken in your marketing. Early access opens in batches, and what gets built next is decided by what people on the list say they need."
         secondary={{ label: "Who Mengo is for", href: routes.company("who-its-for") }}
       />
     </>

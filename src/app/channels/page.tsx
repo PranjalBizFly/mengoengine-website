@@ -91,7 +91,7 @@ export default function ChannelsIndexPage() {
 
       <CtaBand
         title="Find out which three are yours"
-        body="Join the waitlist and Mengo ranks channels against your actual constraints, including the ones you should deliberately stop running."
+        body="Join our waitlist and Mengo ranks channels against your actual constraints, including the ones you should deliberately stop running."
         secondary={{ label: "How channel ranking works", href: routes.feature("channel-ranking") }}
       />
     </>

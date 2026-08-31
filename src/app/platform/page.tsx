@@ -4,9 +4,11 @@ import type { Metadata } from "next";
 import { EditorialHero, CtaBand, RelatedRail } from "@/components/sections/page";
 import { Eyebrow, Heading, JsonLd, MarkerList, Section, TextLink } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
+import { Cta } from "@/components/forms/Cta";
 import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
+import { ctaFor } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { products } from "@/data/products";
 import { features } from "@/data/features";
@@ -47,7 +49,7 @@ export default function PlatformPage() {
           </>
         }
         lead="Most marketing stacks are a collection of tools that each need to be told what your business is. Mengo's engines read from one brief, which is what makes strategy, content, campaigns, follow-up and measurement behave like one system rather than five."
-        actions={<LeadButton intent="waitlist">Join the waitlist</LeadButton>}
+        actions={<Cta cta={ctaFor("waitlist")} />}
         aside={
           <div>
             <Eyebrow className="mb-4">What that shared context buys you</Eyebrow>
@@ -175,7 +177,7 @@ export default function PlatformPage() {
 
       <CtaBand
         title="See the platform against your own business"
-        body="Join the waitlist with a line about what you sell and what keeps stalling. Early access opens in batches, and the roadmap follows what the list actually needs."
+        body="Join our waitlist with a line about what you sell and what keeps stalling. Early access opens in batches, and the roadmap follows what the list actually needs."
         secondary={{ label: "How it works", href: routes.company("how-it-works") }}
       />
     </>

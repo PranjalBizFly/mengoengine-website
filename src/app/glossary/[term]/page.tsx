@@ -6,6 +6,7 @@ import { Eyebrow, Heading, JsonLd, Section, TextLink } from "@/components/ui/pri
 import { entityMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, definedTermSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
+import { defaultCta } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { glossary, glossaryBySlug } from "@/data/glossary";
 
@@ -126,8 +127,9 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
       />
 
       <CtaBand
+        action={defaultCta(term)}
         title="Definitions are cheap. Execution is not."
-        body="Mengo turns a guided brief into the strategy, the calendar, the content and the follow-up. Join the waitlist for early access."
+        body="Mengo turns a guided brief into the strategy, the calendar, the content and the follow-up. Join our waitlist for early access."
         secondary={{ label: "Browse the glossary", href: routes.glossary() }}
       />
     </>

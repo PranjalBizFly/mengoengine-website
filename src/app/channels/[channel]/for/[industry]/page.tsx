@@ -14,9 +14,11 @@ import {
   TextLink,
 } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
+import { Cta } from "@/components/forms/Cta";
 import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, faqSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
+import { ctaFor } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { channels, channelBySlug } from "@/data/channels";
 import { industryBySlug } from "@/data/industries";
@@ -107,7 +109,7 @@ export default async function ChannelIndustryPage({
         ]}
         actions={
           <>
-            <LeadButton intent="waitlist">Join the waitlist</LeadButton>
+            <Cta cta={ctaFor("waitlist")} />
             <LeadButton intent="expert" variant="secondary" subject={`${channel.title} for ${industry.title}`}>
               Ask about your case
             </LeadButton>
@@ -243,7 +245,7 @@ export default async function ChannelIndustryPage({
 
       <CtaBand
         title={`${channel.title} for ${industry.title.toLowerCase()}, planned properly`}
-        body="Join the waitlist and Mengo builds the ranking, the calendar and the assets against your specific business rather than the industry average."
+        body="Join our waitlist and Mengo builds the ranking, the calendar and the assets against your specific business rather than the industry average."
         subject={`${channel.title} for ${industry.title}`}
         secondary={{ label: `${industry.title} overview`, href: routes.industry(industry.slug) }}
       />

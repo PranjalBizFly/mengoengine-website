@@ -112,7 +112,6 @@ export default function BlogIndexPage() {
         eyebrow="One idea a week"
         title="Get the writing, not a sequence"
         body="Subscribe and you get one useful idea most weeks. If you would rather have the system than the reading, join the waitlist instead."
-        cta="Join the waitlist"
         secondary={{ label: "Read the playbooks", href: routes.resources() }}
       />
     </>

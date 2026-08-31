@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { EVENTS, track } from "@/lib/analytics";
 
 /**
  * Scroll reveal for the whole site, in one observer.
@@ -45,6 +46,20 @@ export function RevealProvider() {
 
     return () => observer.disconnect();
   }, [pathname]);
+
+  // One delegated listener for FAQ opens, rather than making every FAQ list a
+  // client component. `toggle` fires on the native <details> element.
+  useEffect(() => {
+    function onToggle(event: Event) {
+      const details = event.target as HTMLElement;
+      if (!(details instanceof HTMLDetailsElement) || !details.open) return;
+      if (!details.closest("[data-faq]")) return;
+      const question = details.querySelector("summary")?.textContent?.trim();
+      track(EVENTS.faqOpen, { label: question?.slice(0, 120), source: window.location.pathname });
+    }
+    document.addEventListener("toggle", onToggle, true);
+    return () => document.removeEventListener("toggle", onToggle, true);
+  }, []);
 
   return null;
 }

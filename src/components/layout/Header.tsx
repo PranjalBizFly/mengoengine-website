@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { primaryNav, type NavGroup } from "@/lib/nav";
+import { EVENTS, track } from "@/lib/analytics";
 import { routes } from "@/lib/site";
 
 /**
@@ -105,7 +106,10 @@ export function Header() {
                       setOpenIndex(index);
                     }}
                     onFocus={() => setOpenIndex(index)}
-                    onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                    onClick={() => {
+                      if (openIndex !== index) track(EVENTS.navOpen, { label: group.label, source: pathname });
+                      setOpenIndex(openIndex === index ? null : index);
+                    }}
                     className={`type-nav flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${
                       openIndex === index ? "text-lime-deep" : "text-graphite hover:text-lime-deep"
                     }`}
@@ -145,7 +149,7 @@ export function Header() {
             Contact
           </Link>
           <LeadButton intent="waitlist" className="px-5">
-            Join the waitlist
+            Join our waitlist
           </LeadButton>
         </div>
 
@@ -153,7 +157,10 @@ export function Header() {
           type="button"
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav"
-          onClick={() => setMobileOpen((v) => !v)}
+          onClick={() => {
+            if (!mobileOpen) track(EVENTS.navOpen, { label: "mobile menu", source: pathname });
+            setMobileOpen((v) => !v);
+          }}
           className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full text-graphite lg:hidden"
         >
           <span className="sr-only">{mobileOpen ? "Close menu" : "Open menu"}</span>
@@ -252,7 +259,7 @@ export function Header() {
 
           <div className="mt-8 grid gap-3">
             <LeadButton intent="waitlist" className="w-full">
-              Join the waitlist
+              Join our waitlist
             </LeadButton>
             <Link
               href={routes.contact()}

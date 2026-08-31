@@ -4,9 +4,11 @@ import type { Metadata } from "next";
 import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
 import { Eyebrow, FaqList, Heading, JsonLd, ProcessRail, Section } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
+import { Cta } from "@/components/forms/Cta";
 import { entityMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, faqSchema, howToSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
+import { ctaFor, defaultCta } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { useCases, useCaseBySlug } from "@/data/use-cases";
 
@@ -50,7 +52,7 @@ export default async function UseCasePage({ params }: { params: Promise<{ useCas
         title={useCase.title}
         lead={useCase.summary}
         facts={[{ label: "What triggers this", value: useCase.trigger }]}
-        actions={<LeadButton intent="waitlist">Join the waitlist</LeadButton>}
+        actions={<Cta cta={ctaFor("waitlist")} />}
       />
 
       {/* Before / after — the one place in the system where a direct contrast earns its keep */}
@@ -105,8 +107,9 @@ export default async function UseCasePage({ params }: { params: Promise<{ useCas
       />
 
       <CtaBand
+        action={defaultCta(useCase)}
         title={useCase.title}
-        body="Join the waitlist and name the job you need done first. Specific jobs are what set the build order."
+        body="Join our waitlist and name the job you need done first. Specific jobs are what set the build order."
         subject={useCase.title}
         secondary={{ label: "More use cases", href: routes.useCases() }}
       />
