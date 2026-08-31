@@ -22,7 +22,7 @@ export default function NotFound() {
           </p>
           <Link
             href={routes.sitemapPage()}
-            className="mt-8 inline-flex min-h-11 items-center rounded-full bg-lime px-6 text-[0.9375rem] font-semibold text-forest transition-colors hover:bg-lime-bright"
+            className="mt-8 inline-flex min-h-11 items-center rounded-full bg-lime px-6 text-body font-semibold text-forest transition-colors hover:bg-lime-bright"
           >
             Browse the full sitemap
           </Link>

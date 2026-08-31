@@ -44,13 +44,13 @@ export default function ContactPage() {
             <div className="mt-12">
               <Eyebrow className="mb-4">Other routes</Eyebrow>
               <ul className="space-y-3">
-                <li className="text-[0.9375rem] text-graphite-soft">
+                <li className="text-body text-graphite-soft">
                   Early access — <TextLink href={routes.waitlist()}>join the waitlist</TextLink>
                 </li>
-                <li className="text-[0.9375rem] text-graphite-soft">
+                <li className="text-body text-graphite-soft">
                   Investment — <TextLink href={routes.invest()}>investor enquiries</TextLink>
                 </li>
-                <li className="text-[0.9375rem] text-graphite-soft">
+                <li className="text-body text-graphite-soft">
                   Social —{" "}
                   {site.social.slice(0, 3).map((item, i) => (
                     <span key={item.href}>
@@ -118,7 +118,7 @@ export default function ContactPage() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="rule-t block py-3 text-[0.9375rem] text-sage transition-colors hover:text-lime"
+                  className="rule-t block py-3 text-body text-sage transition-colors hover:text-lime"
                 >
                   {item.label}
                 </Link>

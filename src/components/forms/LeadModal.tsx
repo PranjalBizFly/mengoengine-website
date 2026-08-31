@@ -310,7 +310,7 @@ function Modal({ state, onClose }: { state: ModalState; onClose: () => void }) {
             <h2 id={titleId} className="text-d4">
               {config.successHeading}
             </h2>
-            <p className="mt-4 text-[0.9375rem] leading-relaxed text-graphite-soft">{config.successBody}</p>
+            <p className="mt-4 text-body leading-relaxed text-graphite-soft">{config.successBody}</p>
             <button type="button" onClick={onClose} className={buttonClass("secondary", "mt-8")}>
               Close
             </button>
@@ -320,7 +320,7 @@ function Modal({ state, onClose }: { state: ModalState; onClose: () => void }) {
             <h2 id={titleId} className="pr-10 text-d4">
               {config.heading}
             </h2>
-            <p className="mt-3 text-[0.9375rem] leading-relaxed text-graphite-soft">{config.body}</p>
+            <p className="mt-3 text-body leading-relaxed text-graphite-soft">{config.body}</p>
             {state.subject ? (
               <p className="eyebrow mt-4">Regarding: {state.subject}</p>
             ) : null}
@@ -336,7 +336,7 @@ function Modal({ state, onClose }: { state: ModalState; onClose: () => void }) {
               ))}
 
               {error ? (
-                <p role="alert" className="text-[0.875rem] text-signal-error">
+                <p role="alert" className="text-small text-signal-error">
                   {error}
                 </p>
               ) : null}
@@ -345,7 +345,7 @@ function Modal({ state, onClose }: { state: ModalState; onClose: () => void }) {
                 {status === "sending" ? "Sending…" : config.submit}
               </button>
 
-              <p className="text-[0.8125rem] leading-relaxed text-graphite-soft">
+              <p className="text-fine leading-relaxed text-graphite-soft">
                 We use this only to reply and, where you asked for it, to send what you requested. See the{" "}
                 <a href="/legal/privacy-policy/" className="underline decoration-lime-deep underline-offset-2">
                   privacy policy
@@ -364,11 +364,11 @@ function Field({ name }: { name: FieldName }) {
   const config = FIELDS[name];
   const id = `lead-${name}`;
   const shared =
-    "mt-2 w-full rounded-xl border border-paper-line bg-white px-4 py-3 text-[0.9375rem] text-graphite outline-none transition-colors placeholder:text-graphite-soft/60 focus:border-lime-deep";
+    "mt-2 w-full rounded-xl border border-paper-line bg-white px-4 py-3 text-body text-graphite outline-none transition-colors placeholder:text-graphite-soft/60 focus:border-lime-deep";
 
   return (
     <div>
-      <label htmlFor={id} className="text-[0.8125rem] font-semibold text-graphite">
+      <label htmlFor={id} className="text-fine font-semibold text-graphite">
         {config.label}
         {config.required ? <span className="text-lime-deep"> *</span> : null}
       </label>
@@ -442,7 +442,7 @@ export function InlineLeadForm({ intent, subject }: { intent: LeadIntent; subjec
     return (
       <div role="status" className="rule-t pt-8">
         <h2 className="text-d4">{config.successHeading}</h2>
-        <p className="mt-3 max-w-[46ch] text-[0.9375rem] leading-relaxed text-graphite-soft">{config.successBody}</p>
+        <p className="mt-3 max-w-[46ch] text-body leading-relaxed text-graphite-soft">{config.successBody}</p>
       </div>
     );
   }
@@ -459,7 +459,7 @@ export function InlineLeadForm({ intent, subject }: { intent: LeadIntent; subjec
       ))}
 
       {status === "error" ? (
-        <p role="alert" className="text-[0.875rem] text-signal-error">
+        <p role="alert" className="text-small text-signal-error">
           That did not send. Please try again, or reach us on one of the social accounts in the footer.
         </p>
       ) : null}
@@ -468,7 +468,7 @@ export function InlineLeadForm({ intent, subject }: { intent: LeadIntent; subjec
         {status === "sending" ? "Sending…" : config.submit}
       </button>
 
-      <p className="max-w-[46ch] text-[0.8125rem] leading-relaxed text-graphite-soft">
+      <p className="max-w-[46ch] text-fine leading-relaxed text-graphite-soft">
         We use this only to reply and, where you asked for it, to send what you requested. See the{" "}
         <a href="/legal/privacy-policy/" className="underline decoration-lime-deep underline-offset-2">
           privacy policy

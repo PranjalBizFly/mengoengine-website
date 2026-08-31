@@ -3,7 +3,8 @@
  *
  * Reads the prerendered HTML in .next/server/app and checks the things that
  * silently break on a site this size: duplicate metadata, missing or multiple
- * H1s, absent canonicals, and internal links that point at pages we never built.
+ * H1s, absent canonicals, internal links that point at pages we never built,
+ * and design-system violations in the source.
  *
  * Run with: npm run audit  (after npm run build)
  */
@@ -104,6 +105,27 @@ for (const [href, sources] of broken) {
   report("broken-link", [...sources].slice(0, 3).join(", "), href);
 }
 
+// 3. Design-system rule: every font size must be a named token.
+//    Checked against source, not output, because that is where it regresses.
+function walkSrc(dir, out = []) {
+  for (const name of readdirSync(dir)) {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) walkSrc(full, out);
+    else if (/\.tsx?$/.test(name)) out.push(full);
+  }
+  return out;
+}
+try {
+  for (const file of walkSrc(join(process.cwd(), "src"))) {
+    const source = readFileSync(file, "utf8");
+    for (const hit of source.match(/text-\[[0-9.]+rem\]/g) ?? []) {
+      report("arbitrary-font-size", relative(process.cwd(), file), hit);
+    }
+  }
+} catch {
+  // src/ unavailable (e.g. auditing a deployed bundle) — skip this check.
+}
+
 // Report
 const grouped = new Map();
 for (const problem of problems) {
@@ -128,5 +150,5 @@ for (const [kind, items] of grouped) {
   console.log("");
 }
 
-const fatal = ["broken-link", "duplicate-title", "duplicate-description", "missing-title", "missing-canonical", "h1-count"];
+const fatal = ["arbitrary-font-size", "broken-link", "duplicate-title", "duplicate-description", "missing-title", "missing-canonical", "h1-count"];
 process.exit(problems.some((p) => fatal.includes(p.kind)) ? 1 : 0);

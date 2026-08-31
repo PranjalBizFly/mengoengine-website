@@ -49,7 +49,7 @@ export default function GlossaryIndexPage() {
             <a
               key={letter}
               href={`#letter-${letter}`}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-paper-line text-[0.8125rem] font-semibold text-graphite-soft transition-colors hover:border-lime-deep hover:text-lime-deep"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-paper-line text-fine font-semibold text-graphite-soft transition-colors hover:border-lime-deep hover:text-lime-deep"
             >
               {letter}
             </a>
@@ -70,12 +70,12 @@ export default function GlossaryIndexPage() {
                       <dt>
                         <Link
                           href={routes.glossaryTerm(term.slug)}
-                          className="inline-block py-0.5 font-display text-[1.0625rem] font-semibold tracking-[-0.02em] transition-colors hover:text-lime-deep"
+                          className="inline-block py-0.5 type-title text-h7 transition-colors hover:text-lime-deep"
                         >
                           {term.title}
                         </Link>
                       </dt>
-                      <dd className="mt-1.5 text-[0.9375rem] leading-relaxed text-graphite-soft">{term.definition}</dd>
+                      <dd className="mt-1.5 text-body leading-relaxed text-graphite-soft">{term.definition}</dd>
                     </div>
                   ))}
               </dl>

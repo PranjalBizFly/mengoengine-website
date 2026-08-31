@@ -17,7 +17,7 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,20rem)_1fr] lg:gap-16">
           <div>
             <Logo tone="light" />
-            <p className="mt-5 max-w-[24rem] text-[0.9375rem] leading-relaxed">
+            <p className="mt-5 max-w-[24rem] text-body leading-relaxed">
               {site.tagline}. Mengo turns a short business brief into strategy, a year of calendar, the content that
               fills it and the follow-up that converts it.
             </p>
@@ -33,7 +33,7 @@ export function Footer() {
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="text-[0.875rem] leading-snug text-sage transition-colors hover:text-lime"
+                        className="text-small leading-snug text-sage transition-colors hover:text-lime"
                       >
                         {item.label}
                       </Link>
@@ -53,7 +53,7 @@ export function Footer() {
                   href={item.href}
                   rel="me noopener"
                   target="_blank"
-                  className="text-[0.8125rem] text-sage transition-colors hover:text-lime"
+                  className="text-fine text-sage transition-colors hover:text-lime"
                 >
                   {item.label}
                 </a>
@@ -61,7 +61,7 @@ export function Footer() {
             ))}
           </ul>
 
-          <div className="mt-6 flex flex-col gap-4 text-[0.8125rem] text-sage-dim sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-6 flex flex-col gap-4 text-fine text-sage-dim sm:flex-row sm:items-center sm:justify-between">
             <p>
               © {year} {site.legalName}. All rights reserved.
             </p>

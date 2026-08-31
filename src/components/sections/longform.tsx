@@ -30,12 +30,12 @@ export function LongForm({
         <ol className="space-y-2.5">
           {sections.map((section, i) => (
             <li key={section.heading} className="flex gap-3 py-1">
-              <span className="tnum mt-1.5 text-[0.75rem] font-semibold text-lime-deep">
+              <span className="tnum mt-1.5 text-eyebrow font-semibold text-lime-deep">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <a
                 href={`#${slugifyHeading(section.heading)}`}
-                className="block py-1 text-[0.875rem] leading-snug text-graphite-soft transition-colors hover:text-lime-deep"
+                className="block py-1 text-small leading-snug text-graphite-soft transition-colors hover:text-lime-deep"
               >
                 {section.heading}
               </a>
@@ -66,10 +66,10 @@ export function LongForm({
               <dl className="not-prose mt-6 grid gap-5">
                 {section.bullets.map((bullet) => (
                   <div key={bullet.label} className="rule-t pt-4">
-                    <dt className="font-display text-[1rem] font-semibold tracking-[-0.015em] text-graphite">
+                    <dt className="type-title text-h8 text-graphite">
                       {bullet.label}
                     </dt>
-                    <dd className="mt-1.5 text-[0.9375rem] leading-relaxed text-graphite-soft">{bullet.body}</dd>
+                    <dd className="mt-1.5 text-body leading-relaxed text-graphite-soft">{bullet.body}</dd>
                   </div>
                 ))}
               </dl>

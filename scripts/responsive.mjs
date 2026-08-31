@@ -40,6 +40,7 @@ const PAGES = [
   ["/contact/", "Contact"],
   ["/get-started/", "Waitlist"],
   ["/sitemap/", "Sitemap"],
+  ["/design-system/", "Design system"],
 ];
 
 const browser = await chromium.launch({ executablePath: CHROME });

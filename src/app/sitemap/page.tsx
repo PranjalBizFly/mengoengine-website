@@ -38,7 +38,7 @@ export default function SitemapPage() {
             <a
               key={group.heading}
               href={`#${group.heading.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
-              className="inline-flex min-h-9 items-center rounded-full border border-paper-line px-3.5 text-[0.8125rem] font-medium text-graphite-soft transition-colors hover:border-lime-deep hover:text-lime-deep"
+              className="inline-flex min-h-9 items-center rounded-full border border-paper-line px-3.5 text-fine font-medium text-graphite-soft transition-colors hover:border-lime-deep hover:text-lime-deep"
             >
               {group.heading}
             </a>
@@ -71,7 +71,7 @@ export default function SitemapPage() {
                   <li key={entry.href}>
                     <Link
                       href={entry.href}
-                      className="block py-1 text-[0.9375rem] leading-snug text-graphite-soft transition-colors hover:text-lime-deep"
+                      className="block py-1 text-body leading-snug text-graphite-soft transition-colors hover:text-lime-deep"
                     >
                       {entry.label}
                     </Link>

@@ -87,7 +87,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
               <div className="mt-10 rule-t pt-6">
                 <Eyebrow className="mb-4">Constraints to respect</Eyebrow>
                 <MarkerList items={industry.constraints} />
-                <p className="mt-5 text-[0.875rem] text-graphite-soft">
+                <p className="mt-5 text-small text-graphite-soft">
                   Editorial guardrails are configured to your regulator, and human review stays in the loop. See{" "}
                   <TextLink href={routes.company("responsible-ai")}>how we use AI responsibly</TextLink>.
                 </p>
@@ -105,7 +105,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
             title="Where the effort belongs, in order"
             className="max-w-[26ch]"
           />
-          <p className="text-[0.9375rem]">
+          <p className="text-body">
             <TextLink href={routes.channels()}>How Mengo plans each channel</TextLink>
           </p>
         </div>
@@ -129,13 +129,13 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
                   href={href}
                   className="group grid gap-2 rule-t py-6 sm:grid-cols-[3rem_minmax(0,14rem)_1fr] sm:gap-6"
                 >
-                  <span className="tnum font-display text-[0.8125rem] font-semibold text-lime-deep">
+                  <span className="tnum font-display text-fine font-semibold text-lime-deep">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="font-display text-[1.0625rem] font-semibold tracking-[-0.02em] transition-colors group-hover:text-lime-deep">
+                  <span className="type-title text-h7 transition-colors group-hover:text-lime-deep">
                     {channel.title}
                   </span>
-                  <span className="text-[0.9375rem] leading-relaxed text-graphite-soft">{channel.cadence}</span>
+                  <span className="text-body leading-relaxed text-graphite-soft">{channel.cadence}</span>
                 </Link>
               </li>
             );
@@ -155,10 +155,10 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
             <dl className="space-y-6">
               {industry.objections.map((objection) => (
                 <div key={objection.label} data-reveal>
-                  <dt className="editorial text-[1.25rem] leading-snug text-paper">
+                  <dt className="editorial text-h5 leading-snug text-paper">
                     &ldquo;{objection.label}&rdquo;
                   </dt>
-                  <dd className="mt-2 text-[0.9375rem] leading-relaxed">{objection.body}</dd>
+                  <dd className="mt-2 text-body leading-relaxed">{objection.body}</dd>
                 </div>
               ))}
             </dl>

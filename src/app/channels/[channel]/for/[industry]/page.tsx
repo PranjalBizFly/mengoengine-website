@@ -125,7 +125,7 @@ export default async function ChannelIndustryPage({
             <Eyebrow className="mb-5">What is true in {industry.title.toLowerCase()}</Eyebrow>
             <MarkerList items={industry.realities} />
             {industry.constraints.length > 0 ? (
-              <p className="mt-6 text-[0.875rem] leading-relaxed text-graphite-soft">
+              <p className="mt-6 text-small leading-relaxed text-graphite-soft">
                 This sector also carries constraints on what may be claimed. Guardrails are configured accordingly —{" "}
                 <TextLink href={routes.industry(industry.slug)}>see the full industry profile</TextLink>.
               </p>
@@ -186,10 +186,10 @@ export default async function ChannelIndustryPage({
                 const current = slug === channel.slug;
                 return (
                   <li key={slug} className="rule-t flex items-baseline gap-4 py-3.5">
-                    <span className="tnum text-[0.8125rem] font-semibold text-lime">
+                    <span className="tnum text-fine font-semibold text-lime">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className={`text-[0.9375rem] ${current ? "font-semibold text-paper" : "text-sage"}`}>
+                    <span className={`text-body ${current ? "font-semibold text-paper" : "text-sage"}`}>
                       {item.title}
                       {current ? " — this page" : ""}
                     </span>
@@ -208,7 +208,7 @@ export default async function ChannelIndustryPage({
             <RowLink key={format.slug} href={routes.assetType(format.slug)} label={format.title} blurb={format.summary} />
           ))}
         </div>
-        <p className="mt-6 text-[0.9375rem]">
+        <p className="mt-6 text-body">
           <TextLink href={routes.channel(channel.slug)}>All {formats.length} {channel.title} formats</TextLink>
         </p>
       </Section>

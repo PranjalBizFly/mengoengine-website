@@ -48,7 +48,7 @@ export default function BlogIndexPage() {
             <Link
               key={category.slug}
               href={routes.blogCategory(category.slug)}
-              className="inline-flex min-h-10 items-center rounded-full border border-paper-line px-4 text-[0.875rem] font-medium text-graphite-soft transition-colors hover:border-lime-deep hover:text-lime-deep"
+              className="inline-flex min-h-10 items-center rounded-full border border-paper-line px-4 text-small font-medium text-graphite-soft transition-colors hover:border-lime-deep hover:text-lime-deep"
             >
               {category.label}
             </Link>
@@ -96,12 +96,12 @@ export default function BlogIndexPage() {
         <div className="mt-8 grid gap-x-12 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
           {articleCategories.map((category) => (
             <div key={category.slug}>
-              <h2 className="text-[1.0625rem] tracking-[-0.02em]">
+              <h2 className="text-h7 tracking-[-0.02em]">
                 <Link href={routes.blogCategory(category.slug)} className="inline-block py-1 transition-colors hover:text-lime-deep">
                   {category.label}
                 </Link>
               </h2>
-              <p className="mt-2 text-[0.875rem] leading-relaxed text-graphite-soft">{category.blurb}</p>
+              <p className="mt-2 text-small leading-relaxed text-graphite-soft">{category.blurb}</p>
               <p className="eyebrow mt-3">{articlesByCategory(category.slug).length} articles</p>
             </div>
           ))}

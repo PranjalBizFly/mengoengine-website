@@ -82,7 +82,7 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
             <LeadButton intent="waitlist">Join the waitlist</LeadButton>
             <Link
               href={routes.platform()}
-              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-[0.9375rem] font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
+              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
             >
               All five engines
             </Link>
@@ -91,7 +91,7 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
         aside={
           <div>
             <Eyebrow className="mb-4">The job it does</Eyebrow>
-            <p className="editorial text-[1.375rem] leading-snug text-paper">{product.jobToBeDone}</p>
+            <p className="editorial text-statement leading-snug text-paper">{product.jobToBeDone}</p>
           </div>
         }
       />
@@ -129,7 +129,7 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
             title={`${ownFeatures.length} capabilities inside this engine`}
             className="max-w-[26ch]"
           />
-          <p className="text-[0.9375rem]">
+          <p className="text-body">
             <TextLink href={routes.features()}>All capabilities across the platform</TextLink>
           </p>
         </div>
@@ -142,10 +142,10 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
               data-reveal
               style={{ "--reveal-delay": `${i * 30}ms` } as React.CSSProperties}
             >
-              <span className="block font-display text-[1.0625rem] font-semibold tracking-[-0.02em] transition-colors group-hover:text-lime-deep">
+              <span className="block type-title text-h7 transition-colors group-hover:text-lime-deep">
                 {feature.title}
               </span>
-              <span className="mt-1.5 block text-[0.875rem] leading-relaxed text-graphite-soft">{feature.short}</span>
+              <span className="mt-1.5 block text-small leading-relaxed text-graphite-soft">{feature.short}</span>
             </Link>
           ))}
         </div>

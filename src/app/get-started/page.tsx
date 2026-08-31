@@ -88,7 +88,7 @@ export default function GetStartedPage() {
           <div>
             <Eyebrow className="mb-5">What happens next</Eyebrow>
             <h2 className="max-w-[16ch] text-d3">No sequence, no demo funnel</h2>
-            <p className="mt-5 max-w-[42ch] text-[0.9375rem] leading-relaxed text-graphite-soft">
+            <p className="mt-5 max-w-[42ch] text-body leading-relaxed text-graphite-soft">
               If you would rather talk to someone first, the <TextLink href={routes.contact()}>contact page</TextLink>{" "}
               goes to the same place. And if it turns out Mengo is not the right answer for your situation, we would
               rather say so — see <TextLink href={routes.company("who-its-for")}>who it is for</TextLink>.

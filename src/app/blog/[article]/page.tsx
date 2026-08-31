@@ -118,8 +118,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
               href={ref.href}
               className="rule-t py-4 transition-colors hover:text-lime-deep"
             >
-              <span className="block font-display text-[1rem] font-semibold tracking-[-0.02em]">{ref.label}</span>
-              <span className="mt-1 block text-[0.875rem] leading-relaxed text-graphite-soft">{ref.blurb}</span>
+              <span className="block type-title text-h8">{ref.label}</span>
+              <span className="mt-1 block text-small leading-relaxed text-graphite-soft">{ref.blurb}</span>
             </Link>
           ))}
         </div>

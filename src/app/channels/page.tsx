@@ -79,7 +79,7 @@ export default function ChannelsIndexPage() {
             lead="Being present everywhere is a description of what a large marketing team can afford, repeated as advice to people who cannot. Mengo commits you to one primary channel, one secondary and one experiment, and names the rest as paused."
           />
           <div className="self-end" data-reveal>
-            <p className="text-[0.9375rem] leading-relaxed text-graphite-soft">
+            <p className="text-body leading-relaxed text-graphite-soft">
               Which three depends on your buying cycle, price point, capacity and existing traction — not on which
               platform is currently being written about. That ranking is what{" "}
               <TextLink href={routes.feature("channel-ranking")}>Channel Ranking</TextLink> produces, and it is

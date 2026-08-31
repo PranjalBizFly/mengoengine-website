@@ -106,7 +106,7 @@ export function Header() {
                     }}
                     onFocus={() => setOpenIndex(index)}
                     onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                    className={`flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[0.9375rem] font-medium transition-colors ${
+                    className={`type-nav flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${
                       openIndex === index ? "text-lime-deep" : "text-graphite hover:text-lime-deep"
                     }`}
                   >
@@ -127,7 +127,7 @@ export function Header() {
                 ) : (
                   <Link
                     href={group.href}
-                    className="rounded-full px-3.5 py-2 text-[0.9375rem] font-medium text-graphite transition-colors hover:text-lime-deep"
+                    className="type-nav rounded-full px-3.5 py-2 text-graphite transition-colors hover:text-lime-deep"
                   >
                     {group.label}
                   </Link>
@@ -140,7 +140,7 @@ export function Header() {
         <div className="hidden items-center gap-3 lg:flex">
           <Link
             href={routes.contact()}
-            className="rounded-full px-3.5 py-2 text-[0.9375rem] font-medium text-graphite transition-colors hover:text-lime-deep"
+            className="type-nav rounded-full px-3.5 py-2 text-graphite transition-colors hover:text-lime-deep"
           >
             Contact
           </Link>
@@ -194,7 +194,7 @@ export function Header() {
             <div key={group.label}>
               {group.columns ? (
                 <details className="rule-b group">
-                  <summary className="flex cursor-pointer list-none items-center justify-between py-4 font-display text-[1.0625rem] font-semibold tracking-[-0.02em] [&::-webkit-details-marker]:hidden">
+                  <summary className="flex cursor-pointer list-none items-center justify-between py-4 type-title text-h7 [&::-webkit-details-marker]:hidden">
                     {group.label}
                     <svg
                       width="11"
@@ -218,7 +218,7 @@ export function Header() {
                             <li key={linkItem.href}>
                               <Link
                                 href={linkItem.href}
-                                className="block min-h-11 py-2.5 text-[0.9375rem] text-graphite-soft transition-colors hover:text-lime-deep"
+                                className="block min-h-11 py-2.5 text-body text-graphite-soft transition-colors hover:text-lime-deep"
                               >
                                 {linkItem.label}
                               </Link>
@@ -228,7 +228,7 @@ export function Header() {
                             <li>
                               <Link
                                 href={column.seeAll.href}
-                                className="block min-h-11 py-2.5 text-[0.9375rem] font-semibold text-lime-deep"
+                                className="block min-h-11 py-2.5 text-body font-semibold text-lime-deep"
                               >
                                 {column.seeAll.label} →
                               </Link>
@@ -242,7 +242,7 @@ export function Header() {
               ) : (
                 <Link
                   href={group.href}
-                  className="rule-b block py-4 font-display text-[1.0625rem] font-semibold tracking-[-0.02em]"
+                  className="rule-b block py-4 type-title text-h7"
                 >
                   {group.label}
                 </Link>
@@ -256,7 +256,7 @@ export function Header() {
             </LeadButton>
             <Link
               href={routes.contact()}
-              className="flex min-h-11 items-center justify-center rounded-full border border-forest/20 px-6 text-[0.9375rem] font-semibold text-forest"
+              className="flex min-h-11 items-center justify-center rounded-full border border-forest/20 px-6 text-body font-semibold text-forest"
             >
               Contact us
             </Link>
@@ -286,11 +286,11 @@ function MegaPanel({ group }: { group: NavGroup }) {
             {column.links.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className="group block rounded-lg px-2.5 py-2 -mx-2.5 transition-colors hover:bg-paper-warm">
-                  <span className="block text-[0.9375rem] font-medium text-graphite transition-colors group-hover:text-lime-deep">
+                  <span className="block text-body font-medium text-graphite transition-colors group-hover:text-lime-deep">
                     {item.label}
                   </span>
                   {item.blurb ? (
-                    <span className="mt-0.5 block text-[0.8125rem] leading-snug text-graphite-soft">{item.blurb}</span>
+                    <span className="mt-0.5 block text-fine leading-snug text-graphite-soft">{item.blurb}</span>
                   ) : null}
                 </Link>
               </li>
@@ -299,7 +299,7 @@ function MegaPanel({ group }: { group: NavGroup }) {
               <li>
                 <Link
                   href={column.seeAll.href}
-                  className="mt-2 -mx-2.5 block px-2.5 py-2 text-[0.875rem] font-semibold text-lime-deep transition-colors hover:text-forest"
+                  className="mt-2 -mx-2.5 block px-2.5 py-2 text-small font-semibold text-lime-deep transition-colors hover:text-forest"
                 >
                   {column.seeAll.label} →
                 </Link>
@@ -312,13 +312,13 @@ function MegaPanel({ group }: { group: NavGroup }) {
       {group.feature ? (
         <div className="on-dark rounded-2xl bg-forest p-7">
           <p className="eyebrow">{group.feature.eyebrow}</p>
-          <p className="mt-4 font-display text-[1.25rem] font-semibold leading-tight tracking-[-0.025em] text-paper">
+          <p className="mt-4 type-title text-h5 leading-tight text-paper">
             {group.feature.title}
           </p>
-          <p className="mt-3 text-[0.875rem] leading-relaxed text-sage">{group.feature.body}</p>
+          <p className="mt-3 text-small leading-relaxed text-sage">{group.feature.body}</p>
           <Link
             href={group.feature.href}
-            className="mt-5 inline-flex items-center gap-1.5 text-[0.875rem] font-semibold text-lime transition-colors hover:text-lime-bright"
+            className="mt-5 inline-flex items-center gap-1.5 text-small font-semibold text-lime transition-colors hover:text-lime-bright"
           >
             {group.feature.cta} →
           </Link>

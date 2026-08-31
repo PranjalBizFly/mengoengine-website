@@ -116,7 +116,7 @@ export function DocumentHero({
             {facts.map((fact) => (
               <div key={fact.label} className="rule-t py-4">
                 <dt className="eyebrow">{fact.label}</dt>
-                <dd className="mt-1.5 text-[0.9375rem] leading-relaxed text-graphite">{fact.value}</dd>
+                <dd className="mt-1.5 text-body leading-relaxed text-graphite">{fact.value}</dd>
               </div>
             ))}
           </dl>
@@ -155,7 +155,7 @@ export function IndexHero({
             {title}
           </h1>
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
-            <p className="max-w-[46ch] text-[1.0625rem] leading-relaxed text-graphite-soft">{lead}</p>
+            <p className="max-w-[46ch] text-h7 leading-relaxed text-graphite-soft">{lead}</p>
             {count ? <p className="eyebrow mt-5">{count}</p> : null}
           </div>
         </div>
@@ -190,20 +190,20 @@ export function RelatedRail({
       <div className="mt-8 grid gap-x-12 gap-y-10 lg:grid-cols-3">
         {populated.map((group) => (
           <div key={group.heading}>
-            <h2 className="text-[1.0625rem] tracking-[-0.02em]">{group.heading}</h2>
+            <h2 className="text-h7 tracking-[-0.02em]">{group.heading}</h2>
             <div className="mt-3">
               {group.links.map((linkRef) => (
                 <Link
                   key={linkRef.href}
                   href={linkRef.href}
-                  className="rule-t block py-3 text-[0.9375rem] text-graphite-soft transition-colors hover:text-lime-deep [.on-dark_&]:text-sage [.on-dark_&]:hover:text-lime"
+                  className="rule-t block py-3 text-body text-graphite-soft transition-colors hover:text-lime-deep [.on-dark_&]:text-sage [.on-dark_&]:hover:text-lime"
                 >
                   {linkRef.label}
                 </Link>
               ))}
             </div>
             {group.seeAll ? (
-              <p className="mt-4 text-[0.875rem]">
+              <p className="mt-4 text-small">
                 <TextLink href={group.seeAll.href}>{group.seeAll.label}</TextLink>
               </p>
             ) : null}
@@ -230,7 +230,7 @@ export function Directory({
               {group.items.length} {group.items.length === 1 ? "page" : "pages"}
             </span>
           </div>
-          {group.blurb ? <p className="mt-3 max-w-[52ch] text-[0.9375rem] text-graphite-soft">{group.blurb}</p> : null}
+          {group.blurb ? <p className="mt-3 max-w-[52ch] text-body text-graphite-soft">{group.blurb}</p> : null}
           <div className="mt-6">
             {group.items.map((item) => (
               <RowLink key={item.href} href={item.href} label={item.label} blurb={item.blurb} meta={item.meta} />
@@ -275,7 +275,7 @@ export function CtaBand({
           <h2 className="max-w-[18ch] text-d3 text-paper" data-reveal>
             {title}
           </h2>
-          <p className="mt-5 max-w-[48ch] text-[1.0625rem] leading-relaxed" data-reveal>
+          <p className="mt-5 max-w-[48ch] text-h7 leading-relaxed" data-reveal>
             {body}
           </p>
         </div>
@@ -286,14 +286,14 @@ export function CtaBand({
           {secondary ? (
             <Link
               href={secondary.href}
-              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-[0.9375rem] font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
+              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
             >
               {secondary.label}
             </Link>
           ) : (
             <Link
               href={routes.company("how-it-works")}
-              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-[0.9375rem] font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
+              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
             >
               See how it works
             </Link>

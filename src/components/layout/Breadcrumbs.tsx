@@ -13,7 +13,7 @@ export function Breadcrumbs({ crumbs, tone = "paper" }: { crumbs: Crumb[]; tone?
   return (
     <nav aria-label="Breadcrumb" className="container-page pt-6">
       <ol
-        className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.8125rem] ${
+        className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-fine ${
           tone === "forest" ? "text-sage" : "text-graphite-soft"
         }`}
       >

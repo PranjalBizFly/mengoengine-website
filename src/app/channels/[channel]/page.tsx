@@ -83,7 +83,7 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
                   <Link
                     key={industrySlug}
                     href={routes.channelForIndustry(channel.slug, industrySlug)}
-                    className="rule-t block py-3 text-[0.9375rem] text-graphite-soft transition-colors hover:text-lime-deep"
+                    className="rule-t block py-3 text-body text-graphite-soft transition-colors hover:text-lime-deep"
                   >
                     {channel.title} for {industry.title}
                   </Link>

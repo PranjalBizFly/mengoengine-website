@@ -69,12 +69,12 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
           {term.inMengo ? (
             <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
               <Eyebrow className="mb-5">In Mengo</Eyebrow>
-              <p className="text-[1.0625rem] leading-relaxed text-graphite-soft">{term.inMengo}</p>
+              <p className="text-h7 leading-relaxed text-graphite-soft">{term.inMengo}</p>
             </div>
           ) : (
             <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
               <Eyebrow className="mb-5">In Mengo</Eyebrow>
-              <p className="text-[1.0625rem] leading-relaxed text-graphite-soft">
+              <p className="text-h7 leading-relaxed text-graphite-soft">
                 Mengo does not handle this directly — it sits in your analytics, ad platform or site infrastructure.
                 It is defined here because it affects decisions the platform does make.
               </p>
@@ -93,11 +93,11 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
                 href={ref.href}
                 className="group rule-t block py-4 transition-colors hover:text-lime-deep"
               >
-                <span className="block font-display text-[1.0625rem] font-semibold tracking-[-0.02em]">{ref.label}</span>
-                <span className="mt-1 block text-[0.9375rem] leading-relaxed text-graphite-soft">{ref.blurb}</span>
+                <span className="block type-title text-h7">{ref.label}</span>
+                <span className="mt-1 block text-body leading-relaxed text-graphite-soft">{ref.blurb}</span>
               </a>
             ))}
-            <p className="mt-6 text-[0.9375rem]">
+            <p className="mt-6 text-body">
               <TextLink href={routes.glossary()}>Back to the full glossary</TextLink>
             </p>
           </div>

@@ -67,7 +67,7 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
             <p className="eyebrow mb-4">How Mengo handles it</p>
             <p className="text-lead text-graphite-soft">{feature.mechanism}</p>
             {product ? (
-              <p className="mt-6 text-[0.9375rem]">
+              <p className="mt-6 text-body">
                 Part of <TextLink href={routes.product(product.slug)}>{product.title}</TextLink>.
               </p>
             ) : null}

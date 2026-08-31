@@ -86,8 +86,8 @@ export default function PlatformPage() {
                     {product.title}
                   </Link>
                 </h3>
-                <p className="mt-3 text-[0.9375rem] leading-relaxed text-graphite-soft">{product.tagline}</p>
-                <p className="mt-5 text-[0.875rem]">
+                <p className="mt-3 text-body leading-relaxed text-graphite-soft">{product.tagline}</p>
+                <p className="mt-5 text-small">
                   <TextLink href={routes.product(product.slug)}>Read more</TextLink>
                 </p>
               </div>
@@ -107,7 +107,7 @@ export default function PlatformPage() {
                         <li key={slug}>
                           <Link
                             href={routes.feature(slug)}
-                            className="inline-block py-1 text-[0.9375rem] text-graphite-soft transition-colors hover:text-lime-deep"
+                            className="inline-block py-1 text-body text-graphite-soft transition-colors hover:text-lime-deep"
                           >
                             {feature.title}
                           </Link>
@@ -141,7 +141,7 @@ export default function PlatformPage() {
                 "No media production — filming, design and photography stay with you",
               ]}
             />
-            <p className="mt-8 text-[0.9375rem]">
+            <p className="mt-8 text-body">
               <TextLink href={routes.compare()}>Compare Mengo with the alternatives</TextLink>
             </p>
           </div>

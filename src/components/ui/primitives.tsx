@@ -128,7 +128,7 @@ export function Stagger({
 type ButtonVariant = "primary" | "secondary" | "ghost";
 
 const BUTTON_BASE =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 text-[0.9375rem] font-semibold transition-[background-color,color,border-color,transform] duration-200 ease-[var(--ease-out-expo)] active:translate-y-px";
+  "type-button inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 transition-[background-color,color,border-color,transform] duration-200 ease-[var(--ease-out-expo)] active:translate-y-px";
 
 const BUTTON_VARIANT: Record<ButtonVariant, string> = {
   primary: "bg-lime text-forest hover:bg-lime-bright",
@@ -200,13 +200,13 @@ export function RowLink({
       className="group grid gap-1 rule-t py-4 transition-colors hover:bg-paper-warm/70 sm:grid-cols-[minmax(0,15rem)_1fr] sm:gap-6 sm:py-5 [.on-dark_&]:hover:bg-forest-700"
     >
       <span className="flex items-baseline gap-3">
-        <span className="font-display text-[1.0625rem] font-semibold tracking-[-0.015em] text-graphite transition-colors group-hover:text-lime-deep [.on-dark_&]:text-paper [.on-dark_&]:group-hover:text-lime">
+        <span className="type-title text-h7 text-graphite transition-colors group-hover:text-lime-deep [.on-dark_&]:text-paper [.on-dark_&]:group-hover:text-lime">
           {label}
         </span>
         {meta ? <span className="eyebrow shrink-0">{meta}</span> : null}
       </span>
       {blurb ? (
-        <span className="text-[0.9375rem] leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
+        <span className="text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
           {blurb}
         </span>
       ) : null}
@@ -224,14 +224,14 @@ export function FaqList({ faqs, className = "" }: { faqs: { q: string; a: string
     <div className={className}>
       {faqs.map((faq) => (
         <details key={faq.q} className="group rule-t">
-          <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 font-display text-[1.0625rem] font-semibold tracking-[-0.015em] transition-colors hover:text-lime-deep [&::-webkit-details-marker]:hidden [.on-dark_&]:hover:text-lime">
+          <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 type-title text-h7 transition-colors hover:text-lime-deep [&::-webkit-details-marker]:hidden [.on-dark_&]:hover:text-lime">
             {faq.q}
             <span
               aria-hidden
               className="relative mt-2 h-3 w-3 shrink-0 before:absolute before:left-0 before:top-1/2 before:h-px before:w-3 before:-translate-y-1/2 before:bg-current after:absolute after:left-1/2 after:top-0 after:h-3 after:w-px after:-translate-x-1/2 after:bg-current after:transition-transform after:duration-300 group-open:after:scale-y-0"
             />
           </summary>
-          <p className="max-w-[46rem] pb-6 text-[0.9375rem] leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
+          <p className="max-w-[46rem] pb-6 text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
             {faq.a}
           </p>
         </details>
@@ -255,11 +255,11 @@ export function ProcessRail({ steps }: { steps: { title: string; body: string }[
           data-reveal
           style={{ "--reveal-delay": `${i * 60}ms` } as React.CSSProperties}
         >
-          <span className="tnum font-display text-[0.8125rem] font-semibold text-lime-deep [.on-dark_&]:text-lime">
+          <span className="tnum font-display text-fine font-semibold text-lime-deep [.on-dark_&]:text-lime">
             {String(i + 1).padStart(2, "0")}
           </span>
-          <h3 className="text-[1.125rem] tracking-[-0.02em]">{step.title}</h3>
-          <p className="text-[0.9375rem] leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">{step.body}</p>
+          <h3 className="text-h6 tracking-[-0.02em]">{step.title}</h3>
+          <p className="text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">{step.body}</p>
         </li>
       ))}
     </ol>
@@ -283,8 +283,8 @@ export function DefinitionList({
           data-reveal
           style={{ "--reveal-delay": `${i * 50}ms` } as React.CSSProperties}
         >
-          <dt className="font-display text-[1.0625rem] font-semibold tracking-[-0.015em]">{item.label}</dt>
-          <dd className="mt-2 text-[0.9375rem] leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
+          <dt className="type-title text-h7">{item.label}</dt>
+          <dd className="mt-2 text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
             {item.body}
           </dd>
         </div>
@@ -298,7 +298,7 @@ export function MarkerList({ items, className = "" }: { items: string[]; classNa
   return (
     <ul className={`space-y-3 ${className}`}>
       {items.map((item) => (
-        <li key={item} className="relative pl-6 text-[0.9375rem] leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
+        <li key={item} className="relative pl-6 text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
           <span aria-hidden className="absolute left-0 top-[0.7em] h-px w-3.5 bg-lime-deep [.on-dark_&]:bg-lime" />
           {item}
         </li>

@@ -43,7 +43,7 @@ export default async function LegalPage({ params }: { params: Promise<{ page: st
         <div className="container-page pb-10 pt-8 md:pb-14 md:pt-12">
           <Eyebrow className="mb-4">Legal</Eyebrow>
           <h1 className="text-d3">{page.title}</h1>
-          <p className="mt-4 max-w-[52ch] text-[1.0625rem] leading-relaxed text-graphite-soft">{page.summary}</p>
+          <p className="mt-4 max-w-[52ch] text-h7 leading-relaxed text-graphite-soft">{page.summary}</p>
           <p className="eyebrow mt-6">Effective {formatDate(page.effective)}</p>
         </div>
       </div>
@@ -59,13 +59,13 @@ export default async function LegalPage({ params }: { params: Promise<{ page: st
               <Link
                 key={other.slug}
                 href={routes.legal(other.slug)}
-                className="text-[0.9375rem] text-graphite-soft transition-colors hover:text-lime-deep"
+                className="text-body text-graphite-soft transition-colors hover:text-lime-deep"
               >
                 {other.title}
               </Link>
             ))}
         </div>
-        <p className="mt-8 max-w-[52ch] text-[0.875rem] leading-relaxed text-graphite-soft">
+        <p className="mt-8 max-w-[52ch] text-small leading-relaxed text-graphite-soft">
           Questions about any of this can go through the{" "}
           <Link href={routes.contact()} className="underline decoration-lime-deep underline-offset-2">
             contact page

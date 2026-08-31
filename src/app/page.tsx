@@ -113,7 +113,7 @@ export default function HomePage() {
             <LeadButton intent="waitlist">Join the waitlist</LeadButton>
             <Link
               href={routes.company("how-it-works")}
-              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-[0.9375rem] font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
+              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
             >
               See how it works
             </Link>
@@ -129,7 +129,7 @@ export default function HomePage() {
             ].map((row) => (
               <div key={row.k} className="rule-t py-4">
                 <dt className="eyebrow">{row.k}</dt>
-                <dd className="mt-1.5 text-[0.9375rem] leading-snug text-paper">{row.v}</dd>
+                <dd className="mt-1.5 text-body leading-snug text-paper">{row.v}</dd>
               </div>
             ))}
           </dl>
@@ -150,7 +150,7 @@ export default function HomePage() {
               A client is waiting for delivery. A regulator is waiting for a filing. Nobody is waiting for Tuesday&rsquo;s
               post. Under pressure, work with an external deadline wins — and it should.
             </p>
-            <p className="mt-5 max-w-[46ch] text-[0.9375rem] leading-relaxed text-graphite-soft">
+            <p className="mt-5 max-w-[46ch] text-body leading-relaxed text-graphite-soft">
               Which is why the failure is always the same shape: a strong start, two good weeks, a busy month, a reset.
               That consistency across thousands of different people is the clue. It is not a discipline problem.
             </p>
@@ -187,12 +187,12 @@ export default function HomePage() {
             <h2 className="max-w-[14ch] text-d2 text-paper" data-reveal>
               Five engines, one brief between them
             </h2>
-            <p className="mt-6 max-w-[42ch] text-[0.9375rem] leading-relaxed" data-reveal>
+            <p className="mt-6 max-w-[42ch] text-body leading-relaxed" data-reveal>
               Each engine solves one part of the marketing function, and every one of them reads from the same business
               brief. That shared context is what stops a year of output sounding like it came from five different
               companies.
             </p>
-            <p className="mt-6 text-[0.9375rem]">
+            <p className="mt-6 text-body">
               <TextLink href={routes.platform()}>Explore the platform</TextLink>
             </p>
           </div>
@@ -205,14 +205,14 @@ export default function HomePage() {
                 style={{ "--reveal-delay": `${i * 70}ms` } as React.CSSProperties}
               >
                 <Link href={routes.product(product.slug)} className="group grid gap-1 rule-t py-6 sm:grid-cols-[3rem_1fr] sm:gap-6">
-                  <span className="tnum font-display text-[0.8125rem] font-semibold text-lime">
+                  <span className="tnum font-display text-fine font-semibold text-lime">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span>
-                    <span className="block font-display text-[1.25rem] font-semibold tracking-[-0.025em] text-paper transition-colors group-hover:text-lime">
+                    <span className="block type-title text-h5 text-paper transition-colors group-hover:text-lime">
                       {product.title}
                     </span>
-                    <span className="mt-1.5 block text-[0.9375rem] leading-relaxed text-sage">{product.tagline}</span>
+                    <span className="mt-1.5 block text-body leading-relaxed text-sage">{product.tagline}</span>
                   </span>
                 </Link>
               </li>
@@ -230,7 +230,7 @@ export default function HomePage() {
               title="Artefacts, not advice"
               lead="Everything Mengo produces is something you can open, edit, hand to someone else, or publish. None of it is a recommendation to go and do the work yourself."
             />
-            <p className="mt-8 text-[0.9375rem]">
+            <p className="mt-8 text-body">
               <TextLink href={routes.assetTypes()}>Browse all {assetTypes.length} asset formats</TextLink>
             </p>
           </div>
@@ -268,16 +268,16 @@ export default function HomePage() {
             differentiator. What is still scarce is knowing what to make, for whom, and in what order.
           </PullQuote>
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
-            <p className="text-[0.9375rem] leading-relaxed text-graphite-soft">
+            <p className="text-body leading-relaxed text-graphite-soft">
               That is the whole product thesis. A general assistant will write you a post; it will not tell you which
               post, for which segment, in which week, or why. Mengo holds the strategy the asset is supposed to serve,
               which is the part that decides whether the output is worth publishing.
             </p>
-            <p className="mt-5 text-[0.9375rem] leading-relaxed text-graphite-soft">
+            <p className="mt-5 text-body leading-relaxed text-graphite-soft">
               It is also why editorial guardrails matter more here than fluency. A confident, specific, entirely
               invented claim published under your name does more damage than a hundred merely average posts.
             </p>
-            <p className="mt-6 text-[0.9375rem]">
+            <p className="mt-6 text-body">
               <TextLink href={routes.company("responsible-ai")}>How we use AI responsibly</TextLink>
             </p>
           </div>
@@ -292,7 +292,7 @@ export default function HomePage() {
             title="What are you actually trying to fix?"
             className="max-w-[30ch]"
           />
-          <p className="text-[0.9375rem]">
+          <p className="text-body">
             <TextLink href={routes.solutions()}>All {solutions.length} solutions</TextLink>
           </p>
         </div>
@@ -305,10 +305,10 @@ export default function HomePage() {
               data-reveal
               style={{ "--reveal-delay": `${i * 40}ms` } as React.CSSProperties}
             >
-              <span className="block font-display text-[1.0625rem] font-semibold tracking-[-0.02em] transition-colors group-hover:text-lime-deep">
+              <span className="block type-title text-h7 transition-colors group-hover:text-lime-deep">
                 {solution.title}
               </span>
-              <span className="mt-1.5 block text-[0.875rem] leading-relaxed text-graphite-soft">
+              <span className="mt-1.5 block text-small leading-relaxed text-graphite-soft">
                 {solution.situation}
               </span>
             </Link>
@@ -325,7 +325,7 @@ export default function HomePage() {
               title={`${industries.length} industries, each with its own plan`}
               lead="Buying cycle, objections and regulatory constraints change the channel ranking, the nurture cadence and the content formats. Mengo treats those as inputs rather than as garnish."
             />
-            <p className="mt-8 text-[0.9375rem]">
+            <p className="mt-8 text-body">
               <TextLink href={routes.industries()}>Browse all industries</TextLink>
             </p>
           </div>
@@ -334,7 +334,7 @@ export default function HomePage() {
               <Link
                 key={industry.slug}
                 href={routes.industry(industry.slug)}
-                className="rule-t py-3 text-[0.9375rem] text-graphite-soft transition-colors hover:text-lime-deep"
+                className="rule-t py-3 text-body text-graphite-soft transition-colors hover:text-lime-deep"
               >
                 {industry.title}
               </Link>

@@ -38,7 +38,7 @@ export function NewsletterSignup() {
 
   if (status === "sent") {
     return (
-      <p role="status" className="mt-8 max-w-[22rem] text-[0.875rem] leading-relaxed text-lime">
+      <p role="status" className="mt-8 max-w-[22rem] text-small leading-relaxed text-lime">
         You are subscribed. One useful idea, most weeks, and nothing else.
       </p>
     );
@@ -60,22 +60,22 @@ export function NewsletterSignup() {
           required
           autoComplete="email"
           placeholder="you@company.com"
-          className="min-h-11 w-full rounded-full border border-sage/30 bg-transparent px-4 text-[0.875rem] text-paper outline-none transition-colors placeholder:text-sage-dim focus:border-lime"
+          className="min-h-11 w-full rounded-full border border-sage/30 bg-transparent px-4 text-small text-paper outline-none transition-colors placeholder:text-sage-dim focus:border-lime"
         />
         <button
           type="submit"
           disabled={status === "sending"}
-          className="min-h-11 shrink-0 rounded-full bg-lime px-5 text-[0.875rem] font-semibold text-forest transition-colors hover:bg-lime-bright disabled:opacity-60"
+          className="min-h-11 shrink-0 rounded-full bg-lime px-5 text-small font-semibold text-forest transition-colors hover:bg-lime-bright disabled:opacity-60"
         >
           {status === "sending" ? "…" : "Join"}
         </button>
       </div>
       {status === "error" ? (
-        <p role="alert" className="mt-2 text-[0.8125rem] text-signal-error">
+        <p role="alert" className="mt-2 text-fine text-signal-error">
           That did not send. Please try again.
         </p>
       ) : (
-        <p className="mt-2 text-[0.8125rem] text-sage-dim">No pitch sequence. Unsubscribe in one click.</p>
+        <p className="mt-2 text-fine text-sage-dim">No pitch sequence. Unsubscribe in one click.</p>
       )}
     </form>
   );

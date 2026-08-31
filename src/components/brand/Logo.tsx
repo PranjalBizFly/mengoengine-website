@@ -29,7 +29,7 @@ export function Logo({
         className="h-7 w-auto md:h-8"
       />
       <span
-        className={`font-display text-[1.35rem] font-semibold tracking-[-0.04em] md:text-[1.5rem] ${
+        className={`font-display text-wordmark font-semibold tracking-[-0.04em] md:text-wordmark-lg ${
           tone === "light" ? "text-paper" : "text-forest"
         }`}
       >

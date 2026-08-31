@@ -48,7 +48,7 @@ export default function CompareIndexPage() {
             title="Every page starts with what the alternative does well"
             size="d4"
           />
-          <p className="max-w-[52ch] text-[0.9375rem] leading-relaxed text-graphite-soft" data-reveal>
+          <p className="max-w-[52ch] text-body leading-relaxed text-graphite-soft" data-reveal>
             A comparison that finds nothing good in the alternative is marketing, not analysis, and readers discount it
             accordingly. Each page below opens by stating the alternative&rsquo;s genuine strength, then describes the
             structural difference, then names the situations in which you should not choose Mengo. That last section is
