@@ -84,7 +84,7 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
             <Cta cta={ctaFor("waitlist")} />
             <Link
               href={routes.platform()}
-              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
+              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-ink-invert transition-colors hover:border-lime hover:text-lime"
             >
               All five engines
             </Link>
@@ -92,8 +92,8 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
         }
         aside={
           <div>
-            <Eyebrow className="mb-4">The job it does</Eyebrow>
-            <p className="editorial text-statement leading-snug text-paper">{product.jobToBeDone}</p>
+            <Eyebrow as="h2" className="mb-4">The job it does</Eyebrow>
+            <p className="editorial text-statement leading-snug text-ink-invert">{product.jobToBeDone}</p>
           </div>
         }
       />

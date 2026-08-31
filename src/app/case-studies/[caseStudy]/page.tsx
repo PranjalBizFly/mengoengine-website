@@ -81,7 +81,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ case
             {study.anonymised ? "Case study · anonymised" : "Case study"}
             {industry ? ` · ${industry.title}` : ""}
           </Eyebrow>
-          <h1 className="max-w-[20ch] text-d1 text-paper" data-reveal>
+          <h1 className="max-w-[20ch] text-d1 text-ink-invert" data-reveal>
             {study.title}
           </h1>
           <p
@@ -127,7 +127,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ case
                 style={{ "--reveal-delay": `${i * 60}ms` } as React.CSSProperties}
               >
                 <dt className="tnum font-display text-d3 font-semibold text-lime">{result.value}</dt>
-                <dd className="mt-2 text-body text-paper">{result.label}</dd>
+                <dd className="mt-2 text-body text-ink-invert">{result.label}</dd>
                 <dd className="mt-2 text-fine text-sage">Evidence: {result.evidence}</dd>
               </div>
             ))}

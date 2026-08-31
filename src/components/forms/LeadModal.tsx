@@ -450,7 +450,7 @@ function Field({ name, error, idPrefix }: { name: FieldName; error?: string; idP
   const config = FIELDS[name];
   const id = `${idPrefix}-${name}`;
   const errorId = `${id}-error`;
-  const shared = `mt-2 w-full rounded-xl border bg-white px-4 py-3 text-body text-graphite outline-none transition-colors placeholder:text-graphite-soft/60 ${
+  const shared = `mt-2 w-full rounded-xl border bg-field px-4 py-3 text-body text-graphite outline-none transition-colors placeholder:text-graphite-soft/60 ${
     error ? "border-signal-error focus:border-signal-error" : "border-paper-line focus:border-lime-deep"
   }`;
   const a11y = {

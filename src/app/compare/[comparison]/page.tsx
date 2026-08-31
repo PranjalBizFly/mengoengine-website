@@ -73,7 +73,7 @@ export default async function ComparisonPage({ params }: { params: Promise<{ com
         <Heading eyebrow="Which should you choose" title="Be honest about which column you are in" size="d4" />
         <div className="mt-12 grid gap-10 md:grid-cols-2 md:gap-16">
           <div data-reveal>
-            <Eyebrow className="mb-5">Choose {comparison.against}</Eyebrow>
+            <Eyebrow as="h3" className="mb-5">Choose {comparison.against}</Eyebrow>
             <MarkerList items={comparison.chooseAlternative} />
           </div>
           <div
@@ -81,7 +81,7 @@ export default async function ComparisonPage({ params }: { params: Promise<{ com
             data-reveal
             style={{ "--reveal-delay": "100ms" } as React.CSSProperties}
           >
-            <Eyebrow className="mb-5">Choose Mengo</Eyebrow>
+            <Eyebrow as="h3" className="mb-5">Choose Mengo</Eyebrow>
             <MarkerList items={comparison.chooseMengo} />
           </div>
         </div>

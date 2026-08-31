@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
-import { DefinitionList, FaqList, Heading, JsonLd, PullQuote, Section, TextLink } from "@/components/ui/primitives";
+import { DefinitionList, Eyebrow, FaqList, Heading, JsonLd, PullQuote, Section, TextLink } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
 import { entityMetadata } from "@/seo/metadata";
@@ -66,7 +66,7 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
             <PullQuote attribution="The problem">{feature.problem}</PullQuote>
           </div>
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
-            <p className="eyebrow mb-4">How Mengo handles it</p>
+            <Eyebrow as="h2" className="mb-4">How Mengo handles it</Eyebrow>
             <p className="text-lead text-graphite-soft">{feature.mechanism}</p>
             {product ? (
               <p className="mt-6 text-body">

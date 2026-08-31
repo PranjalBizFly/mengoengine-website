@@ -81,13 +81,13 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
       <Section tone="forest">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
           <div>
-            <Eyebrow className="mb-5">Where you probably are</Eyebrow>
-            <p className="editorial max-w-[24ch] text-d3 text-paper" data-reveal>
+            <Eyebrow as="h2" className="mb-5">Where you probably are</Eyebrow>
+            <p className="editorial max-w-[24ch] text-d3 text-ink-invert" data-reveal>
               {solution.situation}
             </p>
           </div>
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
-            <Eyebrow className="mb-5">What is breaking</Eyebrow>
+            <Eyebrow as="h2" className="mb-5">What is breaking</Eyebrow>
             <MarkerList items={solution.frictions} />
           </div>
         </div>

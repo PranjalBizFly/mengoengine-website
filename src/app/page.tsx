@@ -115,7 +115,7 @@ export default function HomePage() {
             <Cta cta={ctaFor("waitlist")} />
             <Link
               href={routes.company("how-it-works")}
-              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
+              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-ink-invert transition-colors hover:border-lime hover:text-lime"
             >
               See how it works
             </Link>
@@ -131,7 +131,7 @@ export default function HomePage() {
             ].map((row) => (
               <div key={row.k} className="rule-t py-4">
                 <dt className="eyebrow">{row.k}</dt>
-                <dd className="mt-1.5 text-body leading-snug text-paper">{row.v}</dd>
+                <dd className="mt-1.5 text-body leading-snug text-ink-invert">{row.v}</dd>
               </div>
             ))}
           </dl>
@@ -186,7 +186,7 @@ export default function HomePage() {
         <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
           <div>
             <Eyebrow className="mb-6">The platform</Eyebrow>
-            <h2 className="max-w-[14ch] text-d2 text-paper" data-reveal>
+            <h2 className="max-w-[14ch] text-d2 text-ink-invert" data-reveal>
               Five engines, one brief between them
             </h2>
             <p className="mt-6 max-w-[42ch] text-body leading-relaxed" data-reveal>
@@ -211,7 +211,7 @@ export default function HomePage() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span>
-                    <span className="block type-title text-h5 text-paper transition-colors group-hover:text-lime">
+                    <span className="block type-title text-h5 text-ink-invert transition-colors group-hover:text-lime">
                       {product.title}
                     </span>
                     <span className="mt-1.5 block text-body leading-relaxed text-sage">{product.tagline}</span>

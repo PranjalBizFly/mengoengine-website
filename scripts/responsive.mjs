@@ -46,6 +46,7 @@ const PAGES = [
   ["/campaigns/early-access/", "Campaign"],
 ];
 
+const THEME = process.env.THEME === "dark" ? "dark" : "light";
 const browser = await chromium.launch({ executablePath: CHROME });
 const problems = [];
 
@@ -55,6 +56,7 @@ for (const width of WIDTHS) {
     deviceScaleFactor: 1,
     isMobile: width < 768,
     hasTouch: width < 768,
+    colorScheme: THEME,
   });
   const page = await context.newPage();
 

@@ -42,7 +42,7 @@ export function EditorialHero({
       <div className="container-page grid gap-12 pb-16 pt-12 md:pb-24 md:pt-16 lg:grid-cols-[1.35fr_1fr] lg:items-end lg:gap-20">
         <div>
           {eyebrow ? <Eyebrow className="mb-6">{eyebrow}</Eyebrow> : null}
-          <h1 className="max-w-[16ch] text-d1 text-paper" data-reveal>
+          <h1 className="max-w-[16ch] text-d1 text-ink-invert" data-reveal>
             {title}
           </h1>
           {lead ? (
@@ -282,7 +282,7 @@ export function CtaBand({
       <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end lg:gap-20">
         <div>
           <Eyebrow className="mb-5">{eyebrow}</Eyebrow>
-          <h2 className="max-w-[18ch] text-d3 text-paper" data-reveal>
+          <h2 className="max-w-[18ch] text-d3 text-ink-invert" data-reveal>
             {title}
           </h2>
           <p className="mt-5 max-w-[48ch] text-h7 leading-relaxed" data-reveal>
@@ -294,14 +294,14 @@ export function CtaBand({
           {secondary ? (
             <Link
               href={secondary.href}
-              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
+              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-ink-invert transition-colors hover:border-lime hover:text-lime"
             >
               {secondary.label}
             </Link>
           ) : (
             <Link
               href={routes.company("how-it-works")}
-              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-paper transition-colors hover:border-lime hover:text-lime"
+              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-ink-invert transition-colors hover:border-lime hover:text-lime"
             >
               See how it works
             </Link>

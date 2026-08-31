@@ -60,12 +60,12 @@ export function NewsletterSignup() {
           required
           autoComplete="email"
           placeholder="you@company.com"
-          className="min-h-11 w-full rounded-full border border-sage/30 bg-transparent px-4 text-small text-paper outline-none transition-colors placeholder:text-sage-dim focus:border-lime"
+          className="min-h-11 w-full rounded-full border border-sage/30 bg-transparent px-4 text-small text-ink-invert outline-none transition-colors placeholder:text-sage-dim focus:border-lime"
         />
         <button
           type="submit"
           disabled={status === "sending"}
-          className="min-h-11 shrink-0 rounded-full bg-lime px-5 text-small font-semibold text-forest transition-colors hover:bg-lime-bright disabled:opacity-60"
+          className="min-h-11 shrink-0 rounded-full bg-lime px-5 text-small font-semibold text-on-accent transition-colors hover:bg-lime-bright disabled:opacity-60"
         >
           {status === "sending" ? "…" : "Join"}
         </button>

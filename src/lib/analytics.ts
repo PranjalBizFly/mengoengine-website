@@ -24,6 +24,7 @@ export const EVENTS = {
   navOpen: "nav_open",
   navClick: "nav_click",
   faqOpen: "faq_open",
+  themeChange: "theme_change",
 } as const;
 
 export type EventName = (typeof EVENTS)[keyof typeof EVENTS];

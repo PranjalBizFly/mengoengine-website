@@ -53,7 +53,7 @@ export function FaqBrowser({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="follow-up, pricing, LinkedIn…"
-            className="mt-3 min-h-11 w-full rounded-full border border-paper-line bg-white px-5 text-body text-graphite outline-none transition-colors placeholder:text-graphite-soft/60 focus:border-lime-deep"
+            className="mt-3 min-h-11 w-full rounded-full border border-paper-line bg-field px-5 text-body text-graphite outline-none transition-colors placeholder:text-graphite-soft/60 focus:border-lime-deep"
           />
         </div>
         <p aria-live="polite" className="eyebrow">
@@ -70,7 +70,7 @@ export function FaqBrowser({
             onClick={() => setTopic(option)}
             className={`inline-flex min-h-10 items-center rounded-full border px-4 text-small font-medium transition-colors ${
               topic === option
-                ? "border-lime-deep bg-lime-deep text-paper"
+                ? "border-lime-deep bg-lime-deep text-on-accent"
                 : "border-paper-line text-graphite-soft hover:border-lime-deep hover:text-lime-deep"
             }`}
           >

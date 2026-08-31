@@ -59,8 +59,21 @@ export function Section({
   );
 }
 
-export function Eyebrow({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <p className={`eyebrow ${className}`}>{children}</p>;
+export function Eyebrow({
+  children,
+  className = "",
+  as: Tag = "p",
+}: {
+  children: ReactNode;
+  className?: string;
+  /**
+   * Promote to a heading where the eyebrow labels a content region rather than
+   * captioning something. Styling is identical either way — this only affects
+   * the document outline, which is what screen-reader users navigate by.
+   */
+  as?: "p" | "h2" | "h3";
+}) {
+  return <Tag className={`eyebrow ${className}`}>{children}</Tag>;
 }
 
 /**
@@ -131,10 +144,10 @@ const BUTTON_BASE =
   "type-button inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 transition-[background-color,color,border-color,transform] duration-200 ease-[var(--ease-out-expo)] active:translate-y-px";
 
 const BUTTON_VARIANT: Record<ButtonVariant, string> = {
-  primary: "bg-lime text-forest hover:bg-lime-bright",
+  primary: "bg-lime text-on-accent hover:bg-lime-bright",
   secondary:
-    "border border-forest/20 bg-transparent text-forest hover:border-forest/60 [.on-dark_&]:border-sage/35 [.on-dark_&]:text-paper [.on-dark_&]:hover:border-lime [.on-dark_&]:hover:text-lime",
-  ghost: "px-0 text-forest underline decoration-lime decoration-2 underline-offset-[6px] hover:decoration-lime-deep [.on-dark_&]:text-paper",
+    "border border-graphite/25 bg-transparent text-graphite hover:border-graphite/60 [.on-dark_&]:border-sage/35 [.on-dark_&]:text-ink-invert [.on-dark_&]:hover:border-lime [.on-dark_&]:hover:text-lime",
+  ghost: "px-0 text-graphite underline decoration-lime decoration-2 underline-offset-[6px] hover:decoration-lime-deep [.on-dark_&]:text-ink-invert",
 };
 
 export function buttonClass(variant: ButtonVariant = "primary", className = "") {
@@ -199,11 +212,15 @@ export function RowLink({
       href={href}
       className="group grid gap-1 rule-t py-4 transition-colors hover:bg-paper-warm/70 sm:grid-cols-[minmax(0,15rem)_1fr] sm:gap-6 sm:py-5 [.on-dark_&]:hover:bg-forest-700"
     >
-      <span className="flex items-baseline gap-3">
-        <span className="type-title text-h7 text-graphite transition-colors group-hover:text-lime-deep [.on-dark_&]:text-paper [.on-dark_&]:group-hover:text-lime">
+      {/* Label and meta are stacked, not side by side. Sharing one narrow
+          column meant a long meta overflowed and painted over the wrapped
+          label; stacking also gives the label the full column, so titles like
+          "Sales Follow-up Email" stop wrapping to three lines. */}
+      <span className="min-w-0">
+        <span className="type-title block text-h7 text-graphite transition-colors group-hover:text-lime-deep [.on-dark_&]:text-ink-invert [.on-dark_&]:group-hover:text-lime">
           {label}
         </span>
-        {meta ? <span className="eyebrow shrink-0">{meta}</span> : null}
+        {meta ? <span className="eyebrow mt-1.5 block">{meta}</span> : null}
       </span>
       {blurb ? (
         <span className="text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">

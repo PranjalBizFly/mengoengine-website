@@ -30,7 +30,7 @@ export function Logo({
       />
       <span
         className={`font-display text-wordmark font-semibold tracking-[-0.04em] md:text-wordmark-lg ${
-          tone === "light" ? "text-paper" : "text-forest"
+          tone === "light" ? "text-ink-invert" : "text-graphite"
         }`}
       >
         {site.name}

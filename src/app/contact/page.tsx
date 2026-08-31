@@ -51,7 +51,7 @@ export default function ContactPage() {
             </p>
 
             <div className="mt-12">
-              <Eyebrow className="mb-4">Other routes</Eyebrow>
+              <Eyebrow as="h2" className="mb-4">Other routes</Eyebrow>
               <ul className="space-y-3">
                 <li className="text-body text-graphite-soft">
                   Early access — <TextLink href={routes.waitlist()}>join the waitlist</TextLink>
@@ -113,7 +113,7 @@ export default function ContactPage() {
         <div className="grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-end lg:gap-20">
           <div>
             <Eyebrow className="mb-5">While you are here</Eyebrow>
-            <h2 className="max-w-[20ch] text-d3 text-paper" data-reveal>
+            <h2 className="max-w-[20ch] text-d3 text-ink-invert" data-reveal>
               Most questions are already answered somewhere on this site
             </h2>
           </div>

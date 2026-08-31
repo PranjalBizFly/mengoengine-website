@@ -59,7 +59,7 @@ export default async function UseCasePage({ params }: { params: Promise<{ useCas
       <Section tone="forest">
         <div className="grid gap-10 md:grid-cols-2 md:gap-16">
           <div data-reveal>
-            <Eyebrow className="mb-5">Without a system</Eyebrow>
+            <Eyebrow as="h2" className="mb-5">Without a system</Eyebrow>
             <p className="text-lead text-sage">{useCase.before}</p>
           </div>
           <div
@@ -67,8 +67,8 @@ export default async function UseCasePage({ params }: { params: Promise<{ useCas
             data-reveal
             style={{ "--reveal-delay": "100ms" } as React.CSSProperties}
           >
-            <Eyebrow className="mb-5">With Mengo</Eyebrow>
-            <p className="text-lead text-paper">{useCase.after}</p>
+            <Eyebrow as="h2" className="mb-5">With Mengo</Eyebrow>
+            <p className="text-lead text-ink-invert">{useCase.after}</p>
           </div>
         </div>
       </Section>

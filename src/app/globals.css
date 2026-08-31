@@ -31,6 +31,14 @@
   --color-signal-warn: #ffaa00;
   --color-signal-error: #ff6b6b;
 
+  /* --- Role tokens that do not follow the surface --- */
+  /* Text on an inverted (dark) panel. Light in both themes. */
+  --color-ink-invert: #f6f7f3;
+  /* Text on the lime accent. Dark in both themes, because lime never flips. */
+  --color-on-accent: #022018;
+  /* Form field ground. */
+  --color-field: #ffffff;
+
   /* --- Typography --- */
   --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
@@ -98,6 +106,60 @@
 
   /* --- Elevation: restrained; no floating-card look --- */
   --shadow-lift: 0 1px 2px rgb(2 32 24 / 0.05), 0 12px 32px -12px rgb(2 32 24 / 0.18);
+}
+
+
+/* ============================================================
+   Dark theme
+   Not an inversion. The light design alternates paper, warm and an
+   inverted forest panel; dark keeps that same three-step rhythm, with the
+   "inverted" panel becoming *lighter* than the ground so section contrast
+   survives. Lime stays lime — it is the brand — and the accent used on
+   light grounds (lime-deep) brightens so it stays legible on dark.
+   ============================================================ */
+
+/* Explicit choice wins in both directions; system preference only applies
+   when the visitor has not chosen. Both selectors carry the same tokens. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-paper: #0b1410;
+  --color-paper-warm: #101a15;
+  --color-paper-line: #26332b;
+  --color-graphite: #e9eee7;
+  --color-graphite-soft: #a9b5aa;
+  --color-forest: #17241c;
+  --color-forest-800: #1b2a21;
+  --color-forest-700: #203127;
+  --color-forest-600: #26392d;
+  --color-forest-500: #2d4234;
+  --color-sage: #b4c0b5;
+  --color-sage-dim: #94a498;
+  --color-lime-deep: #a3e625;
+  --color-ink-invert: #eef3ec;
+  --color-field: #16221b;
+  --shadow-lift: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.7);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-paper: #0b1410;
+    --color-paper-warm: #101a15;
+    --color-paper-line: #26332b;
+    --color-graphite: #e9eee7;
+    --color-graphite-soft: #a9b5aa;
+    --color-forest: #17241c;
+    --color-forest-800: #1b2a21;
+    --color-forest-700: #203127;
+    --color-forest-600: #26392d;
+    --color-forest-500: #2d4234;
+    --color-sage: #b4c0b5;
+    --color-sage-dim: #94a498;
+    --color-lime-deep: #a3e625;
+    --color-ink-invert: #eef3ec;
+    --color-field: #16221b;
+    --shadow-lift: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.7);
+  }
 }
 
 /* ============================================================

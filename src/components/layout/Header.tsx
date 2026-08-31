@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { primaryNav, type NavGroup } from "@/lib/nav";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { EVENTS, track } from "@/lib/analytics";
 import { routes } from "@/lib/site";
 
@@ -84,7 +85,7 @@ export function Header() {
     >
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-10 focus:rounded-full focus:bg-forest focus:px-4 focus:py-2 focus:text-sm focus:text-paper"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-10 focus:rounded-full focus:bg-forest focus:px-4 focus:py-2 focus:text-sm focus:text-ink-invert"
       >
         Skip to content
       </a>
@@ -94,6 +95,19 @@ export function Header() {
 
         <nav aria-label="Primary" className="hidden lg:block">
           <ul className="flex items-center gap-1">
+            <li>
+              <Link
+                href={routes.home()}
+                aria-current={pathname === routes.home() ? "page" : undefined}
+                className={`type-nav rounded-full px-3.5 py-2 transition-colors ${
+                  pathname === routes.home()
+                    ? "text-lime-deep"
+                    : "text-graphite hover:text-lime-deep"
+                }`}
+              >
+                Home
+              </Link>
+            </li>
             {primaryNav.map((group, index) => (
               <li key={group.label}>
                 {group.columns ? (
@@ -141,7 +155,8 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="hidden items-center gap-2 lg:flex">
+          <ThemeToggle />
           <Link
             href={routes.contact()}
             className="type-nav rounded-full px-3.5 py-2 text-graphite transition-colors hover:text-lime-deep"
@@ -153,7 +168,9 @@ export function Header() {
           </LeadButton>
         </div>
 
-        <button
+        <div className="flex items-center gap-1 lg:hidden">
+          <ThemeToggle />
+          <button
           type="button"
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav"
@@ -161,7 +178,7 @@ export function Header() {
             if (!mobileOpen) track(EVENTS.navOpen, { label: "mobile menu", source: pathname });
             setMobileOpen((v) => !v);
           }}
-          className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full text-graphite lg:hidden"
+          className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full text-graphite"
         >
           <span className="sr-only">{mobileOpen ? "Close menu" : "Open menu"}</span>
           <span className="relative block h-3.5 w-6" aria-hidden>
@@ -176,7 +193,8 @@ export function Header() {
               }`}
             />
           </span>
-        </button>
+          </button>
+        </div>
       </div>
 
       {/* Desktop mega menu */}
@@ -197,6 +215,15 @@ export function Header() {
         className="fixed inset-x-0 bottom-0 top-(--header-h) overflow-y-auto overscroll-contain border-t border-paper-line bg-paper lg:hidden"
       >
         <div className="container-page pb-10 pt-2">
+          <Link
+            href={routes.home()}
+            aria-current={pathname === routes.home() ? "page" : undefined}
+            className={`rule-b block py-4 type-title text-h7 ${
+              pathname === routes.home() ? "text-lime-deep" : ""
+            }`}
+          >
+            Home
+          </Link>
           {primaryNav.map((group) => (
             <div key={group.label}>
               {group.columns ? (
@@ -263,7 +290,7 @@ export function Header() {
             </LeadButton>
             <Link
               href={routes.contact()}
-              className="flex min-h-11 items-center justify-center rounded-full border border-forest/20 px-6 text-body font-semibold text-forest"
+              className="flex min-h-11 items-center justify-center rounded-full border border-graphite/25 px-6 text-body font-semibold text-graphite"
             >
               Contact us
             </Link>
@@ -306,7 +333,7 @@ function MegaPanel({ group }: { group: NavGroup }) {
               <li>
                 <Link
                   href={column.seeAll.href}
-                  className="mt-2 -mx-2.5 block px-2.5 py-2 text-small font-semibold text-lime-deep transition-colors hover:text-forest"
+                  className="mt-2 -mx-2.5 block px-2.5 py-2 text-small font-semibold text-lime-deep transition-colors hover:text-graphite"
                 >
                   {column.seeAll.label} →
                 </Link>
@@ -319,7 +346,7 @@ function MegaPanel({ group }: { group: NavGroup }) {
       {group.feature ? (
         <div className="on-dark rounded-2xl bg-forest p-7">
           <p className="eyebrow">{group.feature.eyebrow}</p>
-          <p className="mt-4 type-title text-h5 leading-tight text-paper">
+          <p className="mt-4 type-title text-h5 leading-tight text-ink-invert">
             {group.feature.title}
           </p>
           <p className="mt-3 text-small leading-relaxed text-sage">{group.feature.body}</p>

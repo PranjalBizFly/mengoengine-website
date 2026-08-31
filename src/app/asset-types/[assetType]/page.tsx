@@ -72,7 +72,7 @@ export default async function AssetTypePage({ params }: { params: Promise<{ asse
       <Section tone="paper">
         <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
           <div>
-            <Eyebrow className="mb-5">What Mengo needs from you</Eyebrow>
+            <Eyebrow as="h3" className="mb-5">What Mengo needs from you</Eyebrow>
             <MarkerList items={asset.needs} />
             <p className="mt-6 text-small leading-relaxed text-graphite-soft">
               Anything requiring evidence only your business holds is requested rather than invented — see{" "}
@@ -80,7 +80,7 @@ export default async function AssetTypePage({ params }: { params: Promise<{ asse
             </p>
           </div>
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
-            <Eyebrow className="mb-5">Where it comes from</Eyebrow>
+            <Eyebrow as="h3" className="mb-5">Where it comes from</Eyebrow>
             <p className="text-body leading-relaxed text-graphite-soft">
               This format is never generated from a blank prompt. It arrives from a calendar slot that already carries
               the week&rsquo;s theme, the audience segment it targets, the offer it points at and the funnel stage it

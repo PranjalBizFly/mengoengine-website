@@ -59,7 +59,7 @@ export default async function CampaignPage({ params }: { params: Promise<{ campa
         <div className="container-page grid gap-12 pb-16 pt-8 md:pb-24 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
           <div>
             <Eyebrow className="mb-6">{campaign.audience}</Eyebrow>
-            <h1 className="max-w-[17ch] text-d1 text-paper" data-reveal>
+            <h1 className="max-w-[17ch] text-d1 text-ink-invert" data-reveal>
               {campaign.title}
             </h1>
             <p
@@ -129,7 +129,7 @@ export default async function CampaignPage({ params }: { params: Promise<{ campa
         <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-end lg:gap-20">
           <div>
             <Eyebrow className="mb-5">One more thing</Eyebrow>
-            <h2 className="max-w-[18ch] text-d3 text-paper" data-reveal>
+            <h2 className="max-w-[18ch] text-d3 text-ink-invert" data-reveal>
               If it is not right for you, we will say so
             </h2>
             <p className="mt-5 max-w-[46ch] text-body" data-reveal>

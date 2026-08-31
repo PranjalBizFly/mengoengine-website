@@ -5,6 +5,8 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SiteChrome } from "@/components/layout/SiteChrome";
+import { BackToTop } from "@/components/layout/BackToTop";
+import { THEME_INIT_SCRIPT } from "@/components/layout/ThemeToggle";
 import { LeadModalProvider } from "@/components/forms/LeadModal";
 import { RevealProvider } from "@/components/ui/RevealProvider";
 import { JsonLd } from "@/components/ui/primitives";
@@ -69,18 +71,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       className={`${sora.variable} ${instrumentSans.variable} ${instrumentSerif.variable}`}
+      suppressHydrationWarning
     >
+      <head>
+        {/* Applies the stored or system theme before first paint. Inline and
+            tiny by design: a deferred script would flash the wrong theme. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body>
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <LeadModalProvider>
           <SiteChrome>
             <Header />
           </SiteChrome>
-          <main id="main">{children}</main>
+          <main id="main" tabIndex={-1} className="outline-none">
+            {children}
+          </main>
           <SiteChrome>
             <Footer />
           </SiteChrome>
         </LeadModalProvider>
+        <BackToTop />
         <RevealProvider />
       </body>
     </html>

@@ -48,8 +48,12 @@ const PAGES = [
 const problems = [];
 const note = (kind, where, detail) => problems.push({ kind, where, detail });
 
+const THEME = process.env.THEME === "dark" ? "dark" : "light";
 const browser = await chromium.launch({ executablePath: CHROME });
-const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+const context = await browser.newContext({
+  viewport: { width: 1280, height: 900 },
+  colorScheme: THEME,
+});
 
 /* Relative luminance and contrast ratio, per WCAG 2.1. */
 const CONTRAST_FN = `
@@ -229,7 +233,7 @@ await browser.close();
 
 /* ------------------------------- report ------------------------------- */
 
-console.log(`Final QA: ${PAGES.length} page types checked in a real browser.\n`);
+console.log(`Final QA (${THEME} theme): ${PAGES.length} page types checked in a real browser.\n`);
 
 if (problems.length === 0) {
   console.log("No problems found.");

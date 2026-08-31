@@ -359,7 +359,7 @@ export default function DesignSystemPage() {
       {/* ---------------------------------------------------------------- */}
       <Section tone="forest" id="rules">
         <Eyebrow>06 · Rules</Eyebrow>
-        <h2 className="mt-4 text-d3 text-paper">What this system will not do</h2>
+        <h2 className="mt-4 text-d3 text-ink-invert">What this system will not do</h2>
         <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-20">
           <MarkerList
             items={[

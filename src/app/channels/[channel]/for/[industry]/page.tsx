@@ -120,11 +120,11 @@ export default async function ChannelIndustryPage({
       <Section tone="warm">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           <div>
-            <Eyebrow className="mb-5">What decides performance on {channel.title}</Eyebrow>
+            <Eyebrow as="h2" className="mb-5">What decides performance on {channel.title}</Eyebrow>
             <MarkerList items={channel.mechanics} />
           </div>
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
-            <Eyebrow className="mb-5">What is true in {industry.title.toLowerCase()}</Eyebrow>
+            <Eyebrow as="h2" className="mb-5">What is true in {industry.title.toLowerCase()}</Eyebrow>
             <MarkerList items={industry.realities} />
             {industry.constraints.length > 0 ? (
               <p className="mt-6 text-small leading-relaxed text-graphite-soft">
@@ -180,7 +180,7 @@ export default async function ChannelIndustryPage({
             }
           />
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
-            <Eyebrow className="mb-5">Full channel order for {industry.title.toLowerCase()}</Eyebrow>
+            <Eyebrow as="h3" className="mb-5">Full channel order for {industry.title.toLowerCase()}</Eyebrow>
             <ol>
               {industry.channels.map((slug, index) => {
                 const item = channelBySlug.get(slug);
@@ -191,7 +191,7 @@ export default async function ChannelIndustryPage({
                     <span className="tnum text-fine font-semibold text-lime">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className={`text-body ${current ? "font-semibold text-paper" : "text-sage"}`}>
+                    <span className={`text-body ${current ? "font-semibold text-ink-invert" : "text-sage"}`}>
                       {item.title}
                       {current ? " — this page" : ""}
                     </span>

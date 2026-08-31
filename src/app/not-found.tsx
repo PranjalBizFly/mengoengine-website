@@ -15,14 +15,14 @@ export default function NotFound() {
       <div className="on-dark bg-forest text-sage">
         <div className="container-page py-24 md:py-32">
           <Eyebrow className="mb-6">404</Eyebrow>
-          <h1 className="max-w-[16ch] text-d2 text-paper">This page is not where you expected it</h1>
+          <h1 className="max-w-[16ch] text-d2 text-ink-invert">This page is not where you expected it</h1>
           <p className="mt-6 max-w-[46ch] text-lead">
             It may have moved, or the link may be wrong. The sitemap lists everything on the site, and the routes below
             cover most of what people arrive looking for.
           </p>
           <Link
             href={routes.sitemapPage()}
-            className="mt-8 inline-flex min-h-11 items-center rounded-full bg-lime px-6 text-body font-semibold text-forest transition-colors hover:bg-lime-bright"
+            className="mt-8 inline-flex min-h-11 items-center rounded-full bg-lime px-6 text-body font-semibold text-on-accent transition-colors hover:bg-lime-bright"
           >
             Browse the full sitemap
           </Link>

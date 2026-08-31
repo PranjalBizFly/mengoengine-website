@@ -72,11 +72,11 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
       <Section tone="paper">
         <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
           <div>
-            <Eyebrow className="mb-5">What Mengo measures here</Eyebrow>
+            <Eyebrow as="h3" className="mb-5">What Mengo measures here</Eyebrow>
             <MarkerList items={channel.signals} />
           </div>
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
-            <Eyebrow className="mb-5">Industries where this ranks highly</Eyebrow>
+            <Eyebrow as="h3" className="mb-5">Industries where this ranks highly</Eyebrow>
             <div>
               {channel.industries.map((industrySlug) => {
                 const industry = industryBySlug.get(industrySlug);

@@ -62,19 +62,19 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
       <Section tone="warm">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           <div>
-            <Eyebrow className="mb-5">Why it matters</Eyebrow>
+            <Eyebrow as="h2" className="mb-5">Why it matters</Eyebrow>
             <p className="text-lead text-graphite-soft" data-reveal>
               {term.why}
             </p>
           </div>
           {term.inMengo ? (
             <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
-              <Eyebrow className="mb-5">In Mengo</Eyebrow>
+              <Eyebrow as="h2" className="mb-5">In Mengo</Eyebrow>
               <p className="text-h7 leading-relaxed text-graphite-soft">{term.inMengo}</p>
             </div>
           ) : (
             <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
-              <Eyebrow className="mb-5">In Mengo</Eyebrow>
+              <Eyebrow as="h2" className="mb-5">In Mengo</Eyebrow>
               <p className="text-h7 leading-relaxed text-graphite-soft">
                 Mengo does not handle this directly — it sits in your analytics, ad platform or site infrastructure.
                 It is defined here because it affects decisions the platform does make.

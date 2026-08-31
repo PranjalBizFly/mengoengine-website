@@ -87,7 +87,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
             <MarkerList items={industry.realities} />
             {industry.constraints.length > 0 ? (
               <div className="mt-10 rule-t pt-6">
-                <Eyebrow className="mb-4">Constraints to respect</Eyebrow>
+                <Eyebrow as="h3" className="mb-4">Constraints to respect</Eyebrow>
                 <MarkerList items={industry.constraints} />
                 <p className="mt-5 text-small text-graphite-soft">
                   Editorial guardrails are configured to your regulator, and human review stays in the loop. See{" "}
@@ -149,15 +149,15 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
       <Section tone="forest">
         <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
           <div>
-            <Eyebrow className="mb-5">Formats that convert here</Eyebrow>
+            <Eyebrow as="h3" className="mb-5">Formats that convert here</Eyebrow>
             <MarkerList items={industry.formats} />
           </div>
           <div>
-            <Eyebrow className="mb-5">Objections to answer</Eyebrow>
+            <Eyebrow as="h3" className="mb-5">Objections to answer</Eyebrow>
             <dl className="space-y-6">
               {industry.objections.map((objection) => (
                 <div key={objection.label} data-reveal>
-                  <dt className="editorial text-h5 leading-snug text-paper">
+                  <dt className="editorial text-h5 leading-snug text-ink-invert">
                     &ldquo;{objection.label}&rdquo;
                   </dt>
                   <dd className="mt-2 text-body leading-relaxed">{objection.body}</dd>

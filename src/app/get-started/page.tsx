@@ -47,7 +47,7 @@ export default function GetStartedPage() {
         <div className="container-page grid gap-12 pb-16 pt-10 md:pb-20 md:pt-14 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
           <div>
             <Eyebrow className="mb-6">Free to start</Eyebrow>
-            <h1 className="max-w-[15ch] text-d1 text-paper" data-reveal>
+            <h1 className="max-w-[15ch] text-d1 text-ink-invert" data-reveal>
               Join the <span className="editorial text-lime">waitlist</span>
             </h1>
             <p
