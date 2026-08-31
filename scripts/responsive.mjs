@@ -41,6 +41,9 @@ const PAGES = [
   ["/get-started/", "Waitlist"],
   ["/sitemap/", "Sitemap"],
   ["/design-system/", "Design system"],
+  ["/faq/", "FAQ"],
+  ["/case-studies/", "Case studies"],
+  ["/campaigns/early-access/", "Campaign"],
 ];
 
 const browser = await chromium.launch({ executablePath: CHROME });

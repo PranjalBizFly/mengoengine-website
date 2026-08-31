@@ -156,6 +156,8 @@ const KIND_LABELS: Record<Entity["kind"], string> = {
   guide: "Resource",
   article: "Article",
   glossary: "Glossary",
+  "case-study": "Case study",
+  campaign: "Campaign",
   company: "Company",
   legal: "Legal",
 };

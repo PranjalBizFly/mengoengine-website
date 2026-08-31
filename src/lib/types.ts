@@ -231,6 +231,64 @@ export interface GlossaryTerm extends Indexable {
   seeAlso: Slug[];
 }
 
+/**
+ * Case study.
+ *
+ * Every field that could carry an unverifiable claim is optional, and `results`
+ * requires each figure to name what it is evidenced by. The data array ships
+ * empty on purpose: the template exists so that one verified engagement becomes
+ * one page, and nothing is invented to fill it in the meantime.
+ */
+export interface CaseStudy extends Indexable {
+  kind: "case-study";
+  /** Named only with written permission; otherwise an anonymised descriptor. */
+  client: string;
+  /** True when the client cannot be named and the study runs anonymised. */
+  anonymised: boolean;
+  industry: Slug;
+  /** Where the business was before the engagement. */
+  situation: string;
+  challenge: string[];
+  approach: Step[];
+  /** What was actually built. Products and features used. */
+  products: Slug[];
+  features: Slug[];
+  implementation: Step[];
+  /**
+   * Outcomes. `evidence` is required — it names the source the figure came
+   * from, so nothing ships that cannot be pointed at.
+   */
+  results: { value: string; label: string; evidence: string }[];
+  takeaways: Bullet[];
+  /** Quote, only with recorded consent. */
+  quote?: { text: string; attribution: string; consentRecorded: true };
+  related: { solutions: Slug[]; useCases: Slug[] };
+}
+
+/**
+ * Campaign landing page.
+ *
+ * Reduced chrome and a single action. Used for paid traffic and outbound, where
+ * the full site navigation is a distraction rather than a service.
+ */
+export interface Campaign extends Indexable {
+  kind: "campaign";
+  /** The one thing this page exists to produce. */
+  goal: string;
+  intent: "waitlist" | "demo" | "expert" | "download" | "speaking";
+  ctaLabel: string;
+  /** Audience this campaign addresses, in their own terms. */
+  audience: string;
+  /** The problem, stated as the reader would state it. */
+  problem: string;
+  benefits: Bullet[];
+  /** How it works, kept short — a campaign page is not a product page. */
+  steps: Step[];
+  faqs: Faq[];
+  /** Reassurance line under the form. Reuses live-site microcopy. */
+  reassurance: string;
+}
+
 export interface CompanyPage extends Indexable {
   kind: "company";
   sections: Section[];
@@ -254,6 +312,8 @@ export type Entity =
   | Guide
   | Article
   | GlossaryTerm
+  | CaseStudy
+  | Campaign
   | CompanyPage
   | LegalPage;
 

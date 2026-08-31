@@ -179,6 +179,7 @@ export const primaryNav: NavGroup[] = [
         heading: "Reference",
         links: [
           { label: "Marketing glossary", href: routes.glossary(), blurb: "Plain definitions, no jargon defence" },
+          { label: "FAQ", href: routes.faq(), blurb: "Every question, answered in context" },
           { label: "Use cases", href: routes.useCases(), blurb: "One job, start to finish" },
           { label: "Channel guides", href: routes.channels(), blurb: "Mechanics that decide what works" },
           { label: "Sitemap", href: routes.sitemapPage(), blurb: "Everything on this site" },
@@ -275,6 +276,7 @@ export const footerColumns: FooterColumn[] = [
       { label: "Playbooks & frameworks", href: routes.resources() },
       { label: "Blog", href: routes.blog() },
       { label: "Marketing glossary", href: routes.glossary() },
+      { label: "FAQ", href: routes.faq() },
       { label: "Channel guides", href: routes.channels() },
       { label: "Asset library", href: routes.assetTypes() },
       { label: "Use cases", href: routes.useCases() },

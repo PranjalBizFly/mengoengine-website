@@ -13,6 +13,8 @@ import { glossary, glossaryBySlug } from "@/data/glossary";
 import { guides, guideBySlug } from "@/data/guides";
 import { articles, articleBySlug } from "@/data/articles";
 import { companyPages, legalPages } from "@/data/company";
+import { caseStudies, caseStudyBySlug } from "@/data/case-studies";
+import { campaigns, campaignBySlug } from "@/data/campaigns";
 
 /**
  * One place that knows every entity, its URL and its human label.
@@ -33,6 +35,8 @@ export const content = {
   glossary,
   guides,
   articles,
+  caseStudies,
+  campaigns,
   companyPages,
   legalPages,
 };
@@ -49,6 +53,8 @@ const urlByKind: Record<EntityKind, (slug: Slug) => string> = {
   guide: routes.guide,
   article: routes.article,
   glossary: routes.glossaryTerm,
+  "case-study": routes.caseStudy,
+  campaign: routes.campaign,
   company: routes.company,
   legal: routes.legal,
 };
@@ -66,6 +72,8 @@ register(channels);
 register(assetTypes);
 register(comparisons);
 register(glossary);
+register(caseStudies);
+register(campaigns);
 register(guides);
 register(articles);
 register(companyPages);
@@ -121,6 +129,10 @@ export function shortBlurb(e: Entity): string {
       return e.definition;
     case "comparison":
       return `Compared with ${e.against}`;
+    case "case-study":
+      return e.situation;
+    case "campaign":
+      return e.audience;
     default:
       return firstSentence(e.summary);
   }
@@ -148,6 +160,8 @@ export const dictionaries = {
   glossaryBySlug,
   guideBySlug,
   articleBySlug,
+  caseStudyBySlug,
+  campaignBySlug,
 };
 
 /* ------------------------------------------------------------------ */

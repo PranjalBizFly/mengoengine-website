@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import { LeadModalProvider } from "@/components/forms/LeadModal";
 import { RevealProvider } from "@/components/ui/RevealProvider";
 import { JsonLd } from "@/components/ui/primitives";
@@ -70,9 +71,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <LeadModalProvider>
-          <Header />
+          <SiteChrome>
+            <Header />
+          </SiteChrome>
           <main id="main">{children}</main>
-          <Footer />
+          <SiteChrome>
+            <Footer />
+          </SiteChrome>
         </LeadModalProvider>
         <RevealProvider />
       </body>

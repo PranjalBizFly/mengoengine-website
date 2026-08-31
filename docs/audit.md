@@ -211,7 +211,7 @@ Things the brief listed that were **not** built, with the reason:
 
 | Not built | Why |
 | --- | --- |
-| Case studies section | No real customer outcomes exist. Building the template with invented content would breach the brief's own instruction not to fabricate customers. `write-case-studies-without-data` covers the interim approach. |
+| Case study *content* | The `CaseStudyPage` template, the `CaseStudy` type and the route are now built; `src/data/case-studies.ts` ships empty. Publishing the first study is a data change. The template renders `results` only where every figure carries an `evidence` string, so an unsourced number cannot ship. |
 | Pricing page | No pricing exists beyond "free to start". |
 | Careers / team pages | No team information is public. |
 | Learning Mengo / Launches & Updates blog categories | Require product documentation that does not exist yet. Shipping them empty would create thin pages. |

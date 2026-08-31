@@ -61,6 +61,13 @@ export const routes = {
   assetTypes: () => "/asset-types/",
   assetType: (slug: string) => `/asset-types/${slug}/`,
 
+  caseStudies: () => "/case-studies/",
+  caseStudy: (slug: string) => `/case-studies/${slug}/`,
+
+  faq: () => "/faq/",
+
+  campaign: (slug: string) => `/campaigns/${slug}/`,
+
   compare: () => "/compare/",
   comparison: (slug: string) => `/compare/${slug}/`,
 

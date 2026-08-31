@@ -7,6 +7,10 @@ import { SECTOR_ORDER, sectorLabel } from "@/lib/nav";
 /**
  * The complete route index.
  *
+ * Campaign landing pages and the unpublished case-study index are deliberately
+ * absent: campaigns are noindex paid destinations, and the case-study hub is
+ * noindex until there is a study to list.
+ *
  * One function that knows every URL the site publishes, used by both the XML
  * sitemap and the human-readable sitemap page. Generating both from the same
  * source is what stops them drifting apart.
@@ -131,6 +135,11 @@ export function routeGroups(): RouteGroup[] {
       heading: "Glossary",
       href: routes.glossary(),
       entries: [hub(routes.glossary(), "Glossary index", 0.6), ...content.glossary.map((t) => entityEntry(t, 0.4))],
+    },
+    {
+      heading: "FAQ",
+      href: routes.faq(),
+      entries: [hub(routes.faq(), "Frequently asked questions", 0.7)],
     },
     {
       heading: "Company",

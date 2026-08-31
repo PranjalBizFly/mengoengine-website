@@ -161,6 +161,10 @@
 - Audience Segmentation — `/glossary/audience-segmentation/`
 - …and 68 more (see `page-inventory.csv`)
 
+### FAQ — `/faq/` (1)
+
+- Frequently asked questions — `/faq/`
+
 ### Company (6)
 
 - About Mengo — `/company/about/`
