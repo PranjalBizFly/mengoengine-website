@@ -1,0 +1,352 @@
+@import "tailwindcss";
+
+/* ============================================================
+   MENGO DESIGN SYSTEM — tokens
+   Single source of truth for colour, type, rhythm and motion.
+   Derived from the official MengoEngine identity:
+   lime #A3E625 on deep forest #022018.
+   ============================================================ */
+
+@theme {
+  /* --- Brand core --- */
+  --color-lime: #a3e625;
+  --color-lime-bright: #b8f34a;
+  --color-lime-deep: #6f9f1a;
+  --color-forest: #022018;
+  --color-forest-800: #052a1f;
+  --color-forest-700: #0a2e1c;
+  --color-forest-600: #123322;
+  --color-forest-500: #1b3f2a;
+  --color-sage: #8fa396;
+  --color-sage-dim: #64786b;
+
+  /* --- Paper: light surfaces for information-heavy reading --- */
+  --color-paper: #f6f7f3;
+  --color-paper-warm: #eef0e8;
+  --color-paper-line: #dcdfd4;
+  --color-graphite: #14201a;
+  --color-graphite-soft: #45524b;
+
+  /* --- Signal: used for state only, never decoration --- */
+  --color-signal-warn: #ffaa00;
+  --color-signal-error: #ff6b6b;
+
+  /* --- Typography --- */
+  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-editorial: var(--font-instrument-serif), ui-serif, Georgia, serif;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.2;
+  --text-eyebrow--letter-spacing: 0.14em;
+
+  /* Fluid display scale — clamps keep 320px to 1920px legible with no breakpoint jumps */
+  --text-d1: clamp(2.6rem, 1.2rem + 5.6vw, 6.5rem);
+  --text-d1--line-height: 0.94;
+  --text-d1--letter-spacing: -0.035em;
+  --text-d2: clamp(2.1rem, 1.1rem + 3.9vw, 4.5rem);
+  --text-d2--line-height: 0.98;
+  --text-d2--letter-spacing: -0.03em;
+  --text-d3: clamp(1.7rem, 1.05rem + 2.4vw, 3rem);
+  --text-d3--line-height: 1.06;
+  --text-d3--letter-spacing: -0.025em;
+  --text-d4: clamp(1.35rem, 1rem + 1.3vw, 2rem);
+  --text-d4--line-height: 1.15;
+  --text-d4--letter-spacing: -0.02em;
+  --text-lead: clamp(1.05rem, 0.95rem + 0.5vw, 1.35rem);
+  --text-lead--line-height: 1.55;
+
+  /* --- Rhythm --- */
+  --spacing-gutter: 1.25rem;
+  --spacing-section: clamp(4rem, 2.5rem + 6vw, 8.5rem);
+
+  /* --- Motion --- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+
+  /* --- Elevation: restrained; no floating-card look --- */
+  --shadow-lift: 0 1px 2px rgb(2 32 24 / 0.05), 0 12px 32px -12px rgb(2 32 24 / 0.18);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+  --header-h: 4.25rem;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 1.5rem);
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --header-h: 5rem;
+  }
+}
+
+* {
+  min-width: 0;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-graphite);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--color-lime);
+  color: var(--color-forest);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-lime-deep);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.on-dark :focus-visible {
+  outline-color: var(--color-lime);
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================================================
+   Layout utilities
+   ============================================================ */
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+  max-width: 84rem;
+}
+
+@utility container-prose {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+  max-width: 46rem;
+}
+
+@media (min-width: 768px) {
+  .container-page,
+  .container-prose {
+    padding-inline: 2.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-page {
+    padding-inline: 3.5rem;
+  }
+}
+
+/* Hairline rules are this system's primary structural device.
+   They do the work a generic template would give to card borders. */
+@utility rule-t {
+  border-top: 1px solid var(--color-paper-line);
+}
+
+@utility rule-b {
+  border-bottom: 1px solid var(--color-paper-line);
+}
+
+.on-dark .rule-t {
+  border-top-color: color-mix(in oklab, var(--color-sage) 22%, transparent);
+}
+
+.on-dark .rule-b {
+  border-bottom-color: color-mix(in oklab, var(--color-sage) 22%, transparent);
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-graphite-soft);
+}
+
+.on-dark .eyebrow {
+  color: var(--color-sage);
+}
+
+@utility editorial {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Numerals in data displays align in columns */
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* ============================================================
+   Scroll reveal — CSS transitions driven by one IntersectionObserver.
+   Content is visible by default; the hidden state only applies after
+   JS adds .js-reveal, so no-JS and crawler renders always see content.
+   ============================================================ */
+
+html.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition:
+    opacity 0.7s var(--ease-out-expo),
+    transform 0.7s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.js-reveal [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto;
+  }
+
+  html.js-reveal [data-reveal],
+  html.js-reveal [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   Long-form content: blog, guides, glossary, legal
+   ============================================================ */
+
+.prose-mengo {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-graphite-soft);
+}
+
+.prose-mengo > * + * {
+  margin-top: 1.25em;
+}
+
+.prose-mengo h2 {
+  font-size: var(--text-d4);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-graphite);
+  margin-top: 2.25em;
+  scroll-margin-top: calc(var(--header-h) + 2rem);
+}
+
+.prose-mengo h3 {
+  font-family: var(--font-display);
+  font-size: 1.1875rem;
+  font-weight: 600;
+  color: var(--color-graphite);
+  margin-top: 1.75em;
+}
+
+.prose-mengo strong {
+  color: var(--color-graphite);
+  font-weight: 600;
+}
+
+.prose-mengo ul,
+.prose-mengo ol {
+  padding-left: 1.15em;
+}
+
+.prose-mengo li + li {
+  margin-top: 0.5em;
+}
+
+.prose-mengo ul > li {
+  list-style: none;
+  position: relative;
+}
+
+.prose-mengo ul > li::before {
+  content: "";
+  position: absolute;
+  left: -1em;
+  top: 0.7em;
+  width: 0.4em;
+  height: 1px;
+  background: var(--color-lime-deep);
+}
+
+.prose-mengo ol {
+  list-style: decimal;
+}
+
+.prose-mengo a {
+  color: var(--color-graphite);
+  text-decoration: underline;
+  text-decoration-color: var(--color-lime-deep);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+}
+
+.prose-mengo a:hover {
+  color: var(--color-lime-deep);
+}
+
+.prose-mengo blockquote {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 1.375rem;
+  line-height: 1.4;
+  color: var(--color-graphite);
+  border-left: 2px solid var(--color-lime);
+  padding-left: 1.25rem;
+}
+
+.prose-mengo code {
+  font-size: 0.9em;
+  background: var(--color-paper-warm);
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+}
