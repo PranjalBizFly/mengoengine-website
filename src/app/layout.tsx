@@ -19,7 +19,9 @@ import { site } from "@/lib/site";
  */
 const sora = Sora({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  // 600 only: nothing on the site renders Sora at any other weight, verified
+  // by walking computed styles across every page type.
+  weight: ["600"],
   variable: "--font-sora",
   display: "swap",
 });

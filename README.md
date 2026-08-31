@@ -11,12 +11,13 @@ page-type system rather than 500 hand-built pages.
 | `npm run build` | static build (503 routes prerendered) |
 | `npm run validate` | content-layer validation: slugs, dangling references, duplicate copy, placeholder text (runs automatically before every build) |
 | `npm run seo:graph` | internal link graph: contextual orphans, crawl depth, weak anchor text, missing alt attributes |
+| `npm run qa:final` | browser QA: heading hierarchy, colour contrast, console/hydration errors, layout shift, focus visibility, 404 |
 | `npm run audit` | post-build SEO/link audit: duplicate metadata, H1 counts, canonicals, broken internal links |
 | `npm run qa:responsive` | headless Chrome pass over every page type at 320–1920px |
 | `npm run docs` | regenerate `docs/page-inventory.csv` and `docs/architecture.md` from the content data |
 | `npm run verify` | typecheck + build + audit |
 
-`qa:responsive` needs a running server: `npx next start -p 4313` then
+`qa:responsive` and `qa:final` need a running server: `npx next start -p 4313` then
 `npm run qa:responsive -- http://localhost:4313`.
 
 ## Documentation

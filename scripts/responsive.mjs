@@ -12,7 +12,7 @@ import { chromium } from "playwright-core";
 const BASE = process.argv[2] ?? "http://localhost:4311";
 const CHROME = "C:/Program Files/Google/Chrome/Application/chrome.exe";
 
-const WIDTHS = [320, 375, 390, 430, 768, 1024, 1280, 1440, 1920];
+const WIDTHS = [320, 375, 390, 430, 768, 834, 1024, 1280, 1440, 1536, 1920];
 
 const PAGES = [
   ["/", "Homepage"],

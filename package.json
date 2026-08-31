@@ -14,7 +14,8 @@
     "docs": "node --experimental-strip-types --no-warnings scripts/inventory.mjs",
     "validate": "node --experimental-strip-types --no-warnings scripts/validate-content.mjs",
     "prebuild": "npm run validate",
-    "seo:graph": "node scripts/seo-graph.mjs"
+    "seo:graph": "node scripts/seo-graph.mjs",
+    "qa:final": "node scripts/final-qa.mjs"
   },
   "dependencies": {
     "next": "15.5.4",
