@@ -5,7 +5,7 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { DefinitionList, Eyebrow, JsonLd, Section, TextLink } from "@/components/ui/primitives";
 import { InlineLeadForm } from "@/components/forms/LeadModal";
 import { pageMetadata } from "@/seo/metadata";
-import { breadcrumbSchema } from "@/seo/schema";
+import { breadcrumbSchema, contactPageSchema } from "@/seo/schema";
 import { routes, site } from "@/lib/site";
 
 const PATH = routes.contact();
@@ -22,7 +22,16 @@ export const metadata: Metadata = pageMetadata({
 export default function ContactPage() {
   return (
     <>
-      <JsonLd data={breadcrumbSchema([{ label: "Home", href: "/" }, ...CRUMBS])} />
+      <JsonLd
+        data={[
+          breadcrumbSchema([{ label: "Home", href: "/" }, ...CRUMBS]),
+          contactPageSchema({
+            name: "Contact Mengo",
+            description: "Questions about fit, partnerships, press or investment.",
+            path: PATH,
+          }),
+        ]}
+      />
 
       <div className="bg-paper">
         <Breadcrumbs crumbs={CRUMBS} />

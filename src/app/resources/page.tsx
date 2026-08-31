@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { IndexHero, Directory, CtaBand } from "@/components/sections/page";
-import { JsonLd, Section } from "@/components/ui/primitives";
+import { Eyebrow, JsonLd, Section, TextLink } from "@/components/ui/primitives";
 import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
@@ -62,6 +62,25 @@ export default function ResourcesIndexPage() {
             })),
           }))}
         />
+      </Section>
+
+      <Section tone="warm">
+        <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-20">
+          <div>
+            <Eyebrow className="mb-5">Keep reading</Eyebrow>
+            <h2 className="max-w-[20ch] text-d4">Where to go after a playbook</h2>
+          </div>
+          <div className="text-body text-graphite-soft">
+            <p>
+              The <TextLink href={routes.blog()}>writing</TextLink> argues the positions these resources assume — why
+              marketing stops, what AI actually changes, and where small teams lose most of their pipeline.
+            </p>
+            <p className="mt-4">
+              For a specific question, the <TextLink href={routes.faq()}>FAQ index</TextLink> points at whichever page
+              answers it, and the <TextLink href={routes.glossary()}>glossary</TextLink> covers the terminology.
+            </p>
+          </div>
+        </div>
       </Section>
 
       <CtaBand

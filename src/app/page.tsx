@@ -346,7 +346,16 @@ export default function HomePage() {
       {/* FAQ */}
       <Section tone="warm">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
-          <Heading eyebrow="Questions" title="The things people ask first" as="h2" />
+          <div>
+            <Heading eyebrow="Questions" title="The things people ask first" as="h2" />
+            <p className="mt-6 text-body text-graphite-soft">
+              Industry, channel and job-specific questions are answered on the pages that own them, where the answer
+              can be specific.
+            </p>
+            <p className="mt-4 text-body">
+              <TextLink href={routes.faq()}>Browse every question we answer</TextLink>
+            </p>
+          </div>
           <FaqList faqs={HOME_FAQS} />
         </div>
       </Section>
@@ -356,8 +365,11 @@ export default function HomePage() {
         groups={[
           {
             heading: "Read the thinking",
-            links: link("guide", guides.slice(0, 5).map((g) => g.slug)),
-            seeAll: { label: "All resources", href: routes.resources() },
+            links: [
+              ...link("guide", guides.slice(0, 3).map((g) => g.slug)),
+              ...link("article", ["marketing-is-a-systems-problem", "ai-content-sounds-the-same"]),
+            ],
+            seeAll: { label: "Playbooks and writing", href: routes.blog() },
           },
           {
             heading: "Capabilities",

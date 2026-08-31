@@ -10,6 +10,7 @@ page-type system rather than 500 hand-built pages.
 | `npm run dev` | local development |
 | `npm run build` | static build (503 routes prerendered) |
 | `npm run validate` | content-layer validation: slugs, dangling references, duplicate copy, placeholder text (runs automatically before every build) |
+| `npm run seo:graph` | internal link graph: contextual orphans, crawl depth, weak anchor text, missing alt attributes |
 | `npm run audit` | post-build SEO/link audit: duplicate metadata, H1 counts, canonicals, broken internal links |
 | `npm run qa:responsive` | headless Chrome pass over every page type at 320–1920px |
 | `npm run docs` | regenerate `docs/page-inventory.csv` and `docs/architecture.md` from the content data |

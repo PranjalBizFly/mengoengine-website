@@ -151,6 +151,19 @@ export function definedTermSchema(input: { name: string; definition: string; pat
   };
 }
 
+export function contactPageSchema(input: { name: string; description: string; path: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: input.name,
+    description: input.description,
+    url: absolute(input.path),
+    isPartOf: { "@id": SITE_ID },
+    about: { "@id": ORG_ID },
+    inLanguage: "en",
+  };
+}
+
 export function collectionSchema(input: {
   name: string;
   description: string;

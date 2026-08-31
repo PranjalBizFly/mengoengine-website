@@ -88,7 +88,7 @@ export default function PlatformPage() {
                 </h3>
                 <p className="mt-3 text-body leading-relaxed text-graphite-soft">{product.tagline}</p>
                 <p className="mt-5 text-small">
-                  <TextLink href={routes.product(product.slug)}>Read more</TextLink>
+                  <TextLink href={routes.product(product.slug)}>Explore {product.title}</TextLink>
                 </p>
               </div>
 

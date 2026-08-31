@@ -32,10 +32,20 @@ export interface RouteGroup {
   entries: RouteEntry[];
 }
 
-const TODAY = "2026-08-25";
+/**
+ * Hub pages have no `updated` of their own, so they inherit the most recent
+ * update among everything on the site. A hardcoded date here would go stale
+ * silently and misreport lastmod to crawlers.
+ */
+const LATEST_UPDATE = [...Object.values(content)]
+  .flat()
+  .map((e) => e.updated)
+  .filter(Boolean)
+  .sort()
+  .at(-1) as string;
 
 function hub(href: string, label: string, priority = 0.8): RouteEntry {
-  return { href, label, updated: TODAY, priority, changeFrequency: "weekly" };
+  return { href, label, updated: LATEST_UPDATE, priority, changeFrequency: "weekly" };
 }
 
 export function routeGroups(): RouteGroup[] {
@@ -51,7 +61,7 @@ export function routeGroups(): RouteGroup[] {
     {
       heading: "Main",
       entries: [
-        { href: routes.home(), label: "Home", updated: TODAY, priority: 1, changeFrequency: "weekly" },
+        { href: routes.home(), label: "Home", updated: LATEST_UPDATE, priority: 1, changeFrequency: "weekly" },
         hub(routes.waitlist(), "Join the waitlist", 0.9),
         hub(routes.contact(), "Contact", 0.7),
         hub(routes.sitemapPage(), "Sitemap", 0.3),
