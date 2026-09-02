@@ -256,7 +256,7 @@ const STARTING_POINTS: { label: string; href: string }[] = [
   { label: "All solutions", href: "/solutions/" },
   { label: "All industries", href: "/industries/" },
   { label: "Resources", href: "/resources/" },
-  { label: "Everything on this site", href: "/sitemap/" },
+  { label: "Explore all pages", href: "/sitemap/" },
 ];
 
 export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => void }) {

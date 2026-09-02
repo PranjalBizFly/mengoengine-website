@@ -12,7 +12,12 @@ import { chromium } from "playwright-core";
 const BASE = process.argv[2] ?? "http://localhost:4311";
 const CHROME = "C:/Program Files/Google/Chrome/Application/chrome.exe";
 
-const WIDTHS = [320, 375, 390, 430, 768, 834, 1024, 1280, 1440, 1536, 1920];
+// Every width the responsiveness brief names, plus the two the design system
+// already had breakpoints for (430, 834, 1536). 360 and 414 are the two most
+// common Android and older-iPhone widths; 480 is where single-column layouts
+// start to have room; 820 is portrait iPad Air, historically where a desktop
+// grid first tries to apply and fails.
+const WIDTHS = [320, 360, 375, 390, 414, 430, 480, 768, 820, 834, 1024, 1280, 1440, 1536, 1600, 1920];
 
 const PAGES = [
   ["/", "Homepage"],
@@ -44,6 +49,27 @@ const PAGES = [
   ["/faq/", "FAQ"],
   ["/case-studies/", "Case studies"],
   ["/campaigns/early-access/", "Campaign"],
+
+  // The subdomain ecosystem. One page per site plus the compositions that
+  // only exist there - sidebar layout, search hero, status board, data table -
+  // so a systemic fault in any of them surfaces once rather than per page.
+  ["/s/support/", "Support home (search hero)"],
+  ["/s/support/troubleshooting/", "Support article (sidebar + table)"],
+  ["/s/docs/", "Docs home"],
+  ["/s/docs/concepts/", "Docs article (sidebar)"],
+  ["/s/developers/", "Developer portal"],
+  ["/s/developers/rate-limits/", "Developer reference (pending block)"],
+  ["/s/partners/", "Partners"],
+  ["/s/partners/partner-types/", "Partners (split hero + table)"],
+  ["/s/vendors/security/", "Vendor security (split hero)"],
+  ["/s/affiliates/", "Affiliates"],
+  ["/s/status/", "Status board"],
+  ["/s/careers/", "Careers"],
+  ["/s/careers/life-at-mengo/", "Careers article"],
+  ["/s/about/", "About"],
+  ["/s/investors/", "Investors (split hero)"],
+  ["/s/media/company-facts/", "Media company facts"],
+  ["/s/sustainability/", "Sustainability"],
 ];
 
 const THEME = process.env.THEME === "dark" ? "dark" : "light";
@@ -162,6 +188,7 @@ else {
   if (!modalState.labelled) problems.push("lead modal missing aria-labelledby");
 }
 console.log("checked modal", modalState);
+
 
 await browser.close();
 

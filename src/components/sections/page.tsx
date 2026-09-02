@@ -33,6 +33,7 @@ import { routes } from "@/lib/site";
 export function EditorialHero({
   eyebrow,
   title,
+  subtitle,
   lead,
   crumbs,
   actions,
@@ -42,6 +43,9 @@ export function EditorialHero({
 }: {
   eyebrow?: string;
   title: ReactNode;
+  /** The promise line that belongs to the headline, set as display type rather
+      than as the first sentence of the lead. */
+  subtitle?: ReactNode;
   lead?: ReactNode;
   crumbs?: Crumb[];
   actions?: ReactNode;
@@ -82,11 +86,20 @@ export function EditorialHero({
           >
             <span>{title}</span>
           </h1>
+          {subtitle ? (
+            <p
+              className="mt-6 max-w-[30ch] font-display text-d4 font-semibold text-lime"
+              data-reveal
+              style={{ "--reveal-delay": "240ms" } as React.CSSProperties}
+            >
+              {subtitle}
+            </p>
+          ) : null}
           {lead ? (
             <p
               className="mt-8 max-w-[44ch] text-lead text-ink-invert/85"
               data-reveal
-              style={{ "--reveal-delay": "300ms" } as React.CSSProperties}
+              style={{ "--reveal-delay": subtitle ? "380ms" : "300ms" } as React.CSSProperties}
             >
               {lead}
             </p>
@@ -95,7 +108,7 @@ export function EditorialHero({
             <div
               className="mt-10 flex flex-wrap items-center gap-3"
               data-reveal
-              style={{ "--reveal-delay": "440ms" } as React.CSSProperties}
+              style={{ "--reveal-delay": subtitle ? "510ms" : "440ms" } as React.CSSProperties}
             >
               {actions}
             </div>

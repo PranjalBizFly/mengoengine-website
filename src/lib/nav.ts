@@ -1,3 +1,4 @@
+import { siteUrl } from "@/lib/subdomains";
 import { routes } from "@/lib/site";
 import { products } from "@/data/products";
 import { features } from "@/data/features";
@@ -182,7 +183,11 @@ export const primaryNav: NavGroup[] = [
           { label: "FAQ", href: routes.faq(), blurb: "Every question, answered in context" },
           { label: "Use cases", href: routes.useCases(), blurb: "One job, start to finish" },
           { label: "Channel guides", href: routes.channels(), blurb: "Mechanics that decide what works" },
-          { label: "Sitemap", href: routes.sitemapPage(), blurb: "Everything on this site" },
+          {
+            label: "Explore all pages",
+            href: routes.sitemapPage(),
+            blurb: "Every page on the site, searchable",
+          },
         ],
       },
     ],
@@ -281,6 +286,7 @@ export const footerColumns: FooterColumn[] = [
       { label: "Asset library", href: routes.assetTypes() },
       { label: "Use cases", href: routes.useCases() },
       { label: "Comparisons", href: routes.compare() },
+      { label: "Explore all pages", href: routes.sitemapPage() },
     ],
   },
   {
@@ -303,4 +309,55 @@ export const legalLinks: NavLink[] = [
   { label: "Cookies", href: routes.legal("cookie-policy") },
   { label: "Acceptable use", href: routes.legal("acceptable-use") },
   { label: "Sitemap", href: routes.sitemapPage() },
+];
+
+/* ------------------------------------------------------------------ */
+/* The subdomain ecosystem                                             */
+/*                                                                     */
+/* Twelve destinations that are not pages on this site: support, docs,  */
+/* status, careers and the rest each live on their own host. They are   */
+/* grouped by who the reader is rather than by what the destination is  */
+/* called, because a visitor looking for help does not know whether the */
+/* answer is in "support" or "docs" — they know they are a customer.    */
+/*                                                                     */
+/* Hrefs are built from the ecosystem's own URL helper so the apex is   */
+/* configurable rather than hard-coded here.                            */
+/* ------------------------------------------------------------------ */
+
+export interface EcosystemColumn {
+  heading: string;
+  links: NavLink[];
+}
+
+export const ecosystemColumns: EcosystemColumn[] = [
+  {
+    heading: "Customer",
+    links: [{ label: "Support", href: siteUrl("support") }],
+  },
+  {
+    heading: "Business",
+    links: [
+      { label: "Partners", href: siteUrl("partners") },
+      { label: "Vendors", href: siteUrl("vendors") },
+      { label: "Affiliates", href: siteUrl("affiliates") },
+    ],
+  },
+  {
+    heading: "Technical",
+    links: [
+      { label: "Developers", href: siteUrl("developers") },
+      { label: "Documentation", href: siteUrl("docs") },
+      { label: "Status", href: siteUrl("status") },
+    ],
+  },
+  {
+    heading: "Company",
+    links: [
+      { label: "Careers", href: siteUrl("careers") },
+      { label: "About", href: siteUrl("about") },
+      { label: "Investors", href: siteUrl("investors") },
+      { label: "Media", href: siteUrl("media") },
+      { label: "Sustainability", href: siteUrl("sustainability") },
+    ],
+  },
 ];

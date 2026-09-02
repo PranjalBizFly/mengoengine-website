@@ -1,12 +1,13 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 
 import { IndexHero } from "@/components/sections/page";
-import { Eyebrow, JsonLd, Section } from "@/components/ui/primitives";
+import { JsonLd } from "@/components/ui/primitives";
+import { PageDirectory } from "@/components/sections/PageDirectory";
 import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
-import { routeGroups, totalPageCount } from "@/lib/route-index";
+import { ecosystemCategory, pageDirectory } from "@/lib/directory";
+import { totalPageCount } from "@/lib/route-index";
 
 const PATH = routes.sitemapPage();
 const CRUMBS = [{ label: "Sitemap", href: PATH }];
@@ -19,8 +20,21 @@ export const metadata: Metadata = pageMetadata({
   ogKicker: "Sitemap",
 });
 
+/**
+ * The page directory.
+ *
+ * This route is both the human sitemap and the "Explore all pages" destination,
+ * because they are the same thing and the site should not carry two indexes of
+ * itself that can disagree. Its URL, heading and lead are unchanged; what is
+ * new is that the list is searchable and filterable rather than a wall of
+ * links.
+ *
+ * Categories and entries come from `fullDirectory()`, which reads the same
+ * route index as the XML sitemap. Adding a page anywhere in the content layer
+ * puts it here with no edit to this file.
+ */
 export default function SitemapPage() {
-  const groups = routeGroups();
+  const categories = pageDirectory();
 
   return (
     <>
@@ -32,63 +46,16 @@ export default function SitemapPage() {
         title="Everything on this site, in one place"
         lead="Generated from the same route index as the XML sitemap, so the two cannot drift apart. Useful if you would rather scan than navigate."
         count={`${totalPageCount()} pages`}
-      >
-        {/* A fixed column count rather than flex-wrap: with wrapping, the number of
-            rows depends on text width, so the web font arriving re-wrapped the
-            row and shortened the hero by a row height — a 0.35 layout shift on
-            the one page whose hero carries a long chip list. */}
-        <nav
-          aria-label="Jump to section"
-          className="mt-10 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5"
-        >
-          {groups.map((group) => (
-            <a
-              key={group.heading}
-              href={`#${group.heading.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
-              className="flex h-11 items-center justify-center overflow-hidden rounded-full border border-paper-line px-3 text-center text-fine font-medium whitespace-nowrap text-graphite-soft transition-colors hover:border-lime-deep hover:text-lime-deep [.on-dark_&]:border-sage/30 [.on-dark_&]:text-sage [.on-dark_&]:hover:border-lime [.on-dark_&]:hover:text-lime"
-            >
-              {group.heading}
-            </a>
-          ))}
-        </nav>
-      </IndexHero>
+      />
 
-      <Section tone="paper">
-        <div className="grid gap-14">
-          {groups.map((group) => (
-            <div
-              key={group.heading}
-              id={group.heading.toLowerCase().replace(/[^a-z0-9]+/g, "-")}
-              className="scroll-mt-[calc(var(--header-h)+2rem)]"
-            >
-              <div className="flex flex-wrap items-baseline justify-between gap-3 rule-b pb-3">
-                <h2 className="text-d4">
-                  {group.href ? (
-                    <Link href={group.href} className="transition-colors hover:text-lime-deep">
-                      {group.heading}
-                    </Link>
-                  ) : (
-                    group.heading
-                  )}
-                </h2>
-                <Eyebrow>{group.entries.length} pages</Eyebrow>
-              </div>
-              <ul className="mt-5 grid gap-x-10 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
-                {group.entries.map((entry) => (
-                  <li key={entry.href}>
-                    <Link
-                      href={entry.href}
-                      className="block py-1 text-body leading-snug text-graphite-soft transition-colors hover:text-lime-deep"
-                    >
-                      {entry.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+      {/* Not the shared `Section`: its full vertical rhythm would drop the
+          control bar most of a screen below the hero, and the bar is the first
+          thing this page is for. */}
+      <section className="bg-paper pb-section pt-8 text-graphite">
+        <div className="container-page">
+          <PageDirectory categories={categories} ecosystem={ecosystemCategory()} />
         </div>
-      </Section>
+      </section>
     </>
   );
 }

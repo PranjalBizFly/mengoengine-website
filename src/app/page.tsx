@@ -108,10 +108,11 @@ export default function HomePage() {
         eyebrow={site.promise}
         title={
           <>
-            Your AI <span className="editorial text-lime">co-founder</span> for the whole marketing function
+            Your AI <span className="editorial text-lime">Co-founder</span>
           </>
         }
-        lead="Answer a guided questionnaire about your business. Mengo returns the strategy most founders never get around to writing, a year of calendar, the content that fills it, and the follow-up that converts it — then keeps executing."
+        subtitle="The co-founder that never sleeps."
+        lead="Answer a guided questionnaire about your business. Mengo builds the strategy most founders never get around to writing, a year of calendar, the content that fills it, and the follow-up that converts it — then keeps executing while you get on with the business."
         actions={
           <>
             <Cta cta={ctaFor("waitlist")} />

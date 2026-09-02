@@ -10,8 +10,15 @@ import type { ReactNode } from "react";
  * paid destination costs conversions. Rather than restructure every existing
  * route into a layout group to achieve that, this gates the shared chrome on
  * the one prefix that needs it.
+ *
+ * `/s/` is the subdomain ecosystem, which the middleware rewrites every
+ * `support.*`, `docs.*` and sibling host into. Those pages carry their own
+ * header and footer — a support centre wearing the main site's five-group mega
+ * menu would be announcing that it is a section of the marketing site rather
+ * than a destination. Suppressing it here rather than by giving the ecosystem
+ * its own root layout keeps four hundred existing routes exactly where they are.
  */
-const BARE_PREFIXES = ["/campaigns/"];
+const BARE_PREFIXES = ["/campaigns/", "/s/"];
 
 export function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();

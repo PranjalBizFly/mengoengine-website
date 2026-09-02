@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { NewsletterSignup } from "@/components/forms/NewsletterSignup";
-import { footerColumns, legalLinks } from "@/lib/nav";
+import { ecosystemColumns, footerColumns, legalLinks } from "@/lib/nav";
 import { site } from "@/lib/site";
 
 /**
@@ -59,7 +59,40 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="mt-20 rule-t pt-10">
+        {/* The subdomain ecosystem.
+            Kept as its own band rather than folded into the five columns
+            above, because these are separate destinations on their own hosts
+            rather than more pages on this site — and because grouping them by
+            reader (customer, business, technical, company) only reads as a
+            grouping when it is visually one. */}
+        <div className="mt-20 rule-t pt-12">
+          <p className="eyebrow mb-8">More from Mengo</p>
+          <nav
+            aria-label="Mengo ecosystem"
+            className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
+            data-reveal-stagger
+          >
+            {ecosystemColumns.map((column) => (
+              <div key={column.heading} data-reveal>
+                <p className="eyebrow mb-4 text-sage-dim">{column.heading}</p>
+                <ul className="space-y-2.5">
+                  {column.links.map((item) => (
+                    <li key={item.href}>
+                      <a
+                        href={item.href}
+                        className="inline-block text-small leading-snug text-sage transition-[color,transform] duration-300 ease-[var(--ease-out-expo)] hover:text-lime motion-safe:hover:translate-x-0.5"
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
+        </div>
+
+        <div className="mt-16 rule-t pt-10">
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
             {site.social.map((item) => (
               <li key={item.href}>

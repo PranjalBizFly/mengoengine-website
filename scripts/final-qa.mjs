@@ -43,6 +43,27 @@ const PAGES = [
   ["/get-started/", "Waitlist"],
   ["/sitemap/", "Sitemap"],
   ["/does-not-exist-abc123/", "404"],
+
+  // The subdomain ecosystem. One page per site plus the compositions that
+  // only exist there - sidebar layout, search hero, status board, data table -
+  // so a systemic fault in any of them surfaces once rather than per page.
+  ["/s/support/", "Support home (search hero)"],
+  ["/s/support/troubleshooting/", "Support article (sidebar + table)"],
+  ["/s/docs/", "Docs home"],
+  ["/s/docs/concepts/", "Docs article (sidebar)"],
+  ["/s/developers/", "Developer portal"],
+  ["/s/developers/rate-limits/", "Developer reference (pending block)"],
+  ["/s/partners/", "Partners"],
+  ["/s/partners/partner-types/", "Partners (split hero + table)"],
+  ["/s/vendors/security/", "Vendor security (split hero)"],
+  ["/s/affiliates/", "Affiliates"],
+  ["/s/status/", "Status board"],
+  ["/s/careers/", "Careers"],
+  ["/s/careers/life-at-mengo/", "Careers article"],
+  ["/s/about/", "About"],
+  ["/s/investors/", "Investors (split hero)"],
+  ["/s/media/company-facts/", "Media company facts"],
+  ["/s/sustainability/", "Sustainability"],
 ];
 
 const problems = [];
