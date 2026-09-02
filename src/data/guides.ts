@@ -1,4 +1,6 @@
 import type { Guide, Slug } from "@/lib/types";
+import { withDepth } from "@/data/depth";
+import { guideDepth } from "@/data/depth/guides";
 
 /**
  * Resource entities — playbooks, frameworks, checklists and templates.
@@ -261,7 +263,7 @@ const rows: Row[] = [
     ["marketing-agencies", "b2b-services", "local-retail"], ["organic-search", "email"]],
 ];
 
-export const guides: Guide[] = rows.map(
+const guideRows: Guide[] = rows.map(
   ([slug, title, format, readingTime, summary, sections, features, industries, channels]) => ({
     kind: "guide",
     slug,
@@ -274,6 +276,9 @@ export const guides: Guide[] = rows.map(
     updated: "2026-08-10",
   }),
 );
+
+/** Each resource carries a framing opening and its own takeaways — see `guideDepth`. */
+export const guides: Guide[] = withDepth(guideRows, guideDepth);
 
 export const guideBySlug = new Map(guides.map((x) => [x.slug, x]));
 

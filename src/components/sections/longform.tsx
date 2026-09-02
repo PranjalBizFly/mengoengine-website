@@ -18,11 +18,17 @@ export function LongForm({
   sections,
   aside,
   contentsLabel = "Contents",
+  heroVisual,
+  supportingVisual,
 }: {
   sections: ContentSection[];
   aside?: React.ReactNode;
   contentsLabel?: string;
+  heroVisual?: React.ReactNode;
+  supportingVisual?: React.ReactNode;
 }) {
+  const midpoint = Math.floor(sections.length / 2);
+
   return (
     <div className="container-page grid gap-12 py-section lg:grid-cols-[minmax(0,15rem)_minmax(0,46rem)_1fr] lg:gap-16">
       <nav aria-label={contentsLabel} className="lg:sticky lg:top-[calc(var(--header-h)+2.5rem)] lg:self-start">
@@ -45,12 +51,16 @@ export function LongForm({
       </nav>
 
       <article className="prose-mengo min-w-0">
-        {sections.map((section) => (
+        {heroVisual ? <div className="not-prose mb-10">{heroVisual}</div> : null}
+        {sections.map((section, idx) => (
           <section key={section.heading} className="scroll-mt-[calc(var(--header-h)+2rem)]">
             <h2 id={slugifyHeading(section.heading)} className="first:mt-0">
               {section.heading}
             </h2>
             {section.body ? <p>{section.body}</p> : null}
+            {supportingVisual && idx === midpoint ? (
+              <div className="not-prose my-10">{supportingVisual}</div>
+            ) : null}
             {section.blocks?.map((block, i) =>
               block.type === "text" ? (
                 <p key={i}>{block.text}</p>

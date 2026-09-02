@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
+import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
+import { relatedGroups, mergeGroups } from "@/lib/depth";
 import { DefinitionList, Eyebrow, FaqList, Heading, JsonLd, PullQuote, Section, TextLink } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
@@ -12,6 +13,8 @@ import { ctaFor, defaultCta } from "@/lib/cta";
 import { link, solutionsByFeature, useCasesByFeature, take } from "@/lib/registry";
 import { features, featureBySlug, featuresForProduct } from "@/data/features";
 import { productBySlug } from "@/data/products";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getFeatureSectionImage } from "@/lib/images";
 
 export const dynamicParams = false;
 
@@ -51,12 +54,13 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
         crumbs={crumbs}
         eyebrow={product ? `Capability · ${product.title}` : "Capability"}
         title={feature.title}
-        lead={feature.short}
+        lead={feature.depth?.lead ?? feature.short}
         facts={[
           { label: "Engine", value: product?.title ?? "Mengo platform" },
           { label: "Removes", value: feature.problem },
         ]}
         actions={<Cta cta={ctaFor("waitlist")} />}
+        visual={<PageVisual image={getFeatureSectionImage(feature.slug, "hero", feature.title)} priority />}
       />
 
       {/* Problem then mechanism — the two-beat structure every feature page uses */}
@@ -75,14 +79,39 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
             ) : null}
           </div>
         </div>
+        <div className="mt-14">
+          <PageVisual image={getFeatureSectionImage(feature.slug, "problem", `The Problem: ${feature.problem}`)} />
+        </div>
       </Section>
 
-      <Section tone="paper">
-        <Heading eyebrow="In detail" title="What that means in practice" size="d4" />
-        <DefinitionList items={feature.detail} columns={1} />
-      </Section>
+      <Explainer
+        tone="paper"
+        eyebrow="Inputs and outputs"
+        title={`What ${feature.title} needs and what it returns`}
+        sections={feature.depth?.explain}
+      />
 
       <Section tone="warm">
+        <Heading eyebrow="In detail" title="What that means in practice" size="d4" />
+        <DefinitionList items={feature.detail} columns={1} />
+        <div className="mt-14">
+          <PageVisual image={getFeatureSectionImage(feature.slug, "mechanism", `In Practice: ${feature.title}`)} />
+        </div>
+      </Section>
+
+      {/* How this capability sits in the wider system — the thing a single feature page most often fails to say. */}
+      {feature.depth?.connects ? (
+        <Section tone="forest">
+          <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
+            <Heading eyebrow="In the system" title="What this connects to" as="h2" size="d4" />
+            <p className="max-w-[52ch] text-lead" data-reveal>
+              {feature.depth.connects}
+            </p>
+          </div>
+        </Section>
+      ) : null}
+
+      <Section tone="paper">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Heading eyebrow="Questions" title={`About ${feature.title}`} as="h2" size="d4" />
           <FaqList faqs={feature.faqs} />
@@ -90,8 +119,9 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
       </Section>
 
       <RelatedRail
-        tone="paper"
-        groups={[
+        tone="warm"
+        groups={mergeGroups(
+          [
           {
             heading: "Works alongside",
             links: link("feature", [...new Set([...feature.relatedFeatures, ...siblings])].slice(0, 6)),
@@ -107,11 +137,15 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
             links: link("use-case", take(useCasesByFeature.get(feature.slug), 5).map((u) => u.slug)),
             seeAll: { label: "All use cases", href: routes.useCases() },
           },
-        ]}
+          ],
+          relatedGroups(feature.depth, 1),
+          4,
+        )}
       />
 
       <CtaBand
         action={defaultCta(feature)}
+        close={feature.depth?.close}
         title="One capability is not a system"
         body={`${feature.title} works because it shares a brief with everything else. Join our waitlist to see the whole thing built against your business.`}
         secondary={{ label: product ? `About ${product.title}` : "See the platform", href: product ? routes.product(product.slug) : routes.platform() }}

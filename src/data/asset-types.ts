@@ -1,4 +1,6 @@
 import type { AssetType, Bullet, Slug } from "@/lib/types";
+import { withDepth } from "@/data/depth";
+import { assetTypeDepth } from "@/data/depth/asset-types";
 
 /**
  * The asset library.
@@ -482,7 +484,7 @@ const rows: Row[] = [
 
 const b = (label: string, body: string): Bullet => ({ label, body });
 
-export const assetTypes: AssetType[] = rows.map(
+const assetTypeRows: AssetType[] = rows.map(
   ([channel, slug, title, spec, summary, anatomy, needs]) => ({
     kind: "asset-type",
     slug,
@@ -495,6 +497,9 @@ export const assetTypes: AssetType[] = rows.map(
     updated: "2026-08-16",
   }),
 );
+
+/** Each format carries its own explanation of when to use it — see `assetTypeDepth`. */
+export const assetTypes: AssetType[] = withDepth(assetTypeRows, assetTypeDepth);
 
 export const assetTypeBySlug = new Map(assetTypes.map((x) => [x.slug, x]));
 

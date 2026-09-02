@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
+import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
+import { relatedGroups, mergeGroups } from "@/lib/depth";
 import {
   DefinitionList,
   Eyebrow,
@@ -21,6 +22,8 @@ import { ctaFor, defaultCta } from "@/lib/cta";
 import { link, industriesBySolution, take } from "@/lib/registry";
 import { axisLabel } from "@/lib/nav";
 import { solutions, solutionBySlug } from "@/data/solutions";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getSolutionSectionImage } from "@/lib/images";
 
 export const dynamicParams = false;
 
@@ -75,7 +78,11 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
             </LeadButton>
           </>
         }
+        visual={<PageVisual image={getSolutionSectionImage(solution.slug, "hero", solution.title)} priority />}
       />
+
+      {/* Why this situation persists, written for this situation. */}
+      <Explainer tone="paper" intro={solution.depth?.intro} />
 
       {/* Situation and friction — the reader has to recognise themselves before anything else */}
       <Section tone="forest">
@@ -91,6 +98,9 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
             <MarkerList items={solution.frictions} />
           </div>
         </div>
+        <div className="mt-14">
+          <PageVisual image={getSolutionSectionImage(solution.slug, "friction", `Diagnosing Friction: ${solution.title}`)} />
+        </div>
       </Section>
 
       <Section tone="paper">
@@ -100,6 +110,9 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
           lead="Not a feature list. The order matters, because each step makes the next one possible."
         />
         <ProcessRail steps={solution.approach} />
+        <div className="mt-14">
+          <PageVisual image={getSolutionSectionImage(solution.slug, "approach", `Systematic Approach: ${solution.title}`)} />
+        </div>
       </Section>
 
       {/* Outcomes — stated as things the reader can check, never as invented statistics */}
@@ -112,7 +125,14 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
         <DefinitionList items={solution.outcomes} />
       </Section>
 
-      <Section tone="paper">
+      <Explainer
+        tone="paper"
+        eyebrow="Getting into it"
+        title="Why it persists, and where to start"
+        sections={solution.depth?.explain}
+      />
+
+      <Section tone="warm">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Heading eyebrow="Questions" title={`About ${solution.title.toLowerCase()}`} as="h2" size="d4" />
           <FaqList faqs={solution.faqs} />
@@ -120,28 +140,33 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
       </Section>
 
       <RelatedRail
-        tone="warm"
-        groups={[
-          {
-            heading: "Engines involved",
-            links: link("product", solution.products),
-            seeAll: { label: "See the platform", href: routes.platform() },
-          },
-          {
-            heading: "Capabilities",
-            links: link("feature", solution.features),
-            seeAll: { label: "All capabilities", href: routes.features() },
-          },
-          {
-            heading: "Industries & use cases",
-            links: [...link("industry", relatedIndustries.slice(0, 3)), ...link("use-case", solution.related.useCases.slice(0, 3))],
-            seeAll: { label: "All industries", href: routes.industries() },
-          },
-        ]}
+        tone="paper"
+        groups={mergeGroups(
+          [
+            {
+              heading: "Engines involved",
+              links: link("product", solution.products),
+              seeAll: { label: "See the platform", href: routes.platform() },
+            },
+            {
+              heading: "Capabilities",
+              links: link("feature", solution.features),
+              seeAll: { label: "All capabilities", href: routes.features() },
+            },
+            {
+              heading: "Industries & use cases",
+              links: [...link("industry", relatedIndustries.slice(0, 3)), ...link("use-case", solution.related.useCases.slice(0, 3))],
+              seeAll: { label: "All industries", href: routes.industries() },
+            },
+          ],
+          relatedGroups(solution.depth, 1),
+          4,
+        )}
       />
 
       <CtaBand
         action={defaultCta(solution)}
+        close={solution.depth?.close}
         title={solution.title}
         body="Join our waitlist and describe your version of this. Access opens in batches, and the situations people describe are what set the build order."
         subject={solution.title}

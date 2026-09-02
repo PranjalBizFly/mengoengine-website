@@ -1,4 +1,6 @@
 import type { Comparison, Slug } from "@/lib/types";
+import { withDepth } from "@/data/depth";
+import { comparisonDepth } from "@/data/depth/comparisons";
 
 /**
  * Comparison entities.
@@ -326,7 +328,7 @@ const rows: Row[] = [
      ["When is waiting actually right?", "When delivery is the constraint. Generating demand you cannot serve damages reputation faster than an absence of marketing does."]]],
 ];
 
-export const comparisons: Comparison[] = rows.map(
+const comparisonRows: Comparison[] = rows.map(
   ([slug, title, against, summary, theirStrength, difference, chooseAlternative, chooseMengo, faqs]) => ({
     kind: "comparison",
     slug,
@@ -341,5 +343,8 @@ export const comparisons: Comparison[] = rows.map(
     updated: "2026-08-13",
   }),
 );
+
+/** Each comparison states the situation that brings a reader to it — see `comparisonDepth`. */
+export const comparisons: Comparison[] = withDepth(comparisonRows, comparisonDepth);
 
 export const comparisonBySlug = new Map(comparisons.map((x) => [x.slug, x]));

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { CtaBand } from "@/components/sections/page";
+import { CtaBand, Explainer, Takeaways } from "@/components/sections/page";
 import { LongForm } from "@/components/sections/longform";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Eyebrow, JsonLd, RowLink, Section } from "@/components/ui/primitives";
@@ -12,6 +12,8 @@ import { routes } from "@/lib/site";
 import { defaultCta } from "@/lib/cta";
 import { link, firstSentence } from "@/lib/registry";
 import { articles, articleBySlug, articleCategories, articlesByCategory } from "@/data/articles";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getArticleImage } from "@/lib/images";
 
 export const dynamicParams = false;
 
@@ -91,10 +93,19 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
         </div>
       </div>
 
-      <LongForm sections={article.sections} contentsLabel="In this piece" />
+      {/* Who the argument is aimed at, before the contents rail. Written per article. */}
+      <Explainer tone="warm" intro={article.depth?.intro} />
+
+      <LongForm
+        sections={article.sections}
+        contentsLabel="In this piece"
+        heroVisual={<PageVisual image={getArticleImage(article.slug, article.title, category?.label)} priority />}
+      />
+
+      <Takeaways items={article.depth?.takeaways} tone="warm" eyebrow="In summary" title="The argument in four lines" />
 
       {moreInCategory.length > 0 ? (
-        <Section tone="warm">
+        <Section tone="paper">
           <Eyebrow>More in {category?.label ?? "this topic"}</Eyebrow>
           <div className="mt-6">
             {moreInCategory.map((other) => (
@@ -110,7 +121,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
         </Section>
       ) : null}
 
-      <Section tone="paper">
+      <Section tone="warm">
         <Eyebrow>Referenced here</Eyebrow>
         <div className="mt-6 grid gap-x-12 sm:grid-cols-2 lg:grid-cols-3">
           {resolveMixed(article.related).map((ref) => (
@@ -128,6 +139,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
 
       <CtaBand
         action={defaultCta(article)}
+        close={article.depth?.close}
         title="If this describes your situation"
         body="Mengo is the system version of what this piece argues for. Join our waitlist and tell us which part you would fix first."
         subject={article.title}

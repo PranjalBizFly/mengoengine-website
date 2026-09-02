@@ -27,6 +27,8 @@ import { features } from "@/data/features";
 import { industries } from "@/data/industries";
 import { solutions } from "@/data/solutions";
 import { guides } from "@/data/guides";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getHomeSectionImage } from "@/lib/images";
 
 export const metadata: Metadata = pageMetadata({
   title: `${site.name} — ${site.tagline}`,
@@ -136,6 +138,7 @@ export default function HomePage() {
             ))}
           </dl>
         }
+        visual={<PageVisual image={getHomeSectionImage("hero")} priority />}
       />
 
       {/* The problem — asymmetric, statement-led, no cards */}
@@ -221,6 +224,9 @@ export default function HomePage() {
             ))}
           </ol>
         </div>
+        <div className="mt-14">
+          <PageVisual image={getHomeSectionImage("engines")} />
+        </div>
       </Section>
 
       {/* What comes out — two-column facts, light */}
@@ -249,6 +255,9 @@ export default function HomePage() {
               ]}
             />
           </div>
+        </div>
+        <div className="mt-14">
+          <PageVisual image={getHomeSectionImage("roi")} />
         </div>
       </Section>
 
@@ -283,6 +292,9 @@ export default function HomePage() {
               <TextLink href={routes.company("responsible-ai")}>How we use AI responsibly</TextLink>
             </p>
           </div>
+        </div>
+        <div className="mt-14">
+          <PageVisual image={getHomeSectionImage("brief")} />
         </div>
       </Section>
 

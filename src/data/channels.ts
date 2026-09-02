@@ -1,4 +1,6 @@
 import type { Channel, Faq, Slug } from "@/lib/types";
+import { withDepth } from "@/data/depth";
+import { channelDepth } from "@/data/depth/channels";
 
 /**
  * Channels Mengo plans and writes for.
@@ -35,7 +37,7 @@ function c(
 
 const q = (q: string, a: string): Faq => ({ q, a });
 
-export const channels: Channel[] = [
+const channelRows: Channel[] = [
   c(
     "linkedin",
     "LinkedIn",
@@ -303,5 +305,8 @@ export const channels: Channel[] = [
     ],
   ),
 ];
+
+/** Each channel states what it costs to run and who should not prioritise it — see `channelDepth`. */
+export const channels: Channel[] = withDepth(channelRows, channelDepth);
 
 export const channelBySlug = new Map(channels.map((x) => [x.slug, x]));

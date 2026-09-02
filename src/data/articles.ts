@@ -1,4 +1,6 @@
 import type { Article, Slug } from "@/lib/types";
+import { withDepth } from "@/data/depth";
+import { articleDepth } from "@/data/depth/articles";
 
 /**
  * Blog articles.
@@ -345,7 +347,7 @@ const rows: Row[] = [
     ["choose-the-right-channels", "channel-selection-framework", "be-everywhere-is-bad-advice"]],
 ];
 
-export const articles: Article[] = rows
+const articleRows: Article[] = rows
   .map(([slug, title, category, published, readingTime, summary, sections, related]) => ({
     kind: "article" as const,
     slug,
@@ -359,6 +361,9 @@ export const articles: Article[] = rows
     updated: published,
   }))
   .sort((a, b) => (a.published < b.published ? 1 : -1));
+
+/** Each piece carries a framing opening and its own takeaways — see `articleDepth`. */
+export const articles: Article[] = withDepth(articleRows, articleDepth);
 
 export const articleBySlug = new Map(articles.map((x) => [x.slug, x]));
 

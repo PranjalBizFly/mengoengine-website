@@ -1,17 +1,28 @@
 /**
  * Minimal module resolver so the docs generator can import the TypeScript data
  * layer directly. Node strips the type annotations itself; all this adds is the
- * `@/` path alias that tsconfig defines and Node does not know about.
+ * `@/` path alias and extensionless relative import resolution that tsconfig defines.
  */
-import { pathToFileURL } from "node:url";
-import { resolve as resolvePath } from "node:path";
+import { pathToFileURL, fileURLToPath } from "node:url";
+import { resolve as resolvePath, dirname, join } from "node:path";
 
 const SRC = pathToFileURL(resolvePath(process.cwd(), "src") + "/").href;
 
 export async function resolve(specifier, context, nextResolve) {
-  if (!specifier.startsWith("@/")) return nextResolve(specifier, context);
+  let base;
+  if (specifier.startsWith("@/")) {
+    base = SRC + specifier.slice(2);
+  } else if (specifier.startsWith("./") || specifier.startsWith("../")) {
+    if (context.parentURL) {
+      const parentDir = dirname(fileURLToPath(context.parentURL));
+      base = pathToFileURL(resolvePath(parentDir, specifier)).href;
+    } else {
+      base = pathToFileURL(resolvePath(process.cwd(), specifier)).href;
+    }
+  } else {
+    return nextResolve(specifier, context);
+  }
 
-  const base = SRC + specifier.slice(2);
   // tsconfig paths are extensionless; try the TypeScript extensions in turn.
   for (const candidate of [base, base + ".ts", base + ".tsx", base + "/index.ts"]) {
     try {
@@ -20,5 +31,5 @@ export async function resolve(specifier, context, nextResolve) {
       // try the next extension
     }
   }
-  throw new Error("Could not resolve " + specifier);
+  return nextResolve(specifier, context);
 }

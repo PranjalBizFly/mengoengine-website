@@ -28,6 +28,8 @@ export interface Indexable {
   status?: "published" | "draft";
   /** Overrides the default call to action for this entity's kind. */
   cta?: Cta;
+  /** Editorial depth layer. See `Depth`. */
+  depth?: Depth;
 }
 
 /* ------------------------------------------------------------------ */
@@ -83,6 +85,54 @@ export interface Metric {
 }
 
 export type ContentBlock = { type: "text"; text: string } | { type: "list"; items: string[] };
+
+/**
+ * Editorial depth layer.
+ *
+ * Every page type answers a different set of questions, so rather than force
+ * one universal template across the site, each record may carry a `depth`
+ * block and the template renders only the parts that are present. Nothing here
+ * is required: a record with no depth block renders exactly as it did before.
+ *
+ * The rule for what belongs here: each field must answer a question a reader
+ * actually has on *this* page. Anything that would read the same on fifty other
+ * pages belongs in a shared component, not in here.
+ */
+export interface Depth {
+  /** Replaces the hero lead where the terse summary does not explain enough. */
+  lead?: string;
+  /** Extra hero facts, appended to whatever the template already prints. */
+  facts?: { label: string; value: string }[];
+  /** The opening editorial paragraph. Answers "what is this, really?". */
+  intro?: string;
+  /** Named explanatory bands, in reading order. Page-specific, never boilerplate. */
+  explain?: Section[];
+  /** How this page's subject connects to the rest of the marketing system. */
+  connects?: string;
+  /** What the reader should leave with. Used on long-form and reference pages. */
+  takeaways?: string[];
+  /** Closing conversion copy written for this page rather than for its page type. */
+  close?: { title: string; body: string };
+  /**
+   * Page-specific cross-references, replacing the hand-picked rails that were
+   * hardcoded in the templates. A rail built from these is relevant to the page
+   * it sits on; a rail built from three slugs typed into a template is the same
+   * rail on every page of that kind, which is what this exists to stop.
+   */
+  related?: {
+    products?: Slug[];
+    features?: Slug[];
+    solutions?: Slug[];
+    industries?: Slug[];
+    useCases?: Slug[];
+    channels?: Slug[];
+    assetTypes?: Slug[];
+    comparisons?: Slug[];
+    guides?: Slug[];
+    articles?: Slug[];
+    glossary?: Slug[];
+  };
+}
 
 export interface Section {
   heading: string;

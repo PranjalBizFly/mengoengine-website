@@ -7,6 +7,8 @@ import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
 import { channels } from "@/data/channels";
 import { assetTypes, assetTypesForChannel } from "@/data/asset-types";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getHubImage } from "@/lib/images";
 
 const PATH = routes.assetTypes();
 const CRUMBS = [{ label: "Asset library", href: PATH }];
@@ -40,6 +42,7 @@ export default function AssetTypesIndexPage() {
         title="A format is a structure, not a label"
         lead="Calling something a carousel and then writing a list is why so much content is structurally wrong before a word is judged. Every format here is a defined anatomy with its own length rules and success condition — documented publicly, so you can see what Mengo writes to."
         count={`${assetTypes.length} formats across ${channels.length} channels`}
+        visual={<PageVisual image={getHubImage("asset-types", "Asset Formats Library")} priority />}
       />
 
       <Section tone="paper">

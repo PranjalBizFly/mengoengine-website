@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
+import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
+import { relatedGroups, mergeGroups } from "@/lib/depth";
 import { Eyebrow, FaqList, Heading, JsonLd, MarkerList, RowLink, Section } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
@@ -14,6 +15,8 @@ import { link } from "@/lib/registry";
 import { channels, channelBySlug } from "@/data/channels";
 import { assetTypesForChannel } from "@/data/asset-types";
 import { industryBySlug } from "@/data/industries";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getChannelSectionImage } from "@/lib/images";
 
 export const dynamicParams = false;
 
@@ -54,7 +57,11 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
           { label: "Asset formats", value: `${formats.length} defined for this channel` },
         ]}
         actions={<Cta cta={ctaFor("waitlist")} />}
+        visual={<PageVisual image={getChannelSectionImage(channel.slug, "hero", channel.title)} priority />}
       />
+
+      {/* What the channel is for, and what it costs to run. Written per channel. */}
+      <Explainer tone="paper" intro={channel.depth?.intro} />
 
       <Section tone="forest">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
@@ -66,6 +73,9 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
             <MarkerList items={channel.mechanics} />
           </div>
+        </div>
+        <div className="mt-14">
+          <PageVisual image={getChannelSectionImage(channel.slug, "mechanics", `Platform Mechanics: ${channel.title}`)} />
         </div>
       </Section>
 
@@ -100,7 +110,7 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
         <Heading
           eyebrow="Formats"
           title={`${formats.length} ${channel.title} formats, each with its own anatomy`}
-          lead="A format is a structure, not a label. Each of these specifies what the opening must do, what carries the middle and what the close asks for."
+          lead={`Each one specifies what the opening must do, what carries the middle and what the close asks for — written against ${channel.title}'s own mechanics rather than reformatted from elsewhere.`}
         />
         <div className="mt-10">
           {formats.map((format) => (
@@ -113,9 +123,30 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
             />
           ))}
         </div>
+        <div className="mt-14">
+          <PageVisual image={getChannelSectionImage(channel.slug, "formats", `Asset Formats: ${channel.title}`)} />
+        </div>
       </Section>
 
-      <Section tone="paper">
+      <Explainer
+        tone="paper"
+        eyebrow="Before you commit"
+        title={`What running ${channel.title} properly involves`}
+        sections={channel.depth?.explain}
+      />
+
+      {channel.depth?.connects ? (
+        <Section tone="forest">
+          <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
+            <Heading eyebrow="In the mix" title="Where it sits alongside everything else" as="h2" size="d4" />
+            <p className="max-w-[52ch] text-lead" data-reveal>
+              {channel.depth.connects}
+            </p>
+          </div>
+        </Section>
+      ) : null}
+
+      <Section tone="warm">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Heading eyebrow="Questions" title={`About ${channel.title}`} as="h2" size="d4" />
           <FaqList faqs={channel.faqs} />
@@ -123,31 +154,31 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
       </Section>
 
       <RelatedRail
-        tone="warm"
-        groups={[
-          {
-            heading: "Industries",
-            links: link("industry", channel.industries),
-            seeAll: { label: "All industries", href: routes.industries() },
-          },
-          {
-            heading: "Other channels",
-            links: link(
-              "channel",
-              channels.filter((c) => c.slug !== channel.slug).slice(0, 6).map((c) => c.slug),
-            ),
-            seeAll: { label: "All channels", href: routes.channels() },
-          },
-          {
-            heading: "Capabilities",
-            links: link("feature", ["channel-ranking", "asset-library", "content-briefs", "channel-attribution"]),
-            seeAll: { label: "All capabilities", href: routes.features() },
-          },
-        ]}
+        tone="paper"
+        groups={mergeGroups(
+          [
+            {
+              heading: "Industries",
+              links: link("industry", channel.industries),
+              seeAll: { label: "All industries", href: routes.industries() },
+            },
+            {
+              heading: "Other channels",
+              links: link(
+                "channel",
+                channels.filter((c) => c.slug !== channel.slug).slice(0, 6).map((c) => c.slug),
+              ),
+              seeAll: { label: "All channels", href: routes.channels() },
+            },
+          ],
+          relatedGroups(channel.depth),
+          4,
+        )}
       />
 
       <CtaBand
         action={defaultCta(channel)}
+        close={channel.depth?.close}
         title={`Should ${channel.title} be one of your three?`}
         body="Channel Ranking scores it against your buying cycle, price point and capacity — and will tell you when the honest answer is no."
         secondary={{ label: "How channel ranking works", href: routes.feature("channel-ranking") }}

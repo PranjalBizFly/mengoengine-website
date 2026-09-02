@@ -7,6 +7,8 @@ import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
 import { products } from "@/data/products";
 import { features, featuresForProduct } from "@/data/features";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getHubImage } from "@/lib/images";
 
 const PATH = routes.features();
 const CRUMBS = [{ label: "Capabilities", href: PATH }];
@@ -40,6 +42,7 @@ export default function FeaturesIndexPage() {
         title="Everything the platform actually does"
         lead="Grouped by engine. Each capability page states the problem it removes and the mechanism it uses, because a feature list without a mechanism is a list of promises."
         count={`${features.length} capabilities across ${products.length} engines`}
+        visual={<PageVisual image={getHubImage("features", "Capabilities Library")} priority />}
       />
 
       <Section tone="paper">

@@ -7,6 +7,8 @@ import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
 import { SECTOR_ORDER, sectorLabel } from "@/lib/nav";
 import { industries } from "@/data/industries";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getHubImage } from "@/lib/images";
 
 const PATH = routes.industries();
 const CRUMBS = [{ label: "Industries", href: PATH }];
@@ -49,6 +51,7 @@ export default function IndustriesIndexPage() {
         title="Your market decides the plan, not the platform"
         lead="A ninety-day considered purchase and a same-day local job rank channels differently, need different nurture cadences and convert on different content. Each page below starts from those facts."
         count={`${industries.length} industries across six sectors`}
+        visual={<PageVisual image={getHubImage("industries", "Industry Index")} priority />}
       />
 
       <Section tone="paper">

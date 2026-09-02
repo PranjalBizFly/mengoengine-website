@@ -7,6 +7,8 @@ import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
 import { useCases } from "@/data/use-cases";
 import { products } from "@/data/products";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getHubImage } from "@/lib/images";
 
 const PATH = routes.useCases();
 const CRUMBS = [{ label: "Use cases", href: PATH }];
@@ -57,6 +59,7 @@ export default function UseCasesIndexPage() {
         title="One job, from trigger to finished"
         lead="Solutions describe a goal. Use cases describe a single job you need done this week, with the before state, the after state and the workflow between them."
         count={`${useCases.length} jobs`}
+        visual={<PageVisual image={getHubImage("use-cases", "Use Cases Catalog")} priority />}
       />
 
       <Section tone="paper">

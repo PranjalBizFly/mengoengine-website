@@ -38,7 +38,7 @@
 ### Main (4)
 
 - Home — `/`
-- Join the waitlist — `/get-started/`
+- Join our waitlist — `/get-started/`
 - Contact — `/contact/`
 - Sitemap — `/sitemap/`
 

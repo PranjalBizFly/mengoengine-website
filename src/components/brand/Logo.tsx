@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
-import mark from "@/app/icon.png";
 
 /**
  * The Mengo lockup: official mark plus wordmark.
@@ -21,11 +20,12 @@ export function Logo({
   const inner = (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
       <Image
-        src={mark}
+        src="/brand/mengo-mark.png"
         alt=""
         aria-hidden
         priority
-        sizes="32px"
+        width={32}
+        height={32}
         className="h-7 w-auto md:h-8"
       />
       <span
@@ -51,7 +51,7 @@ export function Logo({
 export function Mark({ size = 28, className = "" }: { size?: number; className?: string }) {
   return (
     <Image
-      src={mark}
+      src="/brand/mengo-mark.png"
       alt=""
       aria-hidden
       width={size}

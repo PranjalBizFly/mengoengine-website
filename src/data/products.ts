@@ -1,10 +1,12 @@
 import type { Product } from "@/lib/types";
+import { withDepth } from "@/data/depth";
+import { productDepth } from "@/data/depth/products";
 
 /**
  * The five engines that make up the Mengo platform.
  * Order here is the order used in the mega menu and on /platform/.
  */
-export const products: Product[] = [
+const productRows: Product[] = [
   {
     kind: "product",
     slug: "marketing-engine",
@@ -403,5 +405,8 @@ export const products: Product[] = [
     accent: "lime",
   },
 ];
+
+/** Each engine states the problem it removes and what it deliberately does not do — see `productDepth`. */
+export const products: Product[] = withDepth(productRows, productDepth);
 
 export const productBySlug = new Map(products.map((p) => [p.slug, p]));

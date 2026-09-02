@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
+import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
 import {
   DefinitionList,
   Eyebrow,
@@ -23,6 +23,9 @@ import { link } from "@/lib/registry";
 import { channels, channelBySlug } from "@/data/channels";
 import { industryBySlug } from "@/data/industries";
 import { assetTypesForChannel } from "@/data/asset-types";
+import { channelIndustryDepth } from "@/data/depth/channel-industry";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getChannelIndustryImage } from "@/lib/images";
 
 /**
  * Channel × industry landing pages.
@@ -87,6 +90,8 @@ export default async function ChannelIndustryPage({
     { label: industry.title, href: path },
   ];
 
+  // Written per pair — the one thing the template cannot compose from the two records.
+  const depth = channelIndustryDepth[`${channel.slug}:${industry.slug}`];
   const rank = industry.channels.indexOf(channel.slug);
   const rankLabel =
     rank === 0 ? "Primary channel" : rank === 1 ? "Secondary channel" : rank > 1 ? `Ranked ${rank + 1} of ${industry.channels.length}` : "Supporting channel";
@@ -115,7 +120,10 @@ export default async function ChannelIndustryPage({
             </LeadButton>
           </>
         }
+        visual={<PageVisual image={getChannelIndustryImage(channel.slug, industry.slug, channel.title, industry.title)} priority />}
       />
+
+      <Explainer tone="paper" intro={depth?.intro} />
 
       <Section tone="warm">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
@@ -136,7 +144,14 @@ export default async function ChannelIndustryPage({
         </div>
       </Section>
 
-      <Section tone="paper">
+      <Explainer
+        tone="paper"
+        eyebrow="The combination"
+        title={`${channel.title} in a ${industry.title.toLowerCase()} business`}
+        sections={depth?.explain}
+      />
+
+      <Section tone="warm">
         <Heading
           eyebrow="Where the two meet"
           title={`Using ${channel.title} against a ${industry.cycle.toLowerCase()} decision`}
@@ -176,7 +191,7 @@ export default async function ChannelIndustryPage({
             lead={
               rank === 0
                 ? `For ${industry.title.toLowerCase()}, this is the channel Mengo would commit to first — with a twelve-month horizon rather than a six-week trial.`
-                : `Mengo would rank ${industry.channels[0] ? channelBySlug.get(industry.channels[0])?.title : "another channel"} above it for this industry. That is a recommendation about sequence, not a verdict on the channel.`
+                : `For ${industry.title.toLowerCase()}, Mengo would rank ${industry.channels[0] ? channelBySlug.get(industry.channels[0])?.title : "another channel"} above it against a ${industry.cycle.toLowerCase()} That is a recommendation about sequence rather than a verdict on the channel.`
             }
           />
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
@@ -203,7 +218,7 @@ export default async function ChannelIndustryPage({
         </div>
       </Section>
 
-      <Section tone="paper">
+      <Section tone="warm">
         <Heading eyebrow="Formats" title={`${channel.title} formats Mengo produces`} size="d4" />
         <div className="mt-8">
           {formats.slice(0, 6).map((format) => (
@@ -215,7 +230,7 @@ export default async function ChannelIndustryPage({
         </p>
       </Section>
 
-      <Section tone="warm">
+      <Section tone="paper">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Heading eyebrow="Questions" title={`${channel.title} for ${industry.title.toLowerCase()}`} as="h2" size="d4" />
           <FaqList faqs={faqs} />
@@ -223,7 +238,7 @@ export default async function ChannelIndustryPage({
       </Section>
 
       <RelatedRail
-        tone="paper"
+        tone="warm"
         groups={[
           {
             heading: `Other channels for ${industry.title.toLowerCase()}`,
@@ -244,6 +259,7 @@ export default async function ChannelIndustryPage({
       />
 
       <CtaBand
+        close={depth?.close}
         title={`${channel.title} for ${industry.title.toLowerCase()}, planned properly`}
         body="Join our waitlist and Mengo builds the ranking, the calendar and the assets against your specific business rather than the industry average."
         subject={`${channel.title} for ${industry.title}`}

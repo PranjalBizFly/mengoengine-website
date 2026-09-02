@@ -7,6 +7,8 @@ import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
 import { articles, articleCategories, articlesByCategory } from "@/data/articles";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getHubImage } from "@/lib/images";
 
 const PATH = routes.blog();
 const CRUMBS = [{ label: "Blog", href: PATH }];
@@ -42,6 +44,7 @@ export default function BlogIndexPage() {
         title="One argument per piece"
         lead="Nobody needs another survey of a topic. Everything here takes a position, including the ones a reasonable person would disagree with — which is the point."
         count={`${articles.length} articles across ${articleCategories.length} topics`}
+        visual={<PageVisual image={getHubImage("blog", "Editorial Publications")} priority />}
       >
         <nav aria-label="Topics" className="mt-10 flex flex-wrap gap-2">
           {articleCategories.map((category) => (

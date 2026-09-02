@@ -1,4 +1,6 @@
 import type { Industry, Slug } from "@/lib/types";
+import { withDepth } from "@/data/depth";
+import { industryDepth } from "@/data/depth/industries";
 
 /**
  * Industry entities.
@@ -880,7 +882,8 @@ const industriesRaw: Industry[] = rows.map(
   }),
 );
 
-export const industries: Industry[] = industriesRaw;
+/** Each sector carries its own context and failure modes — see `industryDepth`. */
+export const industries: Industry[] = withDepth(industriesRaw, industryDepth);
 export const industryBySlug = new Map(industries.map((x) => [x.slug, x]));
 
 export function industriesForChannel(channelSlug: Slug): Industry[] {

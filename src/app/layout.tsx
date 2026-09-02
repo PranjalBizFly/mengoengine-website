@@ -56,6 +56,13 @@ export const metadata: Metadata = {
   publisher: site.legalName,
   formatDetection: { telephone: false },
   alternates: { canonical: "/" },
+  icons: {
+    icon: [
+      { url: "/icon.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export const viewport: Viewport = {

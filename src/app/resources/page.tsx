@@ -6,6 +6,8 @@ import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
 import { guides, guidesByFormat } from "@/data/guides";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getHubImage } from "@/lib/images";
 
 const PATH = routes.resources();
 const CRUMBS = [{ label: "Resources", href: PATH }];
@@ -46,6 +48,7 @@ export default function ResourcesIndexPage() {
         title="Usable without buying anything"
         lead="A resource that only works if you buy something is an advertisement wearing a hat. These are written so you could follow them with a spreadsheet and no product at all."
         count={`${guides.length} resources`}
+        visual={<PageVisual image={getHubImage("resources", "Resources & Playbooks")} priority />}
       />
 
       <Section tone="paper">

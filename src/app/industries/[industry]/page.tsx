@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
+import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
+import { relatedGroups, mergeGroups } from "@/lib/depth";
 import {
   DefinitionList,
   Eyebrow,
@@ -23,6 +24,8 @@ import { link, useCasesByIndustry, take } from "@/lib/registry";
 import { sectorLabel } from "@/lib/nav";
 import { industries, industryBySlug } from "@/data/industries";
 import { channelBySlug } from "@/data/channels";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getIndustrySectionImage } from "@/lib/images";
 
 export const dynamicParams = false;
 
@@ -73,7 +76,11 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
             </LeadButton>
           </>
         }
+        visual={<PageVisual image={getIndustrySectionImage(industry.slug, "hero", industry.title)} priority />}
       />
+
+      {/* Sector context, written for this industry rather than derived from its fields. */}
+      <Explainer tone="paper" intro={industry.depth?.intro} />
 
       {/* Realities — the substance of an industry page */}
       <Section tone="warm">
@@ -81,7 +88,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
           <Heading
             eyebrow="What is actually true here"
             title="The realities that shape the plan"
-            lead="These are the facts Mengo plans against. They are the reason the same platform produces a very different calendar for two businesses of the same size."
+            lead={`Everything below is planned against a ${industry.cycle.toLowerCase()} decision made by ${industry.buyer.toLowerCase()}`}
           />
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
             <MarkerList items={industry.realities} />
@@ -96,6 +103,9 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
               </div>
             ) : null}
           </div>
+        </div>
+        <div className="mt-14">
+          <PageVisual image={getIndustrySectionImage(industry.slug, "realities", `Sector Realities: ${industry.title}`)} />
         </div>
       </Section>
 
@@ -143,6 +153,9 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
             );
           })}
         </ol>
+        <div className="mt-14">
+          <PageVisual image={getIndustrySectionImage(industry.slug, "channels", `Channel Strategy: ${industry.title}`)} />
+        </div>
       </Section>
 
       {/* Formats and objections side by side */}
@@ -199,7 +212,14 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
         />
       </Section>
 
-      <Section tone="warm">
+      <Explainer
+        tone="warm"
+        eyebrow="In this sector"
+        title={`What marketing for ${industry.title.toLowerCase()} actually involves`}
+        sections={industry.depth?.explain}
+      />
+
+      <Section tone="paper">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Heading eyebrow="Questions" title={`Marketing for ${industry.title.toLowerCase()}`} as="h2" size="d4" />
           <FaqList faqs={industry.faqs} />
@@ -207,28 +227,33 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
       </Section>
 
       <RelatedRail
-        tone="paper"
-        groups={[
-          {
-            heading: "Solutions for this industry",
-            links: link("solution", industry.solutions),
-            seeAll: { label: "All solutions", href: routes.solutions() },
-          },
-          {
-            heading: "Common jobs",
-            links: link("use-case", relatedUseCases),
-            seeAll: { label: "All use cases", href: routes.useCases() },
-          },
-          {
-            heading: "Channel guides",
-            links: link("channel", industry.channels),
-            seeAll: { label: "All channels", href: routes.channels() },
-          },
-        ]}
+        tone="warm"
+        groups={mergeGroups(
+          [
+            {
+              heading: "Solutions for this industry",
+              links: link("solution", industry.solutions),
+              seeAll: { label: "All solutions", href: routes.solutions() },
+            },
+            {
+              heading: "Common jobs",
+              links: link("use-case", relatedUseCases),
+              seeAll: { label: "All use cases", href: routes.useCases() },
+            },
+            {
+              heading: "Channel guides",
+              links: link("channel", industry.channels),
+              seeAll: { label: "All channels", href: routes.channels() },
+            },
+          ],
+          relatedGroups(industry.depth, 1),
+          4,
+        )}
       />
 
       <CtaBand
         action={defaultCta(industry)}
+        close={industry.depth?.close}
         title={`Marketing built around how ${industry.title.toLowerCase()} actually sell`}
         body="Join our waitlist and tell us what you sell. The industry profile above is where Mengo starts, and your brief is what makes it specific."
         subject={industry.title}

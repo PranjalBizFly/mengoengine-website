@@ -7,6 +7,8 @@ import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
 import { glossary } from "@/data/glossary";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getHubImage } from "@/lib/images";
 
 const PATH = routes.glossary();
 const CRUMBS = [{ label: "Glossary", href: PATH }];
@@ -43,6 +45,7 @@ export default function GlossaryIndexPage() {
         title="Marketing terms, defined without defending the jargon"
         lead="Every entry answers three things: what it means in one sentence, why it matters to someone running their own marketing, and where Mengo touches it — omitted when it does not."
         count={`${glossary.length} terms`}
+        visual={<PageVisual image={getHubImage("glossary", "Marketing Glossary")} priority />}
       >
         <nav aria-label="Jump to letter" className="mt-10 flex flex-wrap gap-1.5">
           {letters.map((letter) => (

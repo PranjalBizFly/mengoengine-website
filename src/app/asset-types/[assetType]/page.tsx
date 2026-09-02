@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
+import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
+import { relatedGroups, mergeGroups } from "@/lib/depth";
 import { DefinitionList, Eyebrow, Heading, JsonLd, MarkerList, Section, TextLink } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
@@ -12,6 +13,8 @@ import { ctaFor, defaultCta } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { assetTypes, assetTypeBySlug, assetTypesForChannel } from "@/data/asset-types";
 import { channelBySlug } from "@/data/channels";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getAssetTypeImage } from "@/lib/images";
 
 export const dynamicParams = false;
 
@@ -58,14 +61,14 @@ export default async function AssetTypePage({ params }: { params: Promise<{ asse
           ...(channel ? [{ label: "Channel", value: channel.title }] : []),
         ]}
         actions={<Cta cta={ctaFor("waitlist")} />}
+        visual={<PageVisual image={getAssetTypeImage(asset.slug, asset.title, channel?.title)} priority />}
       />
 
+      {/* When to reach for this format, written per format. */}
+      <Explainer tone="paper" intro={asset.depth?.intro} />
+
       <Section tone="warm">
-        <Heading
-          eyebrow="Anatomy"
-          title="What has to be where"
-          lead="Content Studio writes to this structure. Getting it right makes ordinary prose work; getting it wrong makes excellent prose fail."
-        />
+        <Heading eyebrow="Anatomy" title="What has to be where" />
         <DefinitionList items={asset.anatomy} columns={1} />
       </Section>
 
@@ -80,43 +83,46 @@ export default async function AssetTypePage({ params }: { params: Promise<{ asse
             </p>
           </div>
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
-            <Eyebrow as="h3" className="mb-5">Where it comes from</Eyebrow>
-            <p className="text-body leading-relaxed text-graphite-soft">
-              This format is never generated from a blank prompt. It arrives from a calendar slot that already carries
-              the week&rsquo;s theme, the audience segment it targets, the offer it points at and the funnel stage it
-              sits in. That inherited context is the difference between an asset that fits the plan and one that merely
-              exists.
-            </p>
-            <p className="mt-5 text-body">
+            <Eyebrow as="h3" className="mb-5">Where the context comes from</Eyebrow>
+            <MarkerList
+              items={[
+                channel ? `The ${channel.title} slot in your calendar, with its theme already assigned` : "The calendar slot, with its theme already assigned",
+                "The audience segment that slot targets, and the objection that segment holds",
+                "Your positioning and voice profile, as constraints rather than suggestions",
+              ]}
+            />
+            <p className="mt-6 text-body">
               <TextLink href={routes.feature("content-briefs")}>How content briefs work</TextLink>
             </p>
           </div>
         </div>
       </Section>
 
-      <RelatedRail
+      {/* Where this format comes from in a plan, and how it fails. Per format. */}
+      <Explainer
         tone="warm"
-        groups={[
-          {
-            heading: channel ? `Other ${channel.title} formats` : "Related formats",
-            links: link("asset-type", siblings),
-            seeAll: { label: `All ${assetTypes.length} formats`, href: routes.assetTypes() },
-          },
-          {
-            heading: "Channel guide",
-            links: channel ? link("channel", [channel.slug]) : [],
-            seeAll: { label: "All channels", href: routes.channels() },
-          },
-          {
-            heading: "Capabilities",
-            links: link("feature", ["asset-library", "content-briefs", "voice-profile", "batch-approval"]),
-            seeAll: { label: "All capabilities", href: routes.features() },
-          },
-        ]}
+        eyebrow="In the plan"
+        title={`Producing a ${asset.title.toLowerCase()} that works`}
+        sections={asset.depth?.explain}
+      />
+
+      <RelatedRail
+        tone="paper"
+        groups={mergeGroups(
+          [
+            {
+              heading: channel ? `Other ${channel.title} formats` : "Related formats",
+              links: link("asset-type", siblings),
+              seeAll: { label: `All ${assetTypes.length} formats`, href: routes.assetTypes() },
+            },
+          ],
+          relatedGroups(asset.depth),
+        )}
       />
 
       <CtaBand
         action={defaultCta(asset)}
+        close={asset.depth?.close}
         title={`${asset.title}, written to the brief`}
         body="Join our waitlist to see this format produced against your positioning, your segments and your voice profile rather than from a blank prompt."
         subject={asset.title}

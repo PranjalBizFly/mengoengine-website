@@ -1,4 +1,6 @@
 import type { UseCase, Slug } from "@/lib/types";
+import { withDepth } from "@/data/depth";
+import { useCaseDepth } from "@/data/depth/use-cases";
 
 /**
  * Use cases — the "I need to do this specific thing today" axis.
@@ -546,7 +548,7 @@ const rows: Row[] = [
      ["How long does an audit take?", "The structured version is a session, not a project. A long audit usually indicates avoidance of the fixes."]]],
 ];
 
-export const useCases: UseCase[] = rows.map(
+const useCaseRows: UseCase[] = rows.map(
   ([slug, title, summary, trigger, before, after, workflow, products, features, industries, faqs]) => ({
     kind: "use-case",
     slug,
@@ -563,5 +565,8 @@ export const useCases: UseCase[] = rows.map(
     updated: "2026-08-17",
   }),
 );
+
+/** Each job carries why the obvious approach fails and what you end up holding — see `useCaseDepth`. */
+export const useCases: UseCase[] = withDepth(useCaseRows, useCaseDepth);
 
 export const useCaseBySlug = new Map(useCases.map((x) => [x.slug, x]));

@@ -1,4 +1,6 @@
 import type { Solution, Slug } from "@/lib/types";
+import { withDepth } from "@/data/depth";
+import { solutionDepth } from "@/data/depth/solutions";
 
 /**
  * Solution entities — the site's "what are you trying to do?" axis.
@@ -403,7 +405,7 @@ const rows: Row[] = [
      ["What is the single highest-return action?", "Usually the map listing, followed by contacting past customers. Both are cheap, fast and routinely neglected."]]],
 ];
 
-export const solutions: Solution[] = rows.map(
+const solutionRows: Solution[] = rows.map(
   ([slug, title, axis, summary, situation, frictions, approach, outcomes, products, features, industries, useCases, faqs]) => ({
     kind: "solution",
     slug,
@@ -421,6 +423,9 @@ export const solutions: Solution[] = rows.map(
     updated: "2026-08-21",
   }),
 );
+
+/** Each situation carries why it persists and what the first month looks like — see `solutionDepth`. */
+export const solutions: Solution[] = withDepth(solutionRows, solutionDepth);
 
 export const solutionBySlug = new Map(solutions.map((x) => [x.slug, x]));
 

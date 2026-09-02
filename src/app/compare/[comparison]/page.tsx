@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
+import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
+import { relatedGroups, mergeGroups } from "@/lib/depth";
 import { DefinitionList, Eyebrow, FaqList, Heading, JsonLd, MarkerList, Section } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
@@ -11,6 +12,8 @@ import { routes } from "@/lib/site";
 import { ctaFor, defaultCta } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { comparisons, comparisonBySlug } from "@/data/comparisons";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getComparisonImage } from "@/lib/images";
 
 export const dynamicParams = false;
 
@@ -47,7 +50,11 @@ export default async function ComparisonPage({ params }: { params: Promise<{ com
         lead={comparison.summary}
         facts={[{ label: "Compared with", value: comparison.against }]}
         actions={<Cta cta={ctaFor("waitlist")} />}
+        visual={<PageVisual image={getComparisonImage(comparison.slug, comparison.title, comparison.against)} priority />}
       />
+
+      {/* The situation that brings a reader to this specific comparison. */}
+      <Explainer tone="paper" intro={comparison.depth?.intro} />
 
       {/* The alternative's strength goes first, deliberately */}
       <Section tone="forest">
@@ -62,8 +69,8 @@ export default async function ComparisonPage({ params }: { params: Promise<{ com
       <Section tone="paper">
         <Heading
           eyebrow="The difference"
-          title="Where the two approaches genuinely diverge"
-          lead="Not a feature checklist. These are structural differences — the kind that stay true regardless of which version of either thing you are looking at."
+          title={`Where Mengo and ${comparison.against} genuinely diverge`}
+          lead={`Structural differences rather than a feature checklist — the kind that stay true regardless of which ${comparison.against.replace(/^an? /, "")} you are looking at.`}
         />
         <DefinitionList items={comparison.difference} columns={1} />
       </Section>
@@ -87,7 +94,14 @@ export default async function ComparisonPage({ params }: { params: Promise<{ com
         </div>
       </Section>
 
-      <Section tone="paper">
+      <Explainer
+        tone="paper"
+        eyebrow="Read it honestly"
+        title="What this comparison is really about"
+        sections={comparison.depth?.explain}
+      />
+
+      <Section tone="warm">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Heading eyebrow="Questions" title="On this comparison" as="h2" size="d4" />
           <FaqList faqs={comparison.faqs} />
@@ -95,30 +109,30 @@ export default async function ComparisonPage({ params }: { params: Promise<{ com
       </Section>
 
       <RelatedRail
-        tone="warm"
-        groups={[
-          {
-            heading: "Other comparisons",
-            links: link(
-              "comparison",
-              comparisons.filter((c) => c.slug !== comparison.slug).slice(0, 6).map((c) => c.slug),
-            ),
-            seeAll: { label: "All comparisons", href: routes.compare() },
-          },
-          {
-            heading: "See the platform",
-            links: link("product", ["marketing-engine", "content-studio", "lead-nurturing"]),
-            seeAll: { label: "Platform overview", href: routes.platform() },
-          },
-          {
-            heading: "Decide honestly",
-            links: link("company", ["who-its-for", "how-it-works", "responsible-ai"]),
-          },
-        ]}
+        tone="paper"
+        groups={mergeGroups(
+          [
+            {
+              heading: "Other comparisons",
+              links: link(
+                "comparison",
+                comparisons.filter((c) => c.slug !== comparison.slug).slice(0, 4).map((c) => c.slug),
+              ),
+              seeAll: { label: "All comparisons", href: routes.compare() },
+            },
+            {
+              heading: "Decide honestly",
+              links: link("company", ["who-its-for", "how-it-works"]),
+            },
+          ],
+          relatedGroups(comparison.depth, 2),
+          4,
+        )}
       />
 
       <CtaBand
         action={defaultCta(comparison)}
+        close={comparison.depth?.close}
         title="If the second column sounds like you"
         body="Join our waitlist and describe the situation. If it turns out you need the alternative instead, we would rather tell you now."
         subject={comparison.title}

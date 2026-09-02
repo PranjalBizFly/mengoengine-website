@@ -1,4 +1,6 @@
 import type { GlossaryTerm, Slug } from "@/lib/types";
+import { withDepth } from "@/data/depth";
+import { glossaryDepth } from "@/data/depth/glossary";
 
 /**
  * Marketing glossary.
@@ -377,7 +379,7 @@ const rows: Row[] = [
     ["long-tail-keyword", "search-intent", "internal-linking"]],
 ];
 
-export const glossary: GlossaryTerm[] = rows
+const glossaryRows: GlossaryTerm[] = rows
   .map(([slug, title, definition, why, inMengo, seeAlso]) => ({
     kind: "glossary" as const,
     slug,
@@ -390,5 +392,8 @@ export const glossary: GlossaryTerm[] = rows
     updated: "2026-08-11",
   }))
   .sort((a, b) => a.title.localeCompare(b.title));
+
+/** Each term carries its own explanation and cross-references — see `glossaryDepth`. */
+export const glossary: GlossaryTerm[] = withDepth(glossaryRows, glossaryDepth);
 
 export const glossaryBySlug = new Map(glossary.map((x) => [x.slug, x]));

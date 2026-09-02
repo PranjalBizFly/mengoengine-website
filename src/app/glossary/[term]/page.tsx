@@ -1,14 +1,17 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
+import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
 import { Eyebrow, Heading, JsonLd, Section, TextLink } from "@/components/ui/primitives";
+import { relatedGroups } from "@/lib/depth";
 import { entityMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, definedTermSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
 import { defaultCta } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { glossary, glossaryBySlug } from "@/data/glossary";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getGlossaryImage } from "@/lib/images";
 
 export const dynamicParams = false;
 
@@ -59,6 +62,9 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
         ]}
       />
 
+      {/* The context that makes the definition mean something. Written per term. */}
+      <Explainer tone="paper" intro={term.depth?.intro} />
+
       <Section tone="warm">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           <div>
@@ -84,7 +90,14 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
         </div>
       </Section>
 
-      <Section tone="paper">
+      <Explainer
+        tone="paper"
+        eyebrow="In practice"
+        title={`${term.title} in use`}
+        sections={term.depth?.explain}
+      />
+
+      <Section tone="warm">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
           <Heading eyebrow="Keep reading" title="Terms you will need next" size="d4" as="h2" />
           <div data-reveal>
@@ -105,29 +118,12 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
         </div>
       </Section>
 
-      <RelatedRail
-        tone="warm"
-        groups={[
-          {
-            heading: "Related resources",
-            links: link("guide", ["marketing-system-playbook", "positioning-framework", "metric-selection-framework"]),
-            seeAll: { label: "All resources", href: routes.resources() },
-          },
-          {
-            heading: "Related capabilities",
-            links: link("feature", ["business-brief", "annual-calendar", "sequence-builder"]),
-            seeAll: { label: "All capabilities", href: routes.features() },
-          },
-          {
-            heading: "Related reading",
-            links: link("article", ["marketing-is-a-systems-problem", "stop-measuring-everything", "the-follow-up-gap"]),
-            seeAll: { label: "All articles", href: routes.blog() },
-          },
-        ]}
-      />
+      {/* Per-term, from the record's own cross-references — not three slugs typed into this file. */}
+      <RelatedRail tone="paper" groups={relatedGroups(term.depth)} />
 
       <CtaBand
         action={defaultCta(term)}
+        close={term.depth?.close}
         title="Definitions are cheap. Execution is not."
         body="Mengo turns a guided brief into the strategy, the calendar, the content and the follow-up. Join our waitlist for early access."
         secondary={{ label: "Browse the glossary", href: routes.glossary() }}

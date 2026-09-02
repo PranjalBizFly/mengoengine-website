@@ -7,6 +7,8 @@ import { InlineLeadForm } from "@/components/forms/LeadModal";
 import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, contactPageSchema } from "@/seo/schema";
 import { routes, site } from "@/lib/site";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getHubImage } from "@/lib/images";
 
 const PATH = routes.contact();
 const CRUMBS = [{ label: "Contact", href: PATH }];
@@ -82,6 +84,9 @@ export default function ContactPage() {
           <div className="rule-t pt-10 lg:border-t-0 lg:pt-0" data-reveal style={{ "--reveal-delay": "140ms" } as React.CSSProperties}>
             <InlineLeadForm intent="enquiry" />
           </div>
+        </div>
+        <div className="container-page pb-16">
+          <PageVisual image={getHubImage("contact", "Contact Desk")} />
         </div>
       </div>
 

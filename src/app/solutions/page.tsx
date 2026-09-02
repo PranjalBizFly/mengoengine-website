@@ -7,6 +7,8 @@ import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
 import { AXIS_ORDER, axisLabel } from "@/lib/nav";
 import { solutions, solutionsByAxis } from "@/data/solutions";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getHubImage } from "@/lib/images";
 
 const PATH = routes.solutions();
 const CRUMBS = [{ label: "Solutions", href: PATH }];
@@ -46,6 +48,7 @@ export default function SolutionsIndexPage() {
         title="Start from what is actually broken"
         lead="Feature lists are a poor way into a platform, because nobody wakes up needing a calendar generator. These pages start from the situation you are in and work back to what the system does about it."
         count={`${solutions.length} solutions across three axes`}
+        visual={<PageVisual image={getHubImage("solutions", "Solutions Hub")} priority />}
       />
 
       <Section tone="paper">

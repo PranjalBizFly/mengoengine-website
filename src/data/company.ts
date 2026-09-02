@@ -1,5 +1,7 @@
 import type { CompanyPage, LegalPage } from "@/lib/types";
-import { privacySections } from "@/data/legal-privacy";
+import { privacySections } from "./legal-privacy";
+import { withDepth } from "@/data/depth";
+import { companyDepth } from "@/data/depth/company";
 
 /**
  * Company and legal pages.
@@ -10,7 +12,7 @@ import { privacySections } from "@/data/legal-privacy";
  * replacement rather than invented.
  */
 
-export const companyPages: CompanyPage[] = [
+const companyRows: CompanyPage[] = [
   {
     kind: "company",
     slug: "about",
@@ -252,6 +254,13 @@ export const companyPages: CompanyPage[] = [
     ],
   },
 ];
+
+/**
+ * Company pages carry a framing paragraph and their own closing line.
+ * Legal pages deliberately carry no depth block: they are reproduced faithfully
+ * and padding them would be a defect rather than an improvement.
+ */
+export const companyPages: CompanyPage[] = withDepth(companyRows, companyDepth);
 
 export const legalPages: LegalPage[] = [
   {

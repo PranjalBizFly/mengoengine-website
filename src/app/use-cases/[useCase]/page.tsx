@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
+import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
+import { relatedGroups, mergeGroups } from "@/lib/depth";
 import { Eyebrow, FaqList, Heading, JsonLd, ProcessRail, Section } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
@@ -11,6 +12,8 @@ import { routes } from "@/lib/site";
 import { ctaFor, defaultCta } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { useCases, useCaseBySlug } from "@/data/use-cases";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getUseCaseSectionImage } from "@/lib/images";
 
 export const dynamicParams = false;
 
@@ -53,7 +56,11 @@ export default async function UseCasePage({ params }: { params: Promise<{ useCas
         lead={useCase.summary}
         facts={[{ label: "What triggers this", value: useCase.trigger }]}
         actions={<Cta cta={ctaFor("waitlist")} />}
+        visual={<PageVisual image={getUseCaseSectionImage(useCase.slug, "hero", useCase.title)} priority />}
       />
+
+      {/* What this job actually involves, written for this job. */}
+      <Explainer tone="paper" intro={useCase.depth?.intro} />
 
       {/* Before / after — the one place in the system where a direct contrast earns its keep */}
       <Section tone="forest">
@@ -71,14 +78,27 @@ export default async function UseCasePage({ params }: { params: Promise<{ useCas
             <p className="text-lead text-ink-invert">{useCase.after}</p>
           </div>
         </div>
+        <div className="mt-14">
+          <PageVisual image={getUseCaseSectionImage(useCase.slug, "transformation", `Transformation: ${useCase.title}`)} />
+        </div>
       </Section>
 
       <Section tone="paper">
         <Heading eyebrow="The workflow" title="How the job actually gets done" />
         <ProcessRail steps={useCase.workflow} />
+        <div className="mt-14">
+          <PageVisual image={getUseCaseSectionImage(useCase.slug, "workflow", `Workflow: ${useCase.title}`)} />
+        </div>
       </Section>
 
-      <Section tone="warm">
+      <Explainer
+        tone="warm"
+        eyebrow="Why it is hard, and what you get"
+        title="The part most attempts get wrong"
+        sections={useCase.depth?.explain}
+      />
+
+      <Section tone="paper">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Heading eyebrow="Questions" title={`About ${useCase.title.toLowerCase()}`} as="h2" size="d4" />
           <FaqList faqs={useCase.faqs} />
@@ -86,28 +106,33 @@ export default async function UseCasePage({ params }: { params: Promise<{ useCas
       </Section>
 
       <RelatedRail
-        tone="paper"
-        groups={[
-          {
-            heading: "Engines involved",
-            links: link("product", useCase.products),
-            seeAll: { label: "See the platform", href: routes.platform() },
-          },
-          {
-            heading: "Capabilities used",
-            links: link("feature", useCase.features),
-            seeAll: { label: "All capabilities", href: routes.features() },
-          },
-          {
-            heading: "Common in",
-            links: link("industry", useCase.industries),
-            seeAll: { label: "All industries", href: routes.industries() },
-          },
-        ]}
+        tone="warm"
+        groups={mergeGroups(
+          [
+            {
+              heading: "Engines involved",
+              links: link("product", useCase.products),
+              seeAll: { label: "See the platform", href: routes.platform() },
+            },
+            {
+              heading: "Capabilities used",
+              links: link("feature", useCase.features),
+              seeAll: { label: "All capabilities", href: routes.features() },
+            },
+            {
+              heading: "Common in",
+              links: link("industry", useCase.industries),
+              seeAll: { label: "All industries", href: routes.industries() },
+            },
+          ],
+          relatedGroups(useCase.depth, 1),
+          4,
+        )}
       />
 
       <CtaBand
         action={defaultCta(useCase)}
+        close={useCase.depth?.close}
         title={useCase.title}
         body="Join our waitlist and name the job you need done first. Specific jobs are what set the build order."
         subject={useCase.title}

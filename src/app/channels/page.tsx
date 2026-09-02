@@ -7,6 +7,8 @@ import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
 import { channels } from "@/data/channels";
 import { assetTypesForChannel, assetTypes } from "@/data/asset-types";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getHubImage } from "@/lib/images";
 
 const PATH = routes.channels();
 const CRUMBS = [{ label: "Channels", href: PATH }];
@@ -40,6 +42,7 @@ export default function ChannelsIndexPage() {
         title="Every platform rewards something different"
         lead="A LinkedIn opener is not a caption with the hashtags removed. Each guide covers the mechanics that decide what works there, the cadence Mengo plans against, and the formats it produces."
         count={`${channels.length} channels · ${assetTypes.length} asset formats`}
+        visual={<PageVisual image={getHubImage("channels", "Channel Strategy Hub")} priority />}
       />
 
       <Section tone="paper">

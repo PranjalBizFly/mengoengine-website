@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
+import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
 import { LongForm, AsideBlock } from "@/components/sections/longform";
 import { JsonLd } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
@@ -10,6 +10,8 @@ import { breadcrumbSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
 import { link } from "@/lib/registry";
 import { companyPages, companyPageBySlug } from "@/data/company";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getCompanyImage, getCompanySectionImage } from "@/lib/images";
 
 export const dynamicParams = false;
 
@@ -45,7 +47,7 @@ export default async function CompanyPage({ params }: { params: Promise<{ page: 
 
   return (
     <>
-      <JsonLd data={breadcrumbSchema([{ label: "Home", href: "/" }, ...crumbs])} />
+      <JsonLd data={[breadcrumbSchema([{ label: "Home", href: "/" }, ...crumbs])]} />
 
       <DocumentHero
         crumbs={crumbs}
@@ -60,8 +62,13 @@ export default async function CompanyPage({ params }: { params: Promise<{ page: 
         }
       />
 
+      {/* What this page is for, in one paragraph. */}
+      <Explainer tone="warm" intro={page.depth?.intro} />
+
       <LongForm
         sections={page.sections}
+        heroVisual={<PageVisual image={getCompanyImage(page.slug, page.title)} priority />}
+        supportingVisual={<PageVisual image={getCompanySectionImage(page.slug, "culture", `Culture: ${page.title}`)} />}
         aside={
           <AsideBlock
             eyebrow="Also worth reading"
@@ -93,6 +100,7 @@ export default async function CompanyPage({ params }: { params: Promise<{ page: 
       />
 
       <CtaBand
+        close={page.depth?.close}
         title="Early access opens in batches"
         body="Join our waitlist with a line about what is actually broken in your marketing. That is what sets the build order."
         intent={action.intent}

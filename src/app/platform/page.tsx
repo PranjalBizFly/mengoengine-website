@@ -13,6 +13,8 @@ import { link } from "@/lib/registry";
 import { products } from "@/data/products";
 import { features } from "@/data/features";
 import { assetTypes } from "@/data/asset-types";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getHubImage, getProductImage } from "@/lib/images";
 
 const PATH = routes.platform();
 const CRUMBS = [{ label: "Platform", href: PATH }];
@@ -63,6 +65,7 @@ export default function PlatformPage() {
             />
           </div>
         }
+        visual={<PageVisual image={getHubImage("platform", "Platform Overview")} priority />}
       />
 
       {/* Each engine gets a full editorial row rather than a card in a grid */}

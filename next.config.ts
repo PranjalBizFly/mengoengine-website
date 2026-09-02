@@ -6,9 +6,16 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
-  },
-  experimental: {
-    optimizePackageImports: ["@/components"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.pexels.com",
+      },
+    ],
   },
 
   /**

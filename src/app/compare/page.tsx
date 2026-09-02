@@ -6,6 +6,8 @@ import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
 import { comparisons } from "@/data/comparisons";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getHubImage } from "@/lib/images";
 
 const PATH = routes.compare();
 const CRUMBS = [{ label: "Compare", href: PATH }];
@@ -39,6 +41,7 @@ export default function CompareIndexPage() {
         title="What you would otherwise do instead"
         lead="These pages compare approaches rather than named products, because asserting things about someone else's software is neither defensible nor durable. Each one names who should pick the alternative."
         count={`${comparisons.length} comparisons`}
+        visual={<PageVisual image={getHubImage("compare", "Comparison Index")} priority />}
       />
 
       <Section tone="paper">

@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { DocumentHero, CtaBand, RelatedRail } from "@/components/sections/page";
+import { DocumentHero, CtaBand, RelatedRail, Explainer, Takeaways } from "@/components/sections/page";
+import { relatedGroups, mergeGroups } from "@/lib/depth";
 import { LongForm } from "@/components/sections/longform";
 import { JsonLd } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
@@ -11,6 +12,8 @@ import { routes } from "@/lib/site";
 import { defaultCta } from "@/lib/cta";
 import { link } from "@/lib/registry";
 import { guides, guideBySlug } from "@/data/guides";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getGuideImage, getGuideSectionImage } from "@/lib/images";
 
 export const dynamicParams = false;
 
@@ -68,11 +71,21 @@ export default async function GuidePage({ params }: { params: Promise<{ guide: s
         }
       />
 
-      <LongForm sections={guide.sections} />
+      {/* Who this document is for, before the contents rail. Written per resource. */}
+      <Explainer tone="warm" intro={guide.depth?.intro} />
+
+      <LongForm
+        sections={guide.sections}
+        heroVisual={<PageVisual image={getGuideImage(guide.slug, guide.title, guide.format)} priority />}
+        supportingVisual={<PageVisual image={getGuideSectionImage(guide.slug, "workshop", `Implementation: ${guide.title}`)} />}
+      />
+
+      <Takeaways items={guide.depth?.takeaways} tone="warm" title="What to take from this" />
 
       <RelatedRail
-        tone="warm"
-        groups={[
+        tone="paper"
+        groups={mergeGroups(
+          [
           {
             heading: "Capabilities that do this for you",
             links: link("feature", guide.related.features),
@@ -91,11 +104,15 @@ export default async function GuidePage({ params }: { params: Promise<{ guide: s
             ),
             seeAll: { label: `All ${guides.length} resources`, href: routes.resources() },
           },
-        ]}
+          ],
+          relatedGroups(guide.depth, 1),
+          4,
+        )}
       />
 
       <CtaBand
         action={defaultCta(guide)}
+        close={guide.depth?.close}
         title="Following this by hand is entirely possible"
         body="It is also the part that stops when the business gets busy. Mengo produces the same work from a guided brief and keeps producing it."
         secondary={{ label: "See how it works", href: routes.company("how-it-works") }}

@@ -8,6 +8,8 @@ import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
 import { articleCategories, articlesByCategory } from "@/data/articles";
 import type { Article } from "@/lib/types";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getBlogTopicImage } from "@/lib/images";
 
 export const dynamicParams = false;
 
@@ -64,6 +66,7 @@ export default async function BlogCategoryPage({ params }: { params: Promise<{ c
         title={category.label}
         lead={category.blurb}
         count={`${items.length} articles`}
+        visual={<PageVisual image={getBlogTopicImage(category.slug, category.label)} priority />}
       />
 
       <Section tone="paper">

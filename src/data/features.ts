@@ -1,4 +1,6 @@
 import type { Feature, Bullet, Faq, Slug } from "@/lib/types";
+import { withDepth } from "@/data/depth";
+import { featureDepth } from "@/data/depth/features";
 
 /**
  * Feature entities.
@@ -883,13 +885,11 @@ const growthSignal: Feature[] = [
   ),
 ];
 
-export const features: Feature[] = [
-  ...marketingEngine,
-  ...contentStudio,
-  ...campaignLab,
-  ...leadNurturing,
-  ...growthSignal,
-];
+/** Each capability carries its own inputs, outputs and connections — see `featureDepth`. */
+export const features: Feature[] = withDepth(
+  [...marketingEngine, ...contentStudio, ...campaignLab, ...leadNurturing, ...growthSignal],
+  featureDepth,
+);
 
 export const featureBySlug = new Map(features.map((x) => [x.slug, x]));
 

@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { EditorialHero, CtaBand, RelatedRail } from "@/components/sections/page";
+import { EditorialHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
+import { relatedGroups, mergeGroups } from "@/lib/depth";
 import {
   Eyebrow,
   FaqList,
@@ -22,6 +23,8 @@ import { ctaFor, defaultCta } from "@/lib/cta";
 import { link, solutionsByProduct, useCasesByProduct, take } from "@/lib/registry";
 import { products, productBySlug } from "@/data/products";
 import { featuresForProduct } from "@/data/features";
+import { PageVisual } from "@/components/ui/PageVisual";
+import { getProductSectionImage } from "@/lib/images";
 
 export const dynamicParams = false;
 
@@ -96,10 +99,18 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
             <p className="editorial text-statement leading-snug text-ink-invert">{product.jobToBeDone}</p>
           </div>
         }
+        visual={<PageVisual image={getProductSectionImage(product.slug, "hero", product.title)} priority />}
+      />
+
+      {/* The problem this engine removes, and what it deliberately does not do. */}
+      <Explainer
+        tone="paper"
+        intro={product.depth?.intro}
+        sections={product.depth?.explain}
       />
 
       {/* Inputs and outputs, stated plainly before any persuasion */}
-      <Section tone="paper">
+      <Section tone="warm">
         <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
           <div>
             <Heading
@@ -115,16 +126,22 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
             <MarkerList className="mt-8" items={product.outputs} />
           </div>
         </div>
+        <div className="mt-14">
+          <PageVisual image={getProductSectionImage(product.slug, "inputs-outputs", `${product.title} Architecture`)} />
+        </div>
       </Section>
 
       {/* How it works */}
-      <Section tone="warm">
+      <Section tone="paper">
         <Heading eyebrow="How it works" title={`Inside ${product.title}`} />
         <ProcessRail steps={product.how} />
+        <div className="mt-14">
+          <PageVisual image={getProductSectionImage(product.slug, "how-it-works", `${product.title} Workflow`)} />
+        </div>
       </Section>
 
       {/* Capabilities — dense index, not a card grid */}
-      <Section tone="paper">
+      <Section tone="warm">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <Heading
             eyebrow="Capabilities"
@@ -153,7 +170,19 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
         </div>
       </Section>
 
-      <Section tone="forest">
+      {/* How this engine connects to the other four — the platform argument, per engine. */}
+      {product.depth?.connects ? (
+        <Section tone="forest">
+          <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
+            <Heading eyebrow="One system" title="What it hands to the rest of the platform" as="h2" size="d4" />
+            <p className="max-w-[52ch] text-lead" data-reveal>
+              {product.depth.connects}
+            </p>
+          </div>
+        </Section>
+      ) : null}
+
+      <Section tone="paper">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Heading eyebrow="Questions" title={`About ${product.title}`} as="h2" />
           <FaqList faqs={product.faqs} />
@@ -161,7 +190,9 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
       </Section>
 
       <RelatedRail
-        groups={[
+        tone="warm"
+        groups={mergeGroups(
+          [
           {
             heading: "Solutions this supports",
             links: link("solution", [...new Set([...product.related.solutions, ...relatedSolutions])].slice(0, 6)),
@@ -177,11 +208,15 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
             links: link("industry", product.related.industries),
             seeAll: { label: "All industries", href: routes.industries() },
           },
-        ]}
+          ],
+          relatedGroups(product.depth, 1),
+          4,
+        )}
       />
 
       <CtaBand
         action={defaultCta(product)}
+        close={product.depth?.close}
         title={`Put ${product.title} against your business`}
         body="Join our waitlist and describe the part that keeps stalling. Access opens in batches, and what gets built next follows what the list needs."
         secondary={{ label: "Compare the alternatives", href: routes.compare() }}
