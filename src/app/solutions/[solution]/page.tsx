@@ -78,14 +78,14 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
             </LeadButton>
           </>
         }
-        visual={<PageVisual image={getSolutionSectionImage(solution.slug, "hero", solution.title)} priority />}
+        backdrop={getSolutionSectionImage(solution.slug, "hero", solution.title)}
       />
 
       {/* Why this situation persists, written for this situation. */}
       <Explainer tone="paper" intro={solution.depth?.intro} />
 
       {/* Situation and friction — the reader has to recognise themselves before anything else */}
-      <Section tone="forest">
+      <Section photo={getSolutionSectionImage(solution.slug, "friction", `Diagnosing Friction: ${solution.title}`)} photoLayout="panel">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
           <div>
             <Eyebrow as="h2" className="mb-5">Where you probably are</Eyebrow>
@@ -98,21 +98,15 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
             <MarkerList items={solution.frictions} />
           </div>
         </div>
-        <div className="mt-14">
-          <PageVisual image={getSolutionSectionImage(solution.slug, "friction", `Diagnosing Friction: ${solution.title}`)} />
-        </div>
       </Section>
 
-      <Section tone="paper">
+      <Section photo={getSolutionSectionImage(solution.slug, "approach", `Systematic Approach: ${solution.title}`)} photoLayout="inline">
         <Heading
           eyebrow="The approach"
           title="How Mengo is applied to it"
           lead="Not a feature list. The order matters, because each step makes the next one possible."
         />
         <ProcessRail steps={solution.approach} />
-        <div className="mt-14">
-          <PageVisual image={getSolutionSectionImage(solution.slug, "approach", `Systematic Approach: ${solution.title}`)} />
-        </div>
       </Section>
 
       {/* Outcomes — stated as things the reader can check, never as invented statistics */}

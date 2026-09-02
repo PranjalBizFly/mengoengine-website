@@ -120,7 +120,7 @@ export default async function ChannelIndustryPage({
             </LeadButton>
           </>
         }
-        visual={<PageVisual image={getChannelIndustryImage(channel.slug, industry.slug, channel.title, industry.title)} priority />}
+        backdrop={getChannelIndustryImage(channel.slug, industry.slug, channel.title, industry.title)}
       />
 
       <Explainer tone="paper" intro={depth?.intro} />

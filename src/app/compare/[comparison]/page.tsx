@@ -50,7 +50,7 @@ export default async function ComparisonPage({ params }: { params: Promise<{ com
         lead={comparison.summary}
         facts={[{ label: "Compared with", value: comparison.against }]}
         actions={<Cta cta={ctaFor("waitlist")} />}
-        visual={<PageVisual image={getComparisonImage(comparison.slug, comparison.title, comparison.against)} priority />}
+        backdrop={getComparisonImage(comparison.slug, comparison.title, comparison.against)}
       />
 
       {/* The situation that brings a reader to this specific comparison. */}

@@ -44,14 +44,14 @@ export default function BlogIndexPage() {
         title="One argument per piece"
         lead="Nobody needs another survey of a topic. Everything here takes a position, including the ones a reasonable person would disagree with — which is the point."
         count={`${articles.length} articles across ${articleCategories.length} topics`}
-        visual={<PageVisual image={getHubImage("blog", "Editorial Publications")} priority />}
+        backdrop={getHubImage("blog", "Editorial Publications")}
       >
         <nav aria-label="Topics" className="mt-10 flex flex-wrap gap-2">
           {articleCategories.map((category) => (
             <Link
               key={category.slug}
               href={routes.blogCategory(category.slug)}
-              className="inline-flex min-h-10 items-center rounded-full border border-paper-line px-4 text-small font-medium text-graphite-soft transition-colors hover:border-lime-deep hover:text-lime-deep"
+              className="inline-flex min-h-10 items-center rounded-full border border-paper-line px-4 text-small font-medium text-graphite-soft transition-colors hover:border-lime-deep hover:text-lime-deep [.on-dark_&]:border-sage/30 [.on-dark_&]:text-sage [.on-dark_&]:hover:border-lime [.on-dark_&]:hover:text-lime"
             >
               {category.label}
             </Link>

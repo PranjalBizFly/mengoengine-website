@@ -51,7 +51,7 @@ export default function IndustriesIndexPage() {
         title="Your market decides the plan, not the platform"
         lead="A ninety-day considered purchase and a same-day local job rank channels differently, need different nurture cadences and convert on different content. Each page below starts from those facts."
         count={`${industries.length} industries across six sectors`}
-        visual={<PageVisual image={getHubImage("industries", "Industry Index")} priority />}
+        backdrop={getHubImage("industries", "Industry Index")}
       />
 
       <Section tone="paper">

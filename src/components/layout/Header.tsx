@@ -78,8 +78,10 @@ export function Header() {
   return (
     <header
       ref={headerRef}
-      className={`sticky top-0 z-50 bg-paper/95 backdrop-blur-md transition-shadow duration-300 ${
-        condensed || openIndex !== null ? "shadow-[0_1px_0_var(--color-paper-line)]" : ""
+      className={`sticky top-0 z-50 backdrop-blur-xl transition-[background-color,box-shadow,border-color] duration-500 ease-[var(--ease-out-expo)] ${
+        condensed || openIndex !== null
+          ? "border-b border-paper-line bg-paper/92 shadow-[0_10px_30px_-24px_rgb(2_32_24/0.5)]"
+          : "border-b border-transparent bg-paper/70"
       }`}
       onMouseLeave={scheduleClose}
     >
@@ -99,7 +101,7 @@ export function Header() {
               <Link
                 href={routes.home()}
                 aria-current={pathname === routes.home() ? "page" : undefined}
-                className={`type-nav rounded-full px-3.5 py-2 transition-colors ${
+                className={`type-nav relative rounded-full px-4 py-2.5 transition-colors after:absolute after:inset-x-4 after:bottom-1.5 after:h-px after:origin-left after:scale-x-0 after:bg-lime-deep after:transition-transform after:duration-300 after:ease-[var(--ease-out-expo)] hover:after:scale-x-100 ${
                   pathname === routes.home()
                     ? "text-lime-deep"
                     : "text-graphite hover:text-lime-deep"
@@ -124,7 +126,7 @@ export function Header() {
                       if (openIndex !== index) track(EVENTS.navOpen, { label: group.label, source: pathname });
                       setOpenIndex(openIndex === index ? null : index);
                     }}
-                    className={`type-nav flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${
+                    className={`type-nav relative flex items-center gap-1.5 rounded-full px-4 py-2.5 transition-colors after:absolute after:inset-x-4 after:bottom-1.5 after:h-px after:origin-left after:scale-x-0 after:bg-lime-deep after:transition-transform after:duration-300 after:ease-[var(--ease-out-expo)] hover:after:scale-x-100 ${
                       openIndex === index ? "text-lime-deep" : "text-graphite hover:text-lime-deep"
                     }`}
                   >
@@ -200,7 +202,7 @@ export function Header() {
       {/* Desktop mega menu */}
       {openIndex !== null && primaryNav[openIndex].columns ? (
         <div
-          className="absolute inset-x-0 top-full hidden border-t border-paper-line bg-paper shadow-lift lg:block"
+          className="absolute inset-x-0 top-full hidden border-t border-paper-line bg-paper shadow-xl lg:block"
           onMouseEnter={cancelClose}
           onMouseLeave={scheduleClose}
         >

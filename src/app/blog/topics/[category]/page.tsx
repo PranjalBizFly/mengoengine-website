@@ -66,7 +66,7 @@ export default async function BlogCategoryPage({ params }: { params: Promise<{ c
         title={category.label}
         lead={category.blurb}
         count={`${items.length} articles`}
-        visual={<PageVisual image={getBlogTopicImage(category.slug, category.label)} priority />}
+        backdrop={getBlogTopicImage(category.slug, category.label)}
       />
 
       <Section tone="paper">

@@ -32,12 +32,23 @@
   --color-signal-error: #ff6b6b;
 
   /* --- Role tokens that do not follow the surface --- */
-  /* Text on an inverted (dark) panel. Light in both themes. */
-  --color-ink-invert: #f6f7f3;
+  /* Text on an inverted (dark) panel. Light in both themes.
+     This is the live site's `--text`, and the redesign put far more of the
+     site on a dark ground than the original had, so it is now the most-read
+     colour on the site. It matches exactly rather than approximately. */
+  --color-ink-invert: #ffffff;
+  /* Hairline on a dark ground. The live site's `--line`: a solid forest step,
+     not a translucent grey. Photographic grounds override it — see
+     `.photo-band`, where a solid line would sit on top of the picture. */
+  --color-line-invert: #1b3f2a;
   /* Text on the lime accent. Dark in both themes, because lime never flips. */
   --color-on-accent: #022018;
   /* Form field ground. */
   --color-field: #ffffff;
+  /* Lettering inside the lime eyebrow chip. Dark on a light ground, and the
+     accent itself once the ground goes dark — the chip tint stays lime either
+     way, so only the ink flips. */
+  --color-eyebrow-ink: #022018;
 
   /* --- Typography --- */
   --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
@@ -49,10 +60,10 @@
   --text-eyebrow--letter-spacing: 0.14em;
 
   /* Fluid display scale — clamps keep 320px to 1920px legible with no breakpoint jumps */
-  --text-d1: clamp(2.6rem, 1.2rem + 5.6vw, 6.5rem);
+  --text-d1: clamp(2.4rem, 1.5rem + 3.6vw, 4.65rem);
   --text-d1--line-height: 0.94;
   --text-d1--letter-spacing: -0.035em;
-  --text-d2: clamp(2.1rem, 1.1rem + 3.9vw, 4.5rem);
+  --text-d2: clamp(2rem, 1.25rem + 3.1vw, 3.9rem);
   --text-d2--line-height: 0.98;
   --text-d2--letter-spacing: -0.03em;
   --text-d3: clamp(1.7rem, 1.05rem + 2.4vw, 3rem);
@@ -98,7 +109,7 @@
 
   /* --- Rhythm --- */
   --spacing-gutter: 1.25rem;
-  --spacing-section: clamp(4rem, 2.5rem + 6vw, 8.5rem);
+  --spacing-section: clamp(4.5rem, 2.6rem + 7.2vw, 9.5rem);
 
   /* --- Motion --- */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -106,6 +117,23 @@
 
   /* --- Elevation: restrained; no floating-card look --- */
   --shadow-lift: 0 1px 2px rgb(2 32 24 / 0.05), 0 12px 32px -12px rgb(2 32 24 / 0.18);
+
+  /* --- Form: radius and elevation ---------------------------------
+     The system reads as editorial print — hairline rules, flat ground —
+     and the redesign adds a second register on top of it: soft, rounded
+     surfaces for the things that behave like objects (cards, media,
+     controls). Rules still carry structure; radius carries hierarchy. */
+  --radius-sm: 0.625rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.625rem;
+  --radius-xl: 2.25rem;
+
+  /* Elevation is tinted with the brand ground so shadows read as depth
+     rather than as grey haze on a warm paper surface. */
+  --shadow-sm: 0 2px 10px rgb(2 32 24 / 0.06);
+  --shadow-md: 0 10px 30px rgb(2 32 24 / 0.1);
+  --shadow-lg: 0 24px 60px rgb(2 32 24 / 0.16);
+  --shadow-xl: 0 40px 96px -24px rgb(2 32 24 / 0.28);
 }
 
 
@@ -135,8 +163,10 @@
   --color-sage: #b4c0b5;
   --color-sage-dim: #94a498;
   --color-lime-deep: #a3e625;
-  --color-ink-invert: #eef3ec;
+  --color-ink-invert: #ffffff;
+  --color-line-invert: #2d4234;
   --color-field: #16221b;
+  --color-eyebrow-ink: #a3e625;
   --shadow-lift: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.7);
 }
 
@@ -156,9 +186,16 @@
     --color-sage: #b4c0b5;
     --color-sage-dim: #94a498;
     --color-lime-deep: #a3e625;
-    --color-ink-invert: #eef3ec;
+    --color-ink-invert: #ffffff;
+    --color-line-invert: #2d4234;
     --color-field: #16221b;
+    --color-eyebrow-ink: #a3e625;
     --shadow-lift: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.7);
+
+    --shadow-sm: 0 2px 10px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 10px 30px rgb(0 0 0 / 0.5);
+    --shadow-lg: 0 24px 60px rgb(0 0 0 / 0.6);
+    --shadow-xl: 0 40px 96px -24px rgb(0 0 0 / 0.7);
   }
 }
 
@@ -285,11 +322,21 @@ video {
 }
 
 .on-dark .rule-t {
-  border-top-color: color-mix(in oklab, var(--color-sage) 22%, transparent);
+  border-top-color: var(--color-line-invert);
 }
 
 .on-dark .rule-b {
-  border-bottom-color: color-mix(in oklab, var(--color-sage) 22%, transparent);
+  border-bottom-color: var(--color-line-invert);
+}
+
+/* Over a photograph a solid line reads as a bar laid on the picture, so the
+   hairline goes translucent and lets the image through. */
+.photo-band .rule-t {
+  border-top-color: color-mix(in oklab, var(--color-sage) 30%, transparent);
+}
+
+.photo-band .rule-b {
+  border-bottom-color: color-mix(in oklab, var(--color-sage) 30%, transparent);
 }
 
 @utility eyebrow {
@@ -479,4 +526,504 @@ html.js-reveal [data-reveal].is-revealed {
   background: var(--color-paper-warm);
   padding: 0.15em 0.4em;
   border-radius: 3px;
+}
+
+/* ============================================================
+   Editorial surfaces
+   The second register of the system. Rules carry structure; these carry
+   objects — the things a reader perceives as discrete: a capability tile,
+   a step in a process, a photograph, a floating caption.
+   ============================================================ */
+
+/* A raised content surface. Hover lifts and reveals a brand hairline along
+   the top edge, which is the only decorative gradient in the system. */
+@utility surface-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-paper);
+  border: 1px solid var(--color-paper-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 0.4s var(--ease-out-expo),
+    box-shadow 0.4s var(--ease-out-expo),
+    border-color 0.4s var(--ease-out-expo);
+}
+
+.surface-card::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-lime-deep), var(--color-lime));
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-expo);
+}
+
+@media (hover: hover) {
+  .surface-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: color-mix(in oklab, var(--color-lime-deep) 25%, var(--color-paper-line));
+  }
+
+  .surface-card:hover::before {
+    opacity: 1;
+  }
+}
+
+.on-dark .surface-card {
+  background: var(--color-forest-700);
+  border-color: var(--color-line-invert);
+}
+
+@media (hover: hover) {
+  .on-dark .surface-card:hover {
+    border-color: color-mix(in oklab, var(--color-lime) 45%, transparent);
+  }
+}
+
+/* Softer variant: no border, no lift. Used where a card would be too loud
+   but a flat rule is too quiet — the inset panels inside a dark band. */
+@utility surface-quiet {
+  background: color-mix(in oklab, var(--color-paper-warm) 70%, var(--color-paper));
+  border-radius: var(--radius-md);
+}
+
+.on-dark .surface-quiet {
+  background: color-mix(in oklab, var(--color-sage) 8%, transparent);
+}
+
+/* ------------------------------------------------------------------
+   Photographic bands
+   The signature editorial device: a full-bleed photograph carrying a
+   section, darkened enough that inverted type sits on it comfortably.
+
+   The ground colour is a real, opaque forest — the photograph layers on
+   top at reduced opacity rather than the text sitting on a transparent
+   scrim. That keeps computed contrast honest for assistive technology
+   and for the contrast pass in `npm run qa:final`, which resolves the
+   nearest painted background rather than sampling pixels.
+   ------------------------------------------------------------------ */
+@utility photo-band {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--color-forest);
+}
+
+.photo-band > .photo-band-media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.photo-band > .photo-band-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.06);
+  will-change: transform;
+}
+
+/* A directional wash so the type edge stays the darkest part of the frame
+   regardless of what the photograph happens to be doing there. */
+/* The wash, not the opacity, is what makes type readable.
+   The photograph is always painted at full strength and a directional gradient
+   is laid over it, so the picture stays a picture — dropping the image to a
+   third of its opacity was what made the earlier version read as murk rather
+   than as photography. Each variant darkens only the region the type occupies. */
+.photo-band > .photo-band-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+/* Hero: near-opaque behind the left column, close to clear on the right, so the
+   photograph is fully legible in the half of the frame that carries no text. */
+.photo-band > .photo-band-media[data-scrim="hero"]::after {
+  background:
+    linear-gradient(
+      100deg,
+      rgb(2 32 24 / 0.93) 0%,
+      rgb(2 32 24 / 0.86) 34%,
+      rgb(2 32 24 / 0.48) 63%,
+      rgb(2 32 24 / 0.16) 100%
+    ),
+    linear-gradient(to top, rgb(2 32 24 / 0.66) 0%, transparent 42%);
+}
+
+/* Content held to one side: the wash has to cover the whole column, not just
+   the headline, so the falloff sits past the content edge rather than at the
+   half. A two-column grid inside a left-aligned band still ends at 76%. */
+.photo-band > .photo-band-media[data-scrim="start"]::after {
+  background:
+    linear-gradient(
+      95deg,
+      rgb(2 32 24 / 0.9) 0%,
+      rgb(2 32 24 / 0.85) 52%,
+      rgb(2 32 24 / 0.74) 76%,
+      rgb(2 32 24 / 0.26) 100%
+    ),
+    linear-gradient(to top, rgb(2 32 24 / 0.5) 0%, transparent 40%);
+}
+
+.photo-band > .photo-band-media[data-scrim="end"]::after {
+  background:
+    linear-gradient(
+      265deg,
+      rgb(2 32 24 / 0.9) 0%,
+      rgb(2 32 24 / 0.85) 52%,
+      rgb(2 32 24 / 0.74) 76%,
+      rgb(2 32 24 / 0.26) 100%
+    ),
+    linear-gradient(to top, rgb(2 32 24 / 0.5) 0%, transparent 40%);
+}
+
+/* Content band: an even wash, because the type can sit anywhere in the frame. */
+.photo-band > .photo-band-media[data-scrim="content"]::after {
+  background:
+    linear-gradient(155deg, rgb(2 32 24 / 0.8) 0%, rgb(2 32 24 / 0.68) 55%, rgb(2 32 24 / 0.78) 100%);
+}
+
+/* Panel band: the translucent panel carries the contrast, so the wash only has
+   to stop the photograph competing — most of the picture stays visible. */
+.photo-band > .photo-band-media[data-scrim="panel"]::after {
+  background: linear-gradient(120deg, rgb(2 32 24 / 0.52) 0%, rgb(2 32 24 / 0.3) 60%, rgb(2 32 24 / 0.44) 100%);
+}
+
+/* Caption band: bottom-weighted only. */
+.photo-band > .photo-band-media[data-scrim="bottom"]::after {
+  background: linear-gradient(to top, rgb(2 32 24 / 0.85) 0%, rgb(2 32 24 / 0.36) 34%, rgb(2 32 24 / 0.1) 100%);
+}
+
+/* ------------------------------------------------------------------
+   Eyebrow, pill form
+   The plain `eyebrow` utility stays as it is — it labels table cells and
+   footer columns, where a pill would be noise. This is the section-level
+   variant, and it is what the `Eyebrow` component renders.
+   ------------------------------------------------------------------ */
+@utility eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  /* Forest rather than lime: at eyebrow size the accent is text, and lime-deep
+     on a lime-tinted chip resolves to about 2.8:1. The chip stays lime — the
+     lettering inside it does not. */
+  color: var(--color-eyebrow-ink);
+  background: color-mix(in oklab, var(--color-lime) 30%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-lime-deep) 22%, transparent);
+  padding: 0.5rem 0.875rem;
+  border-radius: 999px;
+}
+
+.on-dark .eyebrow-pill {
+  color: var(--color-lime);
+  background: color-mix(in oklab, var(--color-lime) 14%, transparent);
+  border-color: color-mix(in oklab, var(--color-lime) 26%, transparent);
+}
+
+/* ------------------------------------------------------------------
+   Media
+   ------------------------------------------------------------------ */
+@utility media-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  background: var(--color-forest-800);
+}
+
+/* The caption card that overlaps a photograph's lower corner. Sparingly
+   used — it is the loudest composition device here after the photo band. */
+@utility media-badge {
+  border-radius: var(--radius-md);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-paper-line);
+}
+
+.on-dark .media-badge {
+  background: var(--color-forest-800);
+  border-color: color-mix(in oklab, var(--color-sage) 22%, transparent);
+}
+
+/* ============================================================
+   Motion
+   Everything below is additive to the existing reveal: the same
+   observer, the same easing, more registers.
+   ============================================================ */
+
+/* Media reveals by settling rather than rising — a photograph that slides
+   up reads as a slide deck, one that resolves from a slight scale reads as
+   a photograph arriving. */
+html.js-reveal [data-reveal="media"] {
+  opacity: 0;
+  transform: scale(1.04);
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 1.1s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.js-reveal [data-reveal="media"].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Line-level reveal for display type. The clip wrapper is what makes the
+   line appear to rise out of the one above it rather than fade in place.
+
+   The box changes are deliberately unscoped: applying `display: block` only
+   once the reveal class lands switches the inner span from inline to block
+   after hydration, which drops the parent's inline strut and shortens the
+   heading by a line — a layout shift of 0.35 on the pages with the longest
+   titles. The geometry has to be identical before and after. */
+[data-reveal-lines] > * {
+  display: block;
+}
+
+[data-reveal-lines] {
+  overflow: hidden;
+}
+
+html.js-reveal [data-reveal-lines]:not(.is-revealed) > * {
+  opacity: 0;
+  transform: translateY(0.65em);
+}
+
+html.js-reveal [data-reveal-lines] > * {
+  transition:
+    opacity 0.85s var(--ease-out-expo),
+    transform 0.85s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* Parallax: the observer sets --parallax on a media element as it crosses
+   the viewport. Kept small — this is drift, not movement. */
+[data-parallax] {
+  will-change: transform;
+}
+
+[data-parallax] img {
+  transform: translate3d(0, var(--parallax, 0px), 0) scale(1.12);
+  transition: none;
+}
+
+/* Reading-progress hairline, pinned under the header. */
+.scroll-progress {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 60;
+  height: 2px;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--progress, 0));
+  background: linear-gradient(90deg, var(--color-lime-deep), var(--color-lime));
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js-reveal [data-reveal="media"],
+  html.js-reveal [data-reveal="media"].is-revealed,
+  html.js-reveal [data-reveal-lines]:not(.is-revealed) > *,
+  html.js-reveal [data-reveal-lines] > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  [data-parallax] img {
+    transform: none;
+  }
+
+  .scroll-progress {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Inverted grounds: automatic remapping
+   Sections built for the paper surface now also run over photographs, and
+   rewriting every colour utility in fifteen templates to carry an `on-dark`
+   variant would be both a large diff and a standing trap for the next person
+   who adds a section. The surface remaps its own palette instead: inside
+   `.on-dark`, the paper-ground utilities resolve to their inverted partners.
+
+   Explicit `[.on-dark_&]:` variants in components still win where they set
+   something different — they carry the same specificity and come later.
+   ------------------------------------------------------------------ */
+.on-dark .text-graphite {
+  color: var(--color-ink-invert);
+}
+
+.on-dark .text-graphite-soft {
+  color: var(--color-sage);
+}
+
+.on-dark .text-lime-deep {
+  color: var(--color-lime);
+}
+
+.on-dark .border-paper-line {
+  border-color: var(--color-line-invert);
+}
+
+.photo-band .border-paper-line {
+  border-color: color-mix(in oklab, var(--color-sage) 30%, transparent);
+}
+
+.on-dark .bg-paper,
+.on-dark .bg-paper-warm {
+  background-color: color-mix(in oklab, var(--color-sage) 10%, transparent);
+}
+
+.on-dark .decoration-lime-deep {
+  text-decoration-color: var(--color-lime);
+}
+
+.on-dark .bg-lime-deep {
+  background-color: var(--color-lime);
+}
+
+/* ------------------------------------------------------------------
+   Content panel over photography
+   Used where a section's content is too dense for a gradient alone to carry.
+   Deliberately translucent: the photograph must still read through it, which
+   is what keeps the composition one image rather than a card on a backdrop.
+   ------------------------------------------------------------------ */
+@utility photo-panel {
+  background: color-mix(in oklab, var(--color-forest) 82%, transparent);
+  backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid color-mix(in oklab, var(--color-sage) 24%, transparent);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+}
+
+/* The hero's fact strip: label/value pairs laid along the foot of the frame
+   rather than stacked into a panel beside the headline. */
+@utility hero-facts {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid color-mix(in oklab, var(--color-sage) 28%, transparent);
+}
+
+@media (min-width: 640px) {
+  .hero-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-facts {
+    grid-template-columns: repeat(var(--hero-facts, 4), minmax(0, 1fr));
+  }
+}
+
+.hero-facts > * {
+  padding: 1.375rem 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--color-sage) 18%, transparent);
+}
+
+@media (min-width: 640px) {
+  .hero-facts > * {
+    padding-inline-end: 2rem;
+    border-bottom: 0;
+  }
+
+  .hero-facts > * + * {
+    padding-inline-start: 2rem;
+    border-inline-start: 1px solid color-mix(in oklab, var(--color-sage) 18%, transparent);
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .hero-facts > :nth-child(2n + 1) {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+
+  .hero-facts > :nth-child(n + 3) {
+    padding-block-start: 1.375rem;
+    border-block-start: 1px solid color-mix(in oklab, var(--color-sage) 18%, transparent);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Surfaces on photography
+   A grid of raised cards laid over a picture reads as a template dropped on a
+   backdrop — the composition falls apart into image plus unrelated objects. On
+   a photographic ground the same content drops the card and keeps only a
+   hairline, so a capability list or a process rail reads as printed over the
+   photograph instead of floating above it.
+   ------------------------------------------------------------------ */
+.photo-band .surface-card {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid color-mix(in oklab, var(--color-sage) 30%, transparent);
+  border-radius: 0;
+  box-shadow: none;
+  padding-inline: 0;
+  padding-block: 1.75rem;
+}
+
+.photo-band .surface-card::before {
+  display: none;
+}
+
+@media (hover: hover) {
+  .photo-band .surface-card:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: color-mix(in oklab, var(--color-lime) 55%, transparent);
+  }
+}
+
+/* Inside a translucent panel the hairline is the only separation available, so
+   the first row does not need one. */
+.photo-panel .surface-card:first-child,
+.photo-panel dl > .surface-card:first-of-type {
+  border-top: 0;
+  padding-block-start: 0;
+}
+
+/* On a photograph the section ground is `text-sage`, which is right for body
+   copy and too quiet for a heading sitting over a picture. */
+.photo-band h1,
+.photo-band h2,
+.photo-band h3,
+.photo-band h4 {
+  color: var(--color-ink-invert);
+}
+
+.photo-band .surface-quiet {
+  background: color-mix(in oklab, var(--color-sage) 12%, transparent);
+}
+
+/* A directional wash needs horizontal room to work: on a phone the type spans
+   the full frame, so there is no clear side to leave for the picture. Below the
+   tablet breakpoint every variant falls back to an even vertical wash, which
+   keeps the photograph visible and the type on a consistent ground. */
+@media (max-width: 900px) {
+  .photo-band > .photo-band-media[data-scrim="hero"]::after,
+  .photo-band > .photo-band-media[data-scrim="start"]::after,
+  .photo-band > .photo-band-media[data-scrim="end"]::after {
+    background: linear-gradient(
+      180deg,
+      rgb(2 32 24 / 0.84) 0%,
+      rgb(2 32 24 / 0.78) 50%,
+      rgb(2 32 24 / 0.88) 100%
+    );
+  }
+
+  .photo-band > .photo-band-media[data-scrim="panel"]::after {
+    background: linear-gradient(180deg, rgb(2 32 24 / 0.6) 0%, rgb(2 32 24 / 0.5) 100%);
+  }
 }

@@ -56,14 +56,14 @@ export default async function UseCasePage({ params }: { params: Promise<{ useCas
         lead={useCase.summary}
         facts={[{ label: "What triggers this", value: useCase.trigger }]}
         actions={<Cta cta={ctaFor("waitlist")} />}
-        visual={<PageVisual image={getUseCaseSectionImage(useCase.slug, "hero", useCase.title)} priority />}
+        backdrop={getUseCaseSectionImage(useCase.slug, "hero", useCase.title)}
       />
 
       {/* What this job actually involves, written for this job. */}
       <Explainer tone="paper" intro={useCase.depth?.intro} />
 
       {/* Before / after — the one place in the system where a direct contrast earns its keep */}
-      <Section tone="forest">
+      <Section photo={getUseCaseSectionImage(useCase.slug, "transformation", `Transformation: ${useCase.title}`)} photoLayout="panel">
         <div className="grid gap-10 md:grid-cols-2 md:gap-16">
           <div data-reveal>
             <Eyebrow as="h2" className="mb-5">Without a system</Eyebrow>
@@ -78,17 +78,11 @@ export default async function UseCasePage({ params }: { params: Promise<{ useCas
             <p className="text-lead text-ink-invert">{useCase.after}</p>
           </div>
         </div>
-        <div className="mt-14">
-          <PageVisual image={getUseCaseSectionImage(useCase.slug, "transformation", `Transformation: ${useCase.title}`)} />
-        </div>
       </Section>
 
-      <Section tone="paper">
+      <Section photo={getUseCaseSectionImage(useCase.slug, "workflow", `Workflow: ${useCase.title}`)} photoLayout="inline">
         <Heading eyebrow="The workflow" title="How the job actually gets done" />
         <ProcessRail steps={useCase.workflow} />
-        <div className="mt-14">
-          <PageVisual image={getUseCaseSectionImage(useCase.slug, "workflow", `Workflow: ${useCase.title}`)} />
-        </div>
       </Section>
 
       <Explainer

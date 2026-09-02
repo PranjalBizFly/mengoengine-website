@@ -60,11 +60,11 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
           { label: "Removes", value: feature.problem },
         ]}
         actions={<Cta cta={ctaFor("waitlist")} />}
-        visual={<PageVisual image={getFeatureSectionImage(feature.slug, "hero", feature.title)} priority />}
+        backdrop={getFeatureSectionImage(feature.slug, "hero", feature.title)}
       />
 
       {/* Problem then mechanism — the two-beat structure every feature page uses */}
-      <Section tone="warm">
+      <Section photo={getFeatureSectionImage(feature.slug, "problem", `The Problem: ${feature.problem}`)} photoLayout="start">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <div>
             <PullQuote attribution="The problem">{feature.problem}</PullQuote>
@@ -79,9 +79,6 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
             ) : null}
           </div>
         </div>
-        <div className="mt-14">
-          <PageVisual image={getFeatureSectionImage(feature.slug, "problem", `The Problem: ${feature.problem}`)} />
-        </div>
       </Section>
 
       <Explainer
@@ -91,12 +88,9 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
         sections={feature.depth?.explain}
       />
 
-      <Section tone="warm">
+      <Section photo={getFeatureSectionImage(feature.slug, "mechanism", `In Practice: ${feature.title}`)}>
         <Heading eyebrow="In detail" title="What that means in practice" size="d4" />
         <DefinitionList items={feature.detail} columns={1} />
-        <div className="mt-14">
-          <PageVisual image={getFeatureSectionImage(feature.slug, "mechanism", `In Practice: ${feature.title}`)} />
-        </div>
       </Section>
 
       {/* How this capability sits in the wider system — the thing a single feature page most often fails to say. */}

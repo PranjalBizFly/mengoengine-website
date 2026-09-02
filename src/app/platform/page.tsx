@@ -65,7 +65,7 @@ export default function PlatformPage() {
             />
           </div>
         }
-        visual={<PageVisual image={getHubImage("platform", "Platform Overview")} priority />}
+        backdrop={getHubImage("platform", "Platform Overview")}
       />
 
       {/* Each engine gets a full editorial row rather than a card in a grid */}

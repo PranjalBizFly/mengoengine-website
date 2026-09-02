@@ -57,13 +57,13 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
           { label: "Asset formats", value: `${formats.length} defined for this channel` },
         ]}
         actions={<Cta cta={ctaFor("waitlist")} />}
-        visual={<PageVisual image={getChannelSectionImage(channel.slug, "hero", channel.title)} priority />}
+        backdrop={getChannelSectionImage(channel.slug, "hero", channel.title)}
       />
 
       {/* What the channel is for, and what it costs to run. Written per channel. */}
       <Explainer tone="paper" intro={channel.depth?.intro} />
 
-      <Section tone="forest">
+      <Section photo={getChannelSectionImage(channel.slug, "mechanics", `Platform Mechanics: ${channel.title}`)} photoLayout="start">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
           <Heading
             eyebrow="Platform mechanics"
@@ -73,9 +73,6 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
             <MarkerList items={channel.mechanics} />
           </div>
-        </div>
-        <div className="mt-14">
-          <PageVisual image={getChannelSectionImage(channel.slug, "mechanics", `Platform Mechanics: ${channel.title}`)} />
         </div>
       </Section>
 
@@ -106,7 +103,7 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
         </div>
       </Section>
 
-      <Section tone="warm">
+      <Section photo={getChannelSectionImage(channel.slug, "formats", `Asset Formats: ${channel.title}`)} photoLayout="panel">
         <Heading
           eyebrow="Formats"
           title={`${formats.length} ${channel.title} formats, each with its own anatomy`}
@@ -122,9 +119,6 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
               meta={format.spec.split(",")[0]}
             />
           ))}
-        </div>
-        <div className="mt-14">
-          <PageVisual image={getChannelSectionImage(channel.slug, "formats", `Asset Formats: ${channel.title}`)} />
         </div>
       </Section>
 

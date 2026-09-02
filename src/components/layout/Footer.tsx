@@ -12,28 +12,42 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="on-dark bg-forest text-sage">
-      <div className="container-page py-16 md:py-20">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,20rem)_1fr] lg:gap-16">
-          <div>
+    <footer className="on-dark relative isolate overflow-hidden bg-forest text-sage">
+      {/* A brand hairline across the top edge — the one place the lime is
+          allowed to run the full width of the page. */}
+      <span
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,var(--color-lime-deep)_18%,var(--color-lime)_50%,var(--color-lime-deep)_82%,transparent)]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(52%_70%_at_12%_0%,rgb(163_230_37/0.1),transparent_60%)]"
+      />
+      <div className="container-page py-20 md:py-24">
+        <div className="grid gap-14 lg:grid-cols-[minmax(0,22rem)_1fr] lg:gap-20">
+          <div data-reveal>
             <Logo tone="light" />
-            <p className="mt-5 max-w-[24rem] text-body leading-relaxed">
+            <p className="mt-6 max-w-[24rem] text-body leading-relaxed">
               {site.tagline}. Mengo turns a short business brief into strategy, a year of calendar, the content that
               fills it and the follow-up that converts it.
             </p>
             <NewsletterSignup />
           </div>
 
-          <nav aria-label="Footer" className="grid gap-x-8 gap-y-10 sm:grid-cols-2 xl:grid-cols-5">
+          <nav
+            aria-label="Footer"
+            className="grid gap-x-8 gap-y-12 sm:grid-cols-2 xl:grid-cols-5"
+            data-reveal-stagger
+          >
             {footerColumns.map((column) => (
-              <div key={column.heading}>
-                <p className="eyebrow mb-4">{column.heading}</p>
-                <ul className="space-y-2.5">
+              <div key={column.heading} data-reveal>
+                <p className="eyebrow mb-5">{column.heading}</p>
+                <ul className="space-y-3">
                   {column.links.map((item) => (
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="text-small leading-snug text-sage transition-colors hover:text-lime"
+                        className="inline-block text-small leading-snug text-sage transition-[color,transform] duration-300 ease-[var(--ease-out-expo)] hover:text-lime motion-safe:hover:translate-x-0.5"
                       >
                         {item.label}
                       </Link>
@@ -45,7 +59,7 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="mt-16 rule-t pt-8">
+        <div className="mt-20 rule-t pt-10">
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
             {site.social.map((item) => (
               <li key={item.href}>

@@ -45,7 +45,7 @@ export function BackToTop() {
         // Kept out of the tab order and off screen readers while hidden.
         inert={!visible}
         aria-hidden={!visible}
-        className={`fixed right-4 bottom-4 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-paper-line bg-paper text-graphite shadow-lift transition-[opacity,transform] duration-300 ease-[var(--ease-out-expo)] hover:border-lime-deep hover:text-lime-deep md:right-6 md:bottom-6 ${
+        className={`fixed right-4 bottom-4 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-paper-line bg-paper/90 text-graphite shadow-md backdrop-blur-md transition-[opacity,transform,border-color,color] duration-300 ease-[var(--ease-out-expo)] hover:border-lime-deep hover:text-lime-deep motion-safe:hover:-translate-y-0.5 md:right-6 md:bottom-6 ${
           visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
         }`}
       >

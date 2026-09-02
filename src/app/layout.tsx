@@ -87,6 +87,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
+        {/* Reading progress. Painted by the same rAF loop that drives parallax,
+            and hidden entirely under reduced-motion. */}
+        <div data-scroll-progress className="scroll-progress" aria-hidden />
         <LeadModalProvider>
           <SiteChrome>
             <Header />

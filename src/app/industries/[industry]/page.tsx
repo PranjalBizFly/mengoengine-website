@@ -76,14 +76,14 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
             </LeadButton>
           </>
         }
-        visual={<PageVisual image={getIndustrySectionImage(industry.slug, "hero", industry.title)} priority />}
+        backdrop={getIndustrySectionImage(industry.slug, "hero", industry.title)}
       />
 
       {/* Sector context, written for this industry rather than derived from its fields. */}
       <Explainer tone="paper" intro={industry.depth?.intro} />
 
       {/* Realities — the substance of an industry page */}
-      <Section tone="warm">
+      <Section photo={getIndustrySectionImage(industry.slug, "realities", `Sector Realities: ${industry.title}`)}>
         <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
           <Heading
             eyebrow="What is actually true here"
@@ -104,13 +104,10 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
             ) : null}
           </div>
         </div>
-        <div className="mt-14">
-          <PageVisual image={getIndustrySectionImage(industry.slug, "realities", `Sector Realities: ${industry.title}`)} />
-        </div>
       </Section>
 
       {/* Channel priority — ordered, because the order is the recommendation */}
-      <Section tone="paper">
+      <Section photo={getIndustrySectionImage(industry.slug, "channels", `Channel Strategy: ${industry.title}`)} photoLayout="inline">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <Heading
             eyebrow="Channel priority"
@@ -153,9 +150,6 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
             );
           })}
         </ol>
-        <div className="mt-14">
-          <PageVisual image={getIndustrySectionImage(industry.slug, "channels", `Channel Strategy: ${industry.title}`)} />
-        </div>
       </Section>
 
       {/* Formats and objections side by side */}

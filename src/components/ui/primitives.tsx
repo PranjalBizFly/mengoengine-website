@@ -1,5 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import type { PageImageDescriptor } from "@/lib/images";
+import { PhotoBackdrop } from "@/components/ui/PageVisual";
 
 /* ------------------------------------------------------------------ */
 /* Structured data                                                     */
@@ -44,6 +47,10 @@ export function Section({
   id,
   className = "",
   bleed = false,
+  photo,
+  photoLayout = "full",
+  photoPosition,
+  photoPriority = false,
 }: {
   children: ReactNode;
   tone?: Tone;
@@ -51,7 +58,98 @@ export function Section({
   className?: string;
   /** Skip the container, for sections that manage their own full-bleed layout. */
   bleed?: boolean;
+  /**
+   * Carry the section on a full-bleed photograph.
+   *
+   * The photograph is the section's ground, not a decorative band beneath it:
+   * the same children render over the picture. That is the whole point of the
+   * device — an image with unrelated cards sitting on top reads as a backdrop,
+   * while an image carrying the argument reads as a composition.
+   */
+  photo?: PageImageDescriptor;
+  /**
+   * How the content meets the picture. Varying this is what stops a page with
+   * two image sections reading as the same section twice.
+   *
+   *   full     content across the frame on an even wash
+   *   start    content held left, the picture clear on the right
+   *   end      content held right, the picture clear on the left
+   *   panel    content inside a translucent panel, most of the picture visible
+   *   inline   the picture on the section's own light ground, opening the
+   *            content directly beneath it — the treatment that lets a page
+   *            carry two photographs without two dark bands meeting
+   */
+  photoLayout?: "full" | "start" | "end" | "panel" | "inline";
+  /** Focal point of the photograph, when the subject is off-centre. */
+  photoPosition?: string;
+  photoPriority?: boolean;
 }) {
+  if (photo && photoLayout === "inline") {
+    // Light ground, photograph first. It shares the section with the content it
+    // introduces rather than sitting between two sections as a band of its own.
+    return (
+      <section id={id} className={`${TONE_CLASS[tone]} py-section ${className}`}>
+        <div className="container-page">
+          <figure className="media-frame group mb-14 border border-sage/15" data-reveal="media" data-parallax>
+            <div className="relative aspect-[21/9] w-full overflow-hidden">
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                width={photo.width || 2000}
+                height={photo.height || 1125}
+                priority={photoPriority}
+                sizes="(max-width: 1024px) 100vw, 1400px"
+                className="h-full w-full object-cover"
+                {...(photoPosition ? { style: { objectPosition: photoPosition } } : {})}
+              />
+            </div>
+            <figcaption className="flex items-center justify-between gap-4 border-t border-sage/15 bg-forest px-5 py-3 text-fine text-ink-invert">
+              <span className="min-w-0">{photo.title}</span>
+              {photo.photographer ? (
+                <span className="shrink-0 text-sage">Photo: {photo.photographer}</span>
+              ) : null}
+            </figcaption>
+          </figure>
+          {children}
+        </div>
+      </section>
+    );
+  }
+
+  if (photo) {
+    const scrim =
+      photoLayout === "panel"
+        ? "panel"
+        : photoLayout === "start" || photoLayout === "end"
+          ? photoLayout
+          : "content";
+    return (
+      <section id={id} className={`on-dark photo-band py-section text-sage ${className}`}>
+        <PhotoBackdrop
+          image={photo}
+          priority={photoPriority}
+          scrim={scrim}
+          position={photoPosition}
+        />
+        {bleed ? (
+          children
+        ) : (
+          <div className="container-page">
+            {photoLayout === "panel" ? (
+              <div className="photo-panel max-w-[62rem] p-8 md:p-12 lg:p-14">{children}</div>
+            ) : photoLayout === "start" || photoLayout === "end" ? (
+              <div className={`max-w-[64rem] ${photoLayout === "end" ? "ml-auto" : ""}`}>
+                {children}
+              </div>
+            ) : (
+              children
+            )}
+          </div>
+        )}
+      </section>
+    );
+  }
+
   return (
     <section id={id} className={`${TONE_CLASS[tone]} py-section ${className}`}>
       {bleed ? children : <div className="container-page">{children}</div>}
@@ -63,6 +161,7 @@ export function Eyebrow({
   children,
   className = "",
   as: Tag = "p",
+  plain = false,
 }: {
   children: ReactNode;
   className?: string;
@@ -72,8 +171,15 @@ export function Eyebrow({
    * the document outline, which is what screen-reader users navigate by.
    */
   as?: "p" | "h2" | "h3";
+  /**
+   * Drop back to the flat lettering. For eyebrows that label a field or a
+   * column rather than opening a section, where a pill is noise.
+   */
+  plain?: boolean;
 }) {
-  return <Tag className={`eyebrow ${className}`}>{children}</Tag>;
+  return (
+    <Tag className={`${plain ? "eyebrow" : "eyebrow-pill"} ${className}`}>{children}</Tag>
+  );
 }
 
 /**
@@ -105,10 +211,12 @@ export function Heading({
   }[size];
 
   return (
-    <div className={`max-w-[46rem] ${className}`} data-reveal>
-      {eyebrow ? <Eyebrow className="mb-4">{eyebrow}</Eyebrow> : null}
+    <div className={`max-w-[48rem] ${className}`} data-reveal>
+      {eyebrow ? <Eyebrow className="mb-5">{eyebrow}</Eyebrow> : null}
       <Tag className={sizeClass}>{title}</Tag>
-      {lead ? <p className="mt-5 text-lead text-graphite-soft [.on-dark_&]:text-sage">{lead}</p> : null}
+      {lead ? (
+        <p className="mt-6 text-lead text-graphite-soft [.on-dark_&]:text-sage">{lead}</p>
+      ) : null}
     </div>
   );
 }
@@ -141,12 +249,13 @@ export function Stagger({
 type ButtonVariant = "primary" | "secondary" | "ghost";
 
 const BUTTON_BASE =
-  "type-button inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 transition-[background-color,color,border-color,transform] duration-200 ease-[var(--ease-out-expo)] active:translate-y-px";
+  "type-button inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-7 py-3.5 transition-[background-color,color,border-color,transform,box-shadow] duration-300 ease-[var(--ease-out-expo)] active:translate-y-px motion-safe:hover:-translate-y-0.5";
 
 const BUTTON_VARIANT: Record<ButtonVariant, string> = {
-  primary: "bg-lime text-on-accent hover:bg-lime-bright",
+  primary:
+    "bg-lime text-on-accent shadow-[0_8px_22px_-8px_rgb(111_159_26/0.65)] hover:bg-lime-bright hover:shadow-[0_16px_34px_-10px_rgb(111_159_26/0.6)]",
   secondary:
-    "border border-graphite/25 bg-transparent text-graphite hover:border-graphite/60 [.on-dark_&]:border-sage/35 [.on-dark_&]:text-ink-invert [.on-dark_&]:hover:border-lime [.on-dark_&]:hover:text-lime",
+    "border border-graphite/25 bg-transparent text-graphite hover:border-graphite/60 [.on-dark_&]:border-ink-invert/22 [.on-dark_&]:text-ink-invert [.on-dark_&]:hover:border-lime [.on-dark_&]:hover:text-lime",
   ghost: "px-0 text-graphite underline decoration-lime decoration-2 underline-offset-[6px] hover:decoration-lime-deep [.on-dark_&]:text-ink-invert",
 };
 
@@ -210,14 +319,14 @@ export function RowLink({
   return (
     <Link
       href={href}
-      className="group grid gap-1 rule-t py-4 transition-colors hover:bg-paper-warm/70 sm:grid-cols-[minmax(0,15rem)_1fr] sm:gap-6 sm:py-5 [.on-dark_&]:hover:bg-forest-700"
+      className="group -mx-4 grid gap-1 rounded-2xl px-4 py-4 transition-[background-color,transform] duration-300 ease-[var(--ease-out-expo)] hover:bg-paper-warm/80 motion-safe:hover:translate-x-1 sm:grid-cols-[minmax(0,16rem)_1fr] sm:gap-8 sm:py-5 [.on-dark_&]:hover:bg-forest-700"
     >
       {/* Label and meta are stacked, not side by side. Sharing one narrow
           column meant a long meta overflowed and painted over the wrapped
           label; stacking also gives the label the full column, so titles like
           "Sales Follow-up Email" stop wrapping to three lines. */}
       <span className="min-w-0">
-        <span className="type-title block text-h7 text-graphite transition-colors group-hover:text-lime-deep [.on-dark_&]:text-ink-invert [.on-dark_&]:group-hover:text-lime">
+        <span className="type-title block text-h6 text-graphite transition-colors group-hover:text-lime-deep [.on-dark_&]:text-ink-invert [.on-dark_&]:group-hover:text-lime">
           {label}
         </span>
         {meta ? <span className="eyebrow mt-1.5 block">{meta}</span> : null}
@@ -240,8 +349,11 @@ export function FaqList({ faqs, className = "" }: { faqs: { q: string; a: string
   return (
     <div className={className} data-faq>
       {faqs.map((faq) => (
-        <details key={faq.q} className="group rule-t">
-          <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 type-title text-h7 transition-colors hover:text-lime-deep [&::-webkit-details-marker]:hidden [.on-dark_&]:hover:text-lime">
+        <details
+          key={faq.q}
+          className="group surface-card mb-3 px-6 py-1 last:mb-0 md:px-7"
+        >
+          <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-5 type-title text-h6 transition-colors hover:text-lime-deep [&::-webkit-details-marker]:hidden [.on-dark_&]:hover:text-lime">
             {faq.q}
             <span
               aria-hidden
@@ -264,26 +376,33 @@ export function FaqList({ faqs, className = "" }: { faqs: { q: string; a: string
 /** Numbered process rail. Used where order genuinely matters. */
 export function ProcessRail({ steps }: { steps: { title: string; body: string }[] }) {
   return (
-    <ol className="mt-12">
+    <ol className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4" data-reveal-stagger>
       {steps.map((step, i) => (
-        <li
-          key={step.title}
-          className="rule-t grid gap-2 py-7 sm:grid-cols-[4rem_minmax(0,22rem)_1fr] sm:gap-8"
-          data-reveal
-          style={{ "--reveal-delay": `${i * 60}ms` } as React.CSSProperties}
-        >
-          <span className="tnum font-display text-fine font-semibold text-lime-deep [.on-dark_&]:text-lime">
+        <li key={step.title} className="surface-card flex flex-col p-7 md:p-8" data-reveal>
+          <span
+            aria-hidden
+            className="tnum mb-6 inline-flex h-11 w-11 items-center justify-center rounded-full bg-lime text-fine font-semibold text-on-accent"
+          >
             {String(i + 1).padStart(2, "0")}
           </span>
           <h3 className="text-h6 tracking-[-0.02em]">{step.title}</h3>
-          <p className="text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">{step.body}</p>
+          <p className="mt-3 text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
+            {step.body}
+          </p>
         </li>
       ))}
     </ol>
   );
 }
 
-/** Two-column definition list. The workhorse for "label + explanation" content. */
+/**
+ * The workhorse for "label + explanation" content, as a grid of cards.
+ *
+ * `columns` is the count at the *small* breakpoint rather than a fixed track
+ * count: 2 goes two-up from `sm`, 1 stays single-column until `lg`. Items with
+ * long bodies pass 1 so they get the full measure on a phone and a tablet, and
+ * still pair up on a desktop rather than leaving half the row empty.
+ */
 export function DefinitionList({
   items,
   columns = 2,
@@ -292,16 +411,14 @@ export function DefinitionList({
   columns?: 1 | 2;
 }) {
   return (
-    <dl className={`mt-10 grid gap-x-12 ${columns === 2 ? "sm:grid-cols-2" : ""}`}>
-      {items.map((item, i) => (
-        <div
-          key={item.label}
-          className="rule-t py-6"
-          data-reveal
-          style={{ "--reveal-delay": `${i * 50}ms` } as React.CSSProperties}
-        >
-          <dt className="type-title text-h7">{item.label}</dt>
-          <dd className="mt-2 text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
+    <dl
+      className={`mt-12 grid gap-5 ${columns === 2 ? "sm:grid-cols-2" : "lg:grid-cols-2"}`}
+      data-reveal-stagger
+    >
+      {items.map((item) => (
+        <div key={item.label} className="surface-card p-7 md:p-8" data-reveal>
+          <dt className="type-title text-h6">{item.label}</dt>
+          <dd className="mt-3 text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
             {item.body}
           </dd>
         </div>
@@ -313,10 +430,17 @@ export function DefinitionList({
 /** A plain, tight list used for factual enumerations (outputs, inputs, realities). */
 export function MarkerList({ items, className = "" }: { items: string[]; className?: string }) {
   return (
-    <ul className={`space-y-3 ${className}`}>
+    <ul className={`space-y-4 ${className}`} data-reveal-stagger>
       {items.map((item) => (
-        <li key={item} className="relative pl-6 text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
-          <span aria-hidden className="absolute left-0 top-[0.7em] h-px w-3.5 bg-lime-deep [.on-dark_&]:bg-lime" />
+        <li
+          key={item}
+          className="relative pl-7 text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage"
+          data-reveal
+        >
+          <span
+            aria-hidden
+            className="absolute left-0 top-[0.62em] h-1.5 w-1.5 rounded-full bg-lime-deep [.on-dark_&]:bg-lime"
+          />
           {item}
         </li>
       ))}
@@ -327,9 +451,13 @@ export function MarkerList({ items, className = "" }: { items: string[]; classNa
 /** A pull statement. Sparingly used — it is the loudest device in the system. */
 export function PullQuote({ children, attribution }: { children: ReactNode; attribution?: string }) {
   return (
-    <figure className="max-w-[38rem]" data-reveal>
+    <figure className="relative max-w-[40rem] pl-7 md:pl-9" data-reveal>
+      <span
+        aria-hidden
+        className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-lime [.on-dark_&]:bg-lime"
+      />
       <blockquote className="editorial text-d3">{children}</blockquote>
-      {attribution ? <figcaption className="eyebrow mt-5">{attribution}</figcaption> : null}
+      {attribution ? <figcaption className="eyebrow mt-6">{attribution}</figcaption> : null}
     </figure>
   );
 }

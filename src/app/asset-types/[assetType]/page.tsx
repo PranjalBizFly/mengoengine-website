@@ -61,7 +61,7 @@ export default async function AssetTypePage({ params }: { params: Promise<{ asse
           ...(channel ? [{ label: "Channel", value: channel.title }] : []),
         ]}
         actions={<Cta cta={ctaFor("waitlist")} />}
-        visual={<PageVisual image={getAssetTypeImage(asset.slug, asset.title, channel?.title)} priority />}
+        backdrop={getAssetTypeImage(asset.slug, asset.title, channel?.title)}
       />
 
       {/* When to reach for this format, written per format. */}

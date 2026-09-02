@@ -48,7 +48,7 @@ export default function ResourcesIndexPage() {
         title="Usable without buying anything"
         lead="A resource that only works if you buy something is an advertisement wearing a hat. These are written so you could follow them with a spreadsheet and no product at all."
         count={`${guides.length} resources`}
-        visual={<PageVisual image={getHubImage("resources", "Resources & Playbooks")} priority />}
+        backdrop={getHubImage("resources", "Resources & Playbooks")}
       />
 
       <Section tone="paper">

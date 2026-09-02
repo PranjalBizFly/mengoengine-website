@@ -117,28 +117,28 @@ export default function HomePage() {
             <Cta cta={ctaFor("waitlist")} />
             <Link
               href={routes.company("how-it-works")}
-              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-ink-invert transition-colors hover:border-lime hover:text-lime"
+              className="inline-flex min-h-11 items-center rounded-full border border-ink-invert/22 px-6 text-body font-semibold text-ink-invert transition-colors hover:border-lime hover:text-lime"
             >
               See how it works
             </Link>
           </>
         }
         aside={
-          <dl className="grid grid-cols-2 gap-x-8">
+          <dl className="hero-facts" data-reveal-stagger>
             {[
               { k: "In", v: "One guided questionnaire" },
               { k: "Out", v: "365 days of themed calendar" },
               { k: "Formats", v: `${assetTypes.length} defined asset structures` },
               { k: "Runs", v: "Without a daily decision" },
             ].map((row) => (
-              <div key={row.k} className="rule-t py-4">
-                <dt className="eyebrow">{row.k}</dt>
-                <dd className="mt-1.5 text-body leading-snug text-ink-invert">{row.v}</dd>
+              <div key={row.k} data-reveal>
+                <dt className="eyebrow text-sage">{row.k}</dt>
+                <dd className="mt-2 text-body leading-snug text-ink-invert">{row.v}</dd>
               </div>
             ))}
           </dl>
         }
-        visual={<PageVisual image={getHomeSectionImage("hero")} priority />}
+        backdrop={getHomeSectionImage("hero")}
       />
 
       {/* The problem — asymmetric, statement-led, no cards */}
@@ -185,7 +185,7 @@ export default function HomePage() {
       </Section>
 
       {/* The five engines — editorial numbered list, dark */}
-      <Section tone="forest">
+      <Section photo={getHomeSectionImage("engines")}>
         <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
           <div>
             <Eyebrow className="mb-6">The platform</Eyebrow>
@@ -224,13 +224,10 @@ export default function HomePage() {
             ))}
           </ol>
         </div>
-        <div className="mt-14">
-          <PageVisual image={getHomeSectionImage("engines")} />
-        </div>
       </Section>
 
       {/* What comes out — two-column facts, light */}
-      <Section tone="paper">
+      <Section photo={getHomeSectionImage("roi")} photoLayout="inline">
         <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
           <div>
             <Heading
@@ -256,9 +253,6 @@ export default function HomePage() {
             />
           </div>
         </div>
-        <div className="mt-14">
-          <PageVisual image={getHomeSectionImage("roi")} />
-        </div>
       </Section>
 
       {/* How it works — process rail, warm */}
@@ -272,7 +266,7 @@ export default function HomePage() {
       </Section>
 
       {/* Editorial break — the position, stated */}
-      <Section tone="paper">
+      <Section photo={getHomeSectionImage("brief")} photoLayout="panel">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-20">
           <PullQuote attribution="Why Mengo exists">
             The cost of writing competent copy has collapsed, which has made competent copy worthless as a
@@ -292,9 +286,6 @@ export default function HomePage() {
               <TextLink href={routes.company("responsible-ai")}>How we use AI responsibly</TextLink>
             </p>
           </div>
-        </div>
-        <div className="mt-14">
-          <PageVisual image={getHomeSectionImage("brief")} />
         </div>
       </Section>
 

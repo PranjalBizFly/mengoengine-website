@@ -87,7 +87,7 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
             <Cta cta={ctaFor("waitlist")} />
             <Link
               href={routes.platform()}
-              className="inline-flex min-h-11 items-center rounded-full border border-sage/35 px-6 text-body font-semibold text-ink-invert transition-colors hover:border-lime hover:text-lime"
+              className="inline-flex min-h-11 items-center rounded-full border border-ink-invert/22 px-6 text-body font-semibold text-ink-invert transition-colors hover:border-lime hover:text-lime"
             >
               All five engines
             </Link>
@@ -99,7 +99,7 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
             <p className="editorial text-statement leading-snug text-ink-invert">{product.jobToBeDone}</p>
           </div>
         }
-        visual={<PageVisual image={getProductSectionImage(product.slug, "hero", product.title)} priority />}
+        backdrop={getProductSectionImage(product.slug, "hero", product.title)}
       />
 
       {/* The problem this engine removes, and what it deliberately does not do. */}
@@ -110,7 +110,7 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
       />
 
       {/* Inputs and outputs, stated plainly before any persuasion */}
-      <Section tone="warm">
+      <Section photo={getProductSectionImage(product.slug, "inputs-outputs", `${product.title} Architecture`)} photoLayout="end">
         <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
           <div>
             <Heading
@@ -126,18 +126,12 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
             <MarkerList className="mt-8" items={product.outputs} />
           </div>
         </div>
-        <div className="mt-14">
-          <PageVisual image={getProductSectionImage(product.slug, "inputs-outputs", `${product.title} Architecture`)} />
-        </div>
       </Section>
 
       {/* How it works */}
-      <Section tone="paper">
+      <Section photo={getProductSectionImage(product.slug, "how-it-works", `${product.title} Workflow`)} photoLayout="inline">
         <Heading eyebrow="How it works" title={`Inside ${product.title}`} />
         <ProcessRail steps={product.how} />
-        <div className="mt-14">
-          <PageVisual image={getProductSectionImage(product.slug, "how-it-works", `${product.title} Workflow`)} />
-        </div>
       </Section>
 
       {/* Capabilities — dense index, not a card grid */}

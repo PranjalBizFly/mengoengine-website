@@ -48,7 +48,7 @@ export default function SolutionsIndexPage() {
         title="Start from what is actually broken"
         lead="Feature lists are a poor way into a platform, because nobody wakes up needing a calendar generator. These pages start from the situation you are in and work back to what the system does about it."
         count={`${solutions.length} solutions across three axes`}
-        visual={<PageVisual image={getHubImage("solutions", "Solutions Hub")} priority />}
+        backdrop={getHubImage("solutions", "Solutions Hub")}
       />
 
       <Section tone="paper">

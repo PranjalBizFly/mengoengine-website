@@ -42,7 +42,7 @@ export default function FeaturesIndexPage() {
         title="Everything the platform actually does"
         lead="Grouped by engine. Each capability page states the problem it removes and the mechanism it uses, because a feature list without a mechanism is a list of promises."
         count={`${features.length} capabilities across ${products.length} engines`}
-        visual={<PageVisual image={getHubImage("features", "Capabilities Library")} priority />}
+        backdrop={getHubImage("features", "Capabilities Library")}
       />
 
       <Section tone="paper">

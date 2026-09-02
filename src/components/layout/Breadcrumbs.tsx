@@ -11,7 +11,7 @@ export function Breadcrumbs({ crumbs, tone = "paper" }: { crumbs: Crumb[]; tone?
   const trail = [{ label: "Home", href: "/" }, ...crumbs];
 
   return (
-    <nav aria-label="Breadcrumb" className="container-page pt-6">
+    <nav aria-label="Breadcrumb" className="container-page relative pt-7">
       <ol
         className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-fine ${
           tone === "forest" ? "text-sage" : "text-graphite-soft"

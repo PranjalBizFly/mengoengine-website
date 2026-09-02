@@ -42,7 +42,7 @@ export default function ChannelsIndexPage() {
         title="Every platform rewards something different"
         lead="A LinkedIn opener is not a caption with the hashtags removed. Each guide covers the mechanics that decide what works there, the cadence Mengo plans against, and the formats it produces."
         count={`${channels.length} channels · ${assetTypes.length} asset formats`}
-        visual={<PageVisual image={getHubImage("channels", "Channel Strategy Hub")} priority />}
+        backdrop={getHubImage("channels", "Channel Strategy Hub")}
       />
 
       <Section tone="paper">

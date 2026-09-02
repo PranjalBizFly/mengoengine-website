@@ -33,12 +33,19 @@ export default function SitemapPage() {
         lead="Generated from the same route index as the XML sitemap, so the two cannot drift apart. Useful if you would rather scan than navigate."
         count={`${totalPageCount()} pages`}
       >
-        <nav aria-label="Jump to section" className="mt-10 flex flex-wrap gap-2">
+        {/* A fixed column count rather than flex-wrap: with wrapping, the number of
+            rows depends on text width, so the web font arriving re-wrapped the
+            row and shortened the hero by a row height — a 0.35 layout shift on
+            the one page whose hero carries a long chip list. */}
+        <nav
+          aria-label="Jump to section"
+          className="mt-10 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5"
+        >
           {groups.map((group) => (
             <a
               key={group.heading}
               href={`#${group.heading.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
-              className="inline-flex min-h-9 items-center rounded-full border border-paper-line px-3.5 text-fine font-medium text-graphite-soft transition-colors hover:border-lime-deep hover:text-lime-deep"
+              className="flex h-11 items-center justify-center overflow-hidden rounded-full border border-paper-line px-3 text-center text-fine font-medium whitespace-nowrap text-graphite-soft transition-colors hover:border-lime-deep hover:text-lime-deep [.on-dark_&]:border-sage/30 [.on-dark_&]:text-sage [.on-dark_&]:hover:border-lime [.on-dark_&]:hover:text-lime"
             >
               {group.heading}
             </a>

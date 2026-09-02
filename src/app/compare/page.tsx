@@ -41,7 +41,7 @@ export default function CompareIndexPage() {
         title="What you would otherwise do instead"
         lead="These pages compare approaches rather than named products, because asserting things about someone else's software is neither defensible nor durable. Each one names who should pick the alternative."
         count={`${comparisons.length} comparisons`}
-        visual={<PageVisual image={getHubImage("compare", "Comparison Index")} priority />}
+        backdrop={getHubImage("compare", "Comparison Index")}
       />
 
       <Section tone="paper">
