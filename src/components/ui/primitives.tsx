@@ -165,6 +165,7 @@ export function Eyebrow({
   className = "",
   as: Tag = "p",
   plain = false,
+  reveal = false,
 }: {
   children: ReactNode;
   className?: string;
@@ -179,9 +180,20 @@ export function Eyebrow({
    * column rather than opening a section, where a pill is noise.
    */
   plain?: boolean;
+  /**
+   * Join the surrounding entrance rather than painting immediately. Only the
+   * heroes pass it: elsewhere the eyebrow sits inside a block that is already
+   * revealed as a unit, and marking it again would animate it twice.
+   */
+  reveal?: boolean;
 }) {
   return (
-    <Tag className={`${plain ? "eyebrow" : "eyebrow-pill"} ${className}`}>{children}</Tag>
+    <Tag
+      className={`${plain ? "eyebrow" : "eyebrow-pill"} ${className}`}
+      {...(reveal ? { "data-reveal": "" } : {})}
+    >
+      {children}
+    </Tag>
   );
 }
 
@@ -250,9 +262,16 @@ export function Stagger({
 /* ------------------------------------------------------------------ */
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
+/** "sm" is the header/toolbar size: it matches the 44px icon buttons it sits beside. */
+export type ButtonSize = "md" | "sm";
 
 const BUTTON_BASE =
-  "type-button inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-7 py-3.5 transition-[background-color,color,border-color,transform,box-shadow] duration-300 ease-[var(--ease-out-expo)] active:translate-y-px motion-safe:hover:-translate-y-0.5";
+  "type-button inline-flex items-center justify-center gap-2 rounded-full transition-[background-color,color,border-color,transform,box-shadow] duration-300 ease-[var(--ease-out-expo)] active:translate-y-px motion-safe:hover:-translate-y-0.5";
+
+const BUTTON_SIZE: Record<ButtonSize, string> = {
+  md: "min-h-12 px-7 py-3.5",
+  sm: "min-h-11 whitespace-nowrap px-5 py-2.5",
+};
 
 const BUTTON_VARIANT: Record<ButtonVariant, string> = {
   primary:
@@ -262,23 +281,25 @@ const BUTTON_VARIANT: Record<ButtonVariant, string> = {
   ghost: "px-0 text-graphite underline decoration-lime decoration-2 underline-offset-[6px] hover:decoration-lime-deep [.on-dark_&]:text-ink-invert",
 };
 
-export function buttonClass(variant: ButtonVariant = "primary", className = "") {
-  return `${BUTTON_BASE} ${BUTTON_VARIANT[variant]} ${className}`;
+export function buttonClass(variant: ButtonVariant = "primary", className = "", size: ButtonSize = "md") {
+  return `${BUTTON_BASE} ${BUTTON_SIZE[size]} ${BUTTON_VARIANT[variant]} ${className}`;
 }
 
 export function ButtonLink({
   href,
   children,
   variant = "primary",
+  size = "md",
   className = "",
 }: {
   href: string;
   children: ReactNode;
   variant?: ButtonVariant;
+  size?: ButtonSize;
   className?: string;
 }) {
   return (
-    <Link href={href} className={buttonClass(variant, className)}>
+    <Link href={href} className={buttonClass(variant, className, size)}>
       {children}
     </Link>
   );
@@ -337,16 +358,30 @@ export function FaqList({ faqs, className = "" }: { faqs: { q: string; a: string
 /* Editorial devices                                                   */
 /* ------------------------------------------------------------------ */
 
-/** Numbered process rail. Used where order genuinely matters. */
+/**
+ * Numbered process rail. Used where order genuinely matters.
+ *
+ * The steps are laid along a hairline with the numerals sitting on it, rather
+ * than boxed. Two reasons. A sequence carried on a line reads as one process;
+ * the same five steps as five cards read as five unrelated features. And the
+ * column count follows the step count, so a five-step process is a row of five
+ * rather than a row of four with one card orphaned beneath it.
+ *
+ * Above five the row would be too narrow to read, so it splits into two even
+ * rows — six becomes 3 × 2 rather than 4 + 2.
+ */
 export function ProcessRail({ steps }: { steps: { title: string; body: string }[] }) {
+  const columns = steps.length <= 5 ? Math.max(steps.length, 1) : Math.ceil(steps.length / 2);
+
   return (
-    <ol className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4" data-reveal-stagger>
+    <ol
+      className="process-rail mt-14"
+      style={{ "--rail-cols": String(columns) } as React.CSSProperties}
+      data-reveal-stagger
+    >
       {steps.map((step, i) => (
-        <li key={step.title} className="surface-card flex flex-col p-7 md:p-8" data-reveal>
-          <span
-            aria-hidden
-            className="tnum mb-6 inline-flex h-11 w-11 items-center justify-center rounded-full bg-lime text-fine font-semibold text-on-accent"
-          >
+        <li key={step.title} data-reveal>
+          <span aria-hidden className="process-mark">
             {String(i + 1).padStart(2, "0")}
           </span>
           <h3 className="text-h6 tracking-[-0.02em]">{step.title}</h3>
@@ -360,7 +395,11 @@ export function ProcessRail({ steps }: { steps: { title: string; body: string }[
 }
 
 /**
- * The workhorse for "label + explanation" content, as a grid of cards.
+ * The workhorse for "label + explanation" content, as a ruled index.
+ *
+ * This is the most-used content component on the site, which is why it is not
+ * a card grid: whatever shape it takes is the shape a reader remembers the
+ * whole site having.
  *
  * `columns` is the count at the *small* breakpoint rather than a fixed track
  * count: 2 goes two-up from `sm`, 1 stays single-column until `lg`. Items with
@@ -376,13 +415,13 @@ export function DefinitionList({
 }) {
   return (
     <dl
-      className={`mt-12 grid gap-5 ${columns === 2 ? "sm:grid-cols-2" : "lg:grid-cols-2"}`}
+      className={`index-list mt-12 ${columns === 2 ? "sm:grid-cols-2" : "lg:grid-cols-2"}`}
       data-reveal-stagger
     >
       {items.map((item) => (
-        <div key={item.label} className="surface-card p-7 md:p-8" data-reveal>
+        <div key={item.label} data-reveal>
           <dt className="type-title text-h6">{item.label}</dt>
-          <dd className="mt-3 text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
+          <dd className="mt-3 max-w-[52ch] text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
             {item.body}
           </dd>
         </div>

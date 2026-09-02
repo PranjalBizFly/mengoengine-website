@@ -77,7 +77,9 @@ export default async function ComparisonPage({ params }: { params: Promise<{ com
 
       {/* The two-column decision — the most useful part of the page */}
       <Section tone="warm">
-        <Heading eyebrow="Which should you choose" title="Be honest about which column you are in" size="d4" />
+        {/* The payoff of the page, and it was set two steps below the sections
+            arguing up to it. Hierarchy follows importance. */}
+        <Heading eyebrow="Which should you choose" title="Be honest about which column you are in" />
         <div className="mt-12 grid gap-10 md:grid-cols-2 md:gap-16">
           <div data-reveal>
             <Eyebrow as="h3" className="mb-5">Choose {comparison.against}</Eyebrow>

@@ -92,147 +92,158 @@ export function Header() {
   }, []);
 
   return (
-    <header
-      ref={headerRef}
-      className={`sticky top-0 z-50 backdrop-blur-xl transition-[background-color,box-shadow,border-color] duration-500 ease-[var(--ease-out-expo)] ${
-        condensed || openIndex !== null
-          ? "border-b border-paper-line bg-paper/92 shadow-[0_10px_30px_-24px_rgb(2_32_24/0.5)]"
-          : "border-b border-transparent bg-paper/70"
-      }`}
-      onMouseLeave={scheduleClose}
-    >
-      <a
-        href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-10 focus:rounded-full focus:bg-forest focus:px-4 focus:py-2 focus:text-sm focus:text-ink-invert"
+    <>
+      <header
+        ref={headerRef}
+        className={`sticky top-0 z-50 backdrop-blur-xl transition-[background-color,box-shadow,border-color] duration-500 ease-[var(--ease-out-expo)] ${
+          condensed || openIndex !== null
+            ? "border-b border-paper-line bg-paper/92 shadow-[0_10px_30px_-24px_rgb(2_32_24/0.5)]"
+            : "border-b border-transparent bg-paper/70"
+        }`}
+        onMouseLeave={scheduleClose}
       >
-        Skip to content
-      </a>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-10 focus:rounded-full focus:bg-forest focus:px-4 focus:py-2 focus:text-sm focus:text-ink-invert"
+        >
+          Skip to content
+        </a>
 
-      <div className="container-page flex h-(--header-h) items-center justify-between gap-6">
-        <Logo />
+        <div className="container-page flex h-(--header-h) flex-nowrap items-center justify-between gap-3 2xl:gap-6">
+          <Logo />
 
-        <nav aria-label="Primary" className="hidden lg:block">
-          <ul className="flex items-center gap-1">
-            <li>
-              <Link
-                href={routes.home()}
-                aria-current={pathname === routes.home() ? "page" : undefined}
-                className={`type-nav relative rounded-full px-4 py-2.5 transition-colors after:absolute after:inset-x-4 after:bottom-1.5 after:h-px after:origin-left after:scale-x-0 after:bg-lime-deep after:transition-transform after:duration-300 after:ease-[var(--ease-out-expo)] hover:after:scale-x-100 ${
-                  pathname === routes.home()
-                    ? "text-lime-deep"
-                    : "text-graphite hover:text-lime-deep"
-                }`}
-              >
-                Home
-              </Link>
-            </li>
-            {primaryNav.map((group, index) => (
-              <li key={group.label}>
-                {group.columns ? (
-                  <button
-                    type="button"
-                    aria-expanded={openIndex === index}
-                    aria-haspopup="true"
-                    onMouseEnter={() => {
-                      cancelClose();
-                      setOpenIndex(index);
-                    }}
-                    onFocus={() => setOpenIndex(index)}
-                    onClick={() => {
-                      if (openIndex !== index) track(EVENTS.navOpen, { label: group.label, source: pathname });
-                      setOpenIndex(openIndex === index ? null : index);
-                    }}
-                    className={`type-nav relative flex items-center gap-1.5 rounded-full px-4 py-2.5 transition-colors after:absolute after:inset-x-4 after:bottom-1.5 after:h-px after:origin-left after:scale-x-0 after:bg-lime-deep after:transition-transform after:duration-300 after:ease-[var(--ease-out-expo)] hover:after:scale-x-100 ${
-                      openIndex === index ? "text-lime-deep" : "text-graphite hover:text-lime-deep"
-                    }`}
-                  >
-                    {group.label}
-                    <svg
-                      width="9"
-                      height="6"
-                      viewBox="0 0 9 6"
-                      aria-hidden
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      className={`transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""}`}
-                    >
-                      <path d="M1 1l3.5 3.5L8 1" />
-                    </svg>
-                  </button>
-                ) : (
-                  <Link
-                    href={group.href}
-                    className="type-nav rounded-full px-3.5 py-2 text-graphite transition-colors hover:text-lime-deep"
-                  >
-                    {group.label}
-                  </Link>
-                )}
+          <nav aria-label="Primary" className="hidden min-w-0 lg:block">
+            <ul className="flex flex-nowrap items-center">
+              {/* Below 1280 the logo is the only Home affordance the row has space for. */}
+              <li className="hidden xl:block">
+                <Link
+                  href={routes.home()}
+                  aria-current={pathname === routes.home() ? "page" : undefined}
+                  className={`type-nav relative inline-flex items-center whitespace-nowrap rounded-full px-2 py-2.5 transition-colors after:absolute after:inset-x-2 xl:px-3 xl:after:inset-x-3 after:bottom-1.5 after:h-px after:origin-left after:scale-x-0 after:bg-lime-deep after:transition-transform after:duration-300 after:ease-[var(--ease-out-expo)] hover:after:scale-x-100 ${
+                    pathname === routes.home()
+                      ? "text-lime-deep"
+                      : "text-graphite hover:text-lime-deep"
+                  }`}
+                >
+                  Home
+                </Link>
               </li>
-            ))}
-          </ul>
-        </nav>
+              {primaryNav.map((group, index) => (
+                <li key={group.label}>
+                  {group.columns ? (
+                    <button
+                      type="button"
+                      aria-expanded={openIndex === index}
+                      aria-haspopup="true"
+                      onMouseEnter={() => {
+                        cancelClose();
+                        setOpenIndex(index);
+                      }}
+                      onFocus={() => setOpenIndex(index)}
+                      onClick={() => {
+                        if (openIndex !== index) track(EVENTS.navOpen, { label: group.label, source: pathname });
+                        setOpenIndex(openIndex === index ? null : index);
+                      }}
+                      className={`type-nav relative flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-2.5 transition-colors after:absolute after:inset-x-2 xl:px-3 xl:after:inset-x-3 after:bottom-1.5 after:h-px after:origin-left after:scale-x-0 after:bg-lime-deep after:transition-transform after:duration-300 after:ease-[var(--ease-out-expo)] hover:after:scale-x-100 ${
+                        openIndex === index ? "text-lime-deep" : "text-graphite hover:text-lime-deep"
+                      }`}
+                    >
+                      {group.label}
+                      <svg
+                        width="9"
+                        height="6"
+                        viewBox="0 0 9 6"
+                        aria-hidden
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        className={`transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""}`}
+                      >
+                        <path d="M1 1l3.5 3.5L8 1" />
+                      </svg>
+                    </button>
+                  ) : (
+                    <Link
+                      href={group.href}
+                      className="type-nav inline-flex items-center whitespace-nowrap rounded-full px-2 py-2.5 text-graphite transition-colors hover:text-lime-deep xl:px-3"
+                    >
+                      {group.label}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-        <div className="hidden items-center gap-2 lg:flex">
-          <SearchButton onOpen={openSearch} />
-          <ThemeToggle />
-          <Link
-            href={routes.contact()}
-            className="type-nav rounded-full px-3.5 py-2 text-graphite transition-colors hover:text-lime-deep"
+          <div className="hidden shrink-0 items-center gap-1.5 lg:flex">
+            {/* Below 1280 the row is too narrow for the labelled search field and
+                the standalone Contact link; both have compact stand-ins. */}
+            <SearchButton onOpen={openSearch} variant="icon" className="xl:hidden" />
+            <SearchButton onOpen={openSearch} className="hidden xl:flex" />
+            <ThemeToggle />
+            <Link
+              href={routes.contact()}
+              className="type-nav hidden whitespace-nowrap rounded-full px-3 py-2.5 text-graphite transition-colors hover:text-lime-deep xl:inline-flex xl:items-center"
+            >
+              Contact
+            </Link>
+            <LeadButton intent="waitlist" size="sm" className="shrink-0">
+              Join our waitlist
+            </LeadButton>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-1 lg:hidden">
+            <SearchButton onOpen={openSearch} variant="icon" />
+            <ThemeToggle />
+            <button
+            type="button"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav"
+            onClick={() => {
+              if (!mobileOpen) track(EVENTS.navOpen, { label: "mobile menu", source: pathname });
+              setMobileOpen((v) => !v);
+            }}
+            className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full text-graphite"
           >
-            Contact
-          </Link>
-          <LeadButton intent="waitlist" className="px-5">
-            Join our waitlist
-          </LeadButton>
+            <span className="sr-only">{mobileOpen ? "Close menu" : "Open menu"}</span>
+            <span className="relative block h-3.5 w-6" aria-hidden>
+              <span
+                className={`absolute left-0 block h-[1.5px] w-6 bg-current transition-transform duration-300 ease-[var(--ease-out-expo)] ${
+                  mobileOpen ? "top-1.5 rotate-45" : "top-0"
+                }`}
+              />
+              <span
+                className={`absolute left-0 block h-[1.5px] w-6 bg-current transition-transform duration-300 ease-[var(--ease-out-expo)] ${
+                  mobileOpen ? "top-1.5 -rotate-45" : "top-3"
+                }`}
+              />
+            </span>
+            </button>
+          </div>
         </div>
 
-        <div className="flex items-center gap-1 lg:hidden">
-          <SearchButton onOpen={openSearch} variant="icon" />
-          <ThemeToggle />
-          <button
-          type="button"
-          aria-expanded={mobileOpen}
-          aria-controls="mobile-nav"
-          onClick={() => {
-            if (!mobileOpen) track(EVENTS.navOpen, { label: "mobile menu", source: pathname });
-            setMobileOpen((v) => !v);
-          }}
-          className="-mr-2 flex h-11 w-11 items-center justify-center rounded-full text-graphite"
-        >
-          <span className="sr-only">{mobileOpen ? "Close menu" : "Open menu"}</span>
-          <span className="relative block h-3.5 w-6" aria-hidden>
-            <span
-              className={`absolute left-0 block h-[1.5px] w-6 bg-current transition-transform duration-300 ease-[var(--ease-out-expo)] ${
-                mobileOpen ? "top-1.5 rotate-45" : "top-0"
-              }`}
-            />
-            <span
-              className={`absolute left-0 block h-[1.5px] w-6 bg-current transition-transform duration-300 ease-[var(--ease-out-expo)] ${
-                mobileOpen ? "top-1.5 -rotate-45" : "top-3"
-              }`}
-            />
-          </span>
-          </button>
-        </div>
-      </div>
+        {/* Desktop mega menu */}
+        {openIndex !== null && primaryNav[openIndex].columns ? (
+          <div
+            className="mega-panel absolute inset-x-0 top-full hidden border-t border-paper-line bg-paper shadow-xl lg:block"
+            onMouseEnter={cancelClose}
+            onMouseLeave={scheduleClose}
+          >
+            {/* Keyed on the open group so moving from one menu to the next
+                re-runs the column stagger. The panel itself stays mounted, so
+                only the contents resolve — the surface does not flash. */}
+            <MegaPanel key={openIndex} group={primaryNav[openIndex]} />
+          </div>
+        ) : null}
+      </header>
 
-      {/* Desktop mega menu */}
-      {openIndex !== null && primaryNav[openIndex].columns ? (
-        <div
-          className="absolute inset-x-0 top-full hidden border-t border-paper-line bg-paper shadow-xl lg:block"
-          onMouseEnter={cancelClose}
-          onMouseLeave={scheduleClose}
-        >
-          <MegaPanel group={primaryNav[openIndex]} />
-        </div>
-      ) : null}
-
-      {/* Mobile panel */}
+      {/* Mobile panel and search sit outside <header>: its backdrop-filter makes
+          it the containing block for fixed descendants, which would collapse both
+          overlays into the header's own 5rem box. */}
       <div
         id="mobile-nav"
         hidden={!mobileOpen}
-        className="fixed inset-x-0 bottom-0 top-(--header-h) overflow-y-auto overscroll-contain border-t border-paper-line bg-paper lg:hidden"
+        className="fixed inset-x-0 bottom-0 top-(--header-h) z-40 overflow-y-auto overscroll-contain border-t border-paper-line bg-paper lg:hidden"
       >
         <div className="container-page pb-10 pt-2">
           <Link
@@ -319,16 +330,20 @@ export function Header() {
       </div>
 
       <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
-    </header>
+    </>
   );
 }
 
 function MegaPanel({ group }: { group: NavGroup }) {
   const columns = group.columns ?? [];
   return (
-    <div className="container-page grid gap-x-10 gap-y-8 py-9 xl:grid-cols-[1fr_1fr_1fr_minmax(0,17rem)]">
-      {columns.map((column) => (
-        <div key={column.heading} className="min-w-0">
+    <div className="container-page grid gap-x-8 gap-y-8 py-9 lg:grid-cols-[1fr_1fr_1fr_minmax(0,15rem)] xl:gap-x-10 xl:grid-cols-[1fr_1fr_1fr_minmax(0,17rem)]">
+      {columns.map((column, index) => (
+        <div
+          key={column.heading}
+          className="min-w-0"
+          style={{ "--mega-index": String(index) } as React.CSSProperties}
+        >
           <p className="eyebrow mb-4">
             {column.headingHref ? (
               <Link href={column.headingHref} className="transition-colors hover:text-lime-deep">
@@ -366,7 +381,10 @@ function MegaPanel({ group }: { group: NavGroup }) {
       ))}
 
       {group.feature ? (
-        <div className="on-dark rounded-2xl bg-forest p-7">
+        <div
+          className="on-dark rounded-2xl bg-forest p-7"
+          style={{ "--mega-index": String(columns.length) } as React.CSSProperties}
+        >
           <p className="eyebrow">{group.feature.eyebrow}</p>
           <p className="mt-4 type-title text-h5 leading-tight text-ink-invert">
             {group.feature.title}

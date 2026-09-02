@@ -12,7 +12,7 @@ import {
   type ReactNode,
 } from "react";
 import { usePathname } from "next/navigation";
-import { buttonClass } from "@/components/ui/primitives";
+import { buttonClass, type ButtonSize } from "@/components/ui/primitives";
 import { EVENTS, track } from "@/lib/analytics";
 
 /**
@@ -617,12 +617,14 @@ export function LeadButton({
   subject,
   children,
   variant = "primary",
+  size = "md",
   className = "",
 }: {
   intent?: LeadIntent;
   subject?: string;
   children: ReactNode;
   variant?: "primary" | "secondary" | "ghost";
+  size?: ButtonSize;
   className?: string;
 }) {
   const { open } = useLeadModal();
@@ -633,7 +635,7 @@ export function LeadButton({
         track(EVENTS.ctaClick, { intent, subject: subject ?? null });
         open(intent, subject);
       }}
-      className={buttonClass(variant, className)}
+      className={buttonClass(variant, className, size)}
     >
       {children}
     </button>

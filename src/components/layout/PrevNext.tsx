@@ -32,31 +32,50 @@ export function PrevNext({
 }) {
   if (!previous && !next) return null;
 
+  // Most pages in a run have both ends; the first and last have one. A
+  // two-column grid holding a single card left half a section empty and the
+  // card stranded away from the label naming the sequence, which is a lot of
+  // page spent saying "continue". A run of one spans the width instead, with
+  // the direction at one end and the destination at the other.
+  const both = Boolean(previous && next);
+
   return (
     <Section tone={tone}>
       <nav aria-label={`Previous and next in ${within}`}>
-        <p className="eyebrow mb-6">In {within}</p>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {previous ? (
-            <Step direction="previous" link={previous} />
-          ) : (
-            <span className="hidden sm:block" aria-hidden />
-          )}
-          {next ? <Step direction="next" link={next} /> : null}
+        <p className="eyebrow mb-5">In {within}</p>
+        <div className={`rule-t ${both ? "grid sm:grid-cols-2" : ""}`}>
+          {previous ? <Step direction="previous" link={previous} spread={!both} /> : null}
+          {next ? <Step direction="next" link={next} spread={!both} divided={both} /> : null}
         </div>
       </nav>
     </Section>
   );
 }
 
-function Step({ direction, link }: { direction: "previous" | "next"; link: PrevNextLink }) {
+function Step({
+  direction,
+  link,
+  spread,
+  divided = false,
+}: {
+  direction: "previous" | "next";
+  link: PrevNextLink;
+  /** The only step in the run: lay it across the full measure. */
+  spread: boolean;
+  /** A hairline separating it from the step beside it. */
+  divided?: boolean;
+}) {
   const isNext = direction === "next";
   return (
     <Link
       href={link.href}
       rel={isNext ? "next" : "prev"}
-      className={`group surface-card flex min-h-24 flex-col justify-center gap-1.5 p-6 transition-[border-color,transform] duration-300 ease-[var(--ease-out-expo)] hover:border-lime-deep/40 md:p-7 ${
-        isNext ? "sm:items-end sm:text-right" : ""
+      className={`group -mx-4 flex min-h-24 rounded-2xl px-4 py-7 transition-[background-color,transform] duration-300 ease-[var(--ease-out-expo)] hover:bg-paper-warm/80 [.on-dark_&]:hover:bg-forest-700 ${
+        spread
+          ? "flex-wrap items-baseline justify-between gap-x-8 gap-y-2"
+          : `flex-col justify-center gap-1.5 ${isNext ? "sm:items-end sm:text-right" : ""}`
+      } ${divided ? "sm:border-l sm:border-paper-line sm:pl-9" : ""} ${
+        isNext ? "motion-safe:hover:translate-x-1" : "motion-safe:hover:-translate-x-1"
       }`}
       data-reveal
     >

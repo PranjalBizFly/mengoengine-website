@@ -65,16 +65,28 @@ export function EditorialHero({
       {crumbs ? <Breadcrumbs crumbs={crumbs} tone="forest" /> : null}
 
       <div className="container-page flex flex-1 flex-col justify-center pb-14 pt-16 md:pb-16 md:pt-24">
+        {/* The entrance is one sequence rather than four elements that each
+            happen to animate: label, statement, argument, action. The eyebrow
+            used to paint instantly while everything under it rose, which read
+            as a page still loading rather than as a page arriving. */}
         <div className="max-w-[46rem]">
-          {eyebrow ? <Eyebrow className="mb-7">{eyebrow}</Eyebrow> : null}
-          <h1 className="text-d1 text-ink-invert" data-reveal-lines>
+          {eyebrow ? (
+            <Eyebrow className="mb-7" reveal>
+              {eyebrow}
+            </Eyebrow>
+          ) : null}
+          <h1
+            className="text-d1 text-ink-invert"
+            data-reveal-lines
+            style={{ "--reveal-delay": "110ms" } as React.CSSProperties}
+          >
             <span>{title}</span>
           </h1>
           {lead ? (
             <p
               className="mt-8 max-w-[44ch] text-lead text-ink-invert/85"
               data-reveal
-              style={{ "--reveal-delay": "180ms" } as React.CSSProperties}
+              style={{ "--reveal-delay": "300ms" } as React.CSSProperties}
             >
               {lead}
             </p>
@@ -83,7 +95,7 @@ export function EditorialHero({
             <div
               className="mt-10 flex flex-wrap items-center gap-3"
               data-reveal
-              style={{ "--reveal-delay": "320ms" } as React.CSSProperties}
+              style={{ "--reveal-delay": "440ms" } as React.CSSProperties}
             >
               {actions}
             </div>
@@ -96,7 +108,7 @@ export function EditorialHero({
         <div
           className="container-page pb-12 md:pb-14"
           data-reveal
-          style={{ "--reveal-delay": "460ms" } as React.CSSProperties}
+          style={{ "--reveal-delay": "580ms" } as React.CSSProperties}
         >
           {aside}
         </div>
@@ -147,14 +159,20 @@ export function DocumentHero({
 
       <div className="container-page flex flex-1 flex-col justify-center pb-12 pt-12 md:pb-14 md:pt-16">
         <div className="max-w-[44rem]">
-          <Eyebrow className="mb-6">{eyebrow}</Eyebrow>
-          <h1 className="text-d2 text-ink-invert" data-reveal-lines>
+          <Eyebrow className="mb-6" reveal>
+            {eyebrow}
+          </Eyebrow>
+          <h1
+            className="text-d2 text-ink-invert"
+            data-reveal-lines
+            style={{ "--reveal-delay": "110ms" } as React.CSSProperties}
+          >
             <span>{title}</span>
           </h1>
           <p
             className="mt-7 max-w-[50ch] text-lead text-ink-invert/85"
             data-reveal
-            style={{ "--reveal-delay": "180ms" } as React.CSSProperties}
+            style={{ "--reveal-delay": "280ms" } as React.CSSProperties}
           >
             {lead}
           </p>
@@ -162,7 +180,7 @@ export function DocumentHero({
             <div
               className="mt-9 flex flex-wrap gap-3"
               data-reveal
-              style={{ "--reveal-delay": "320ms" } as React.CSSProperties}
+              style={{ "--reveal-delay": "410ms" } as React.CSSProperties}
             >
               {actions}
             </div>
@@ -232,14 +250,20 @@ export function IndexHero({
       {crumbs ? <Breadcrumbs crumbs={crumbs} tone="forest" /> : null}
       <div className="container-page pb-14 pt-12 md:pb-16 md:pt-16">
         <div className="max-w-[46rem]">
-          <Eyebrow className="mb-6">{eyebrow}</Eyebrow>
-          <h1 className="text-d2 text-ink-invert" data-reveal-lines>
+          <Eyebrow className="mb-6" reveal>
+            {eyebrow}
+          </Eyebrow>
+          <h1
+            className="text-d2 text-ink-invert"
+            data-reveal-lines
+            style={{ "--reveal-delay": "110ms" } as React.CSSProperties}
+          >
             <span>{title}</span>
           </h1>
           <p
             className="mt-6 max-w-[52ch] text-lead text-ink-invert/85"
             data-reveal
-            style={{ "--reveal-delay": "180ms" } as React.CSSProperties}
+            style={{ "--reveal-delay": "280ms" } as React.CSSProperties}
           >
             {lead}
           </p>
@@ -247,7 +271,7 @@ export function IndexHero({
             <p
               className="eyebrow mt-6 text-sage"
               data-reveal
-              style={{ "--reveal-delay": "300ms" } as React.CSSProperties}
+              style={{ "--reveal-delay": "410ms" } as React.CSSProperties}
             >
               {count}
             </p>
@@ -374,13 +398,10 @@ export function Takeaways({
           <Eyebrow className="mb-5">{eyebrow}</Eyebrow>
           <h2 className="text-d3">{title}</h2>
         </div>
-        <ol className="grid min-w-0 gap-4 sm:grid-cols-2" data-reveal-stagger>
+        <ol className="index-list min-w-0 sm:grid-cols-2" data-numbered data-reveal-stagger>
           {items.map((item, i) => (
-            <li key={item} className="surface-card flex flex-col p-6 md:p-7" data-reveal>
-              <span
-                aria-hidden
-                className="tnum mb-5 inline-flex h-9 w-9 items-center justify-center rounded-full border border-lime-deep/30 bg-lime/15 text-fine font-semibold text-lime-deep [.on-dark_&]:border-lime/40 [.on-dark_&]:text-lime"
-              >
+            <li key={item} data-reveal>
+              <span aria-hidden className="index-num">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">{item}</span>

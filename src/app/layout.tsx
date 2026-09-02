@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { BackToTop } from "@/components/layout/BackToTop";
 import { THEME_INIT_SCRIPT } from "@/components/layout/ThemeToggle";
+import { REVEAL_INIT_SCRIPT } from "@/lib/reveal-init";
 import { LeadModalProvider } from "@/components/forms/LeadModal";
 import { RevealProvider } from "@/components/ui/RevealProvider";
 import { JsonLd } from "@/components/ui/primitives";
@@ -84,6 +85,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Applies the stored or system theme before first paint. Inline and
             tiny by design: a deferred script would flash the wrong theme. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        {/* Arms the scroll-reveal hidden state before first paint, so a page
+            can open with a composed entrance rather than switching on. Carries
+            its own failsafe if the reveal controller never mounts. */}
+        <script dangerouslySetInnerHTML={{ __html: REVEAL_INIT_SCRIPT }} />
       </head>
       <body>
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
