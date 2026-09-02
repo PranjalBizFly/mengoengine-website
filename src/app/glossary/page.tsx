@@ -1,8 +1,8 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 
 import { IndexHero, CtaBand } from "@/components/sections/page";
 import { JsonLd, Section } from "@/components/ui/primitives";
+import { GlossaryBrowser } from "@/components/sections/GlossaryBrowser";
 import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
@@ -61,30 +61,14 @@ export default function GlossaryIndexPage() {
       </IndexHero>
 
       <Section tone="paper">
-        <div className="grid gap-12">
-          {letters.map((letter) => (
-            <div key={letter} id={`letter-${letter}`} className="scroll-mt-[calc(var(--header-h)+2rem)]">
-              <h2 className="text-d4 text-lime-deep">{letter}</h2>
-              <dl className="mt-5 grid gap-x-12 lg:grid-cols-2">
-                {glossary
-                  .filter((term) => term.title[0].toUpperCase() === letter)
-                  .map((term) => (
-                    <div key={term.slug} className="rule-t py-4">
-                      <dt>
-                        <Link
-                          href={routes.glossaryTerm(term.slug)}
-                          className="inline-block py-0.5 type-title text-h7 transition-colors hover:text-lime-deep"
-                        >
-                          {term.title}
-                        </Link>
-                      </dt>
-                      <dd className="mt-1.5 text-body leading-relaxed text-graphite-soft">{term.definition}</dd>
-                    </div>
-                  ))}
-              </dl>
-            </div>
-          ))}
-        </div>
+        <GlossaryBrowser
+          entries={glossary.map((term) => ({
+            slug: term.slug,
+            title: term.title,
+            definition: term.definition,
+            href: routes.glossaryTerm(term.slug),
+          }))}
+        />
       </Section>
 
       <CtaBand

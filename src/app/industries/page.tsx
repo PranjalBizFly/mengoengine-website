@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { IndexHero, Directory, CtaBand } from "@/components/sections/page";
+import { IndexHero, CtaBand } from "@/components/sections/page";
+import { DirectoryBrowser } from "@/components/sections/DirectoryBrowser";
 import { JsonLd, Section } from "@/components/ui/primitives";
 import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
@@ -55,7 +56,10 @@ export default function IndustriesIndexPage() {
       />
 
       <Section tone="paper">
-        <Directory
+        <DirectoryBrowser
+          facetLabel="Sector"
+          placeholder="Search industries"
+          noun="industries"
           groups={SECTOR_ORDER.map((sector) => ({
             heading: sectorLabel(sector),
             id: sector,

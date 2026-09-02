@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 
 import { DocumentHero, CtaBand, RelatedRail, Explainer, Takeaways } from "@/components/sections/page";
 import { relatedGroups, mergeGroups } from "@/lib/depth";
+import { PrevNext } from "@/components/layout/PrevNext";
+import { neighbours } from "@/lib/outline";
 import { LongForm } from "@/components/sections/longform";
 import { JsonLd } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
@@ -38,6 +40,12 @@ export default async function GuidePage({ params }: { params: Promise<{ guide: s
     { label: "Resources", href: routes.resources() },
     { label: guide.title, href: path },
   ];
+
+  // The run is the format, matching how the resources hub groups them.
+  const sameFormat = neighbours(
+    guides.filter((g) => g.format === guide.format),
+    guide.slug,
+  );
 
   return (
     <>
@@ -108,6 +116,17 @@ export default async function GuidePage({ params }: { params: Promise<{ guide: s
           relatedGroups(guide.depth, 1),
           4,
         )}
+      />
+
+      <PrevNext
+        tone="warm"
+        within={`the ${guide.format}s`}
+        previous={
+          sameFormat.previous
+            ? { label: sameFormat.previous.title, href: routes.guide(sameFormat.previous.slug) }
+            : undefined
+        }
+        next={sameFormat.next ? { label: sameFormat.next.title, href: routes.guide(sameFormat.next.slug) } : undefined}
       />
 
       <CtaBand

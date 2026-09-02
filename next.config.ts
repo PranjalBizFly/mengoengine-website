@@ -4,6 +4,17 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
   poweredByHeader: false,
+
+  /**
+   * Build output directory, overridable by env.
+   *
+   * `next dev` and `next start` both own `.next`, so running the browser QA
+   * gates against a production build while a dev server is up leaves the
+   * server answering 400 for its own chunks — the page then loads with no CSS
+   * and no hydration, and the QA reports failures that are not in the code.
+   * Setting NEXT_DIST_DIR gives the QA build its own directory.
+   */
+  ...(process.env.NEXT_DIST_DIR ? { distDir: process.env.NEXT_DIST_DIR } : {}),
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

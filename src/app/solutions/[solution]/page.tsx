@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
+import { SectionNav } from "@/components/layout/SectionNav";
+import { outline } from "@/lib/outline";
 import { relatedGroups, mergeGroups } from "@/lib/depth";
 import {
   DefinitionList,
@@ -55,6 +57,15 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
     ]),
   ].slice(0, 6);
 
+  const sections = outline([
+    Boolean(solution.depth?.intro) && { id: "overview", label: "Overview" },
+    { id: "where-you-are", label: "Where you probably are" },
+    { id: "the-approach", label: "The approach" },
+    { id: "what-changes", label: "What changes" },
+    Boolean(solution.depth?.explain?.length) && { id: "getting-into-it", label: "Getting into it" },
+    { id: "questions", label: "Questions" },
+  ]);
+
   return (
     <>
       <JsonLd
@@ -82,10 +93,12 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
       />
 
       {/* Why this situation persists, written for this situation. */}
-      <Explainer tone="paper" intro={solution.depth?.intro} />
+      <SectionNav items={sections} />
+
+      <Explainer id="overview" tone="paper" intro={solution.depth?.intro} />
 
       {/* Situation and friction — the reader has to recognise themselves before anything else */}
-      <Section photo={getSolutionSectionImage(solution.slug, "friction", `Diagnosing Friction: ${solution.title}`)} photoLayout="panel">
+      <Section id="where-you-are" photo={getSolutionSectionImage(solution.slug, "friction", `Diagnosing Friction: ${solution.title}`)} photoLayout="panel">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
           <div>
             <Eyebrow as="h2" className="mb-5">Where you probably are</Eyebrow>
@@ -100,7 +113,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
         </div>
       </Section>
 
-      <Section photo={getSolutionSectionImage(solution.slug, "approach", `Systematic Approach: ${solution.title}`)} photoLayout="inline">
+      <Section id="the-approach" photo={getSolutionSectionImage(solution.slug, "approach", `Systematic Approach: ${solution.title}`)} photoLayout="inline">
         <Heading
           eyebrow="The approach"
           title="How Mengo is applied to it"
@@ -110,7 +123,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
       </Section>
 
       {/* Outcomes — stated as things the reader can check, never as invented statistics */}
-      <Section tone="warm">
+      <Section id="what-changes" tone="warm">
         <Heading
           eyebrow="What changes"
           title="Signals you can check yourself"
@@ -120,13 +133,14 @@ export default async function SolutionPage({ params }: { params: Promise<{ solut
       </Section>
 
       <Explainer
+        id="getting-into-it"
         tone="paper"
         eyebrow="Getting into it"
         title="Why it persists, and where to start"
         sections={solution.depth?.explain}
       />
 
-      <Section tone="warm">
+      <Section id="questions" tone="warm">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Heading eyebrow="Questions" title={`About ${solution.title.toLowerCase()}`} as="h2" size="d4" />
           <FaqList faqs={solution.faqs} />

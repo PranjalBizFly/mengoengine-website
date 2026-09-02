@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { PageImageDescriptor } from "@/lib/images";
+// Moved to a leaf module so the client-side hub browser can import it without
+// pulling this file's image and modal dependencies into the browser bundle.
+export { RowLink } from "@/components/ui/rows";
 import { PhotoBackdrop } from "@/components/ui/PageVisual";
 
 /* ------------------------------------------------------------------ */
@@ -297,45 +300,6 @@ export function TextLink({
       className={`inline-block py-1 underline decoration-lime-deep decoration-[1.5px] underline-offset-[3px] transition-colors hover:text-lime-deep [.on-dark_&]:decoration-lime [.on-dark_&]:hover:text-lime ${className}`}
     >
       {children}
-    </Link>
-  );
-}
-
-/**
- * The site's recurring "next page" affordance: a full-width row with a rule
- * above it. Used instead of cards so dense index pages stay readable.
- */
-export function RowLink({
-  href,
-  label,
-  blurb,
-  meta,
-}: {
-  href: string;
-  label: string;
-  blurb?: string;
-  meta?: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className="group -mx-4 grid gap-1 rounded-2xl px-4 py-4 transition-[background-color,transform] duration-300 ease-[var(--ease-out-expo)] hover:bg-paper-warm/80 motion-safe:hover:translate-x-1 sm:grid-cols-[minmax(0,16rem)_1fr] sm:gap-8 sm:py-5 [.on-dark_&]:hover:bg-forest-700"
-    >
-      {/* Label and meta are stacked, not side by side. Sharing one narrow
-          column meant a long meta overflowed and painted over the wrapped
-          label; stacking also gives the label the full column, so titles like
-          "Sales Follow-up Email" stop wrapping to three lines. */}
-      <span className="min-w-0">
-        <span className="type-title block text-h6 text-graphite transition-colors group-hover:text-lime-deep [.on-dark_&]:text-ink-invert [.on-dark_&]:group-hover:text-lime">
-          {label}
-        </span>
-        {meta ? <span className="eyebrow mt-1.5 block">{meta}</span> : null}
-      </span>
-      {blurb ? (
-        <span className="text-body leading-relaxed text-graphite-soft [.on-dark_&]:text-sage">
-          {blurb}
-        </span>
-      ) : null}
     </Link>
   );
 }

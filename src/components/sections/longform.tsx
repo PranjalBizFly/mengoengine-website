@@ -1,5 +1,6 @@
 import type { Section as ContentSection } from "@/lib/types";
 import { Eyebrow, MarkerList } from "@/components/ui/primitives";
+import { ContentsRail } from "@/components/layout/SectionNav";
 
 /** Stable, human-readable anchor for a heading. */
 export function slugifyHeading(heading: string): string {
@@ -31,24 +32,13 @@ export function LongForm({
 
   return (
     <div className="container-page grid gap-12 py-section lg:grid-cols-[minmax(0,15rem)_minmax(0,46rem)_1fr] lg:gap-16">
-      <nav aria-label={contentsLabel} className="lg:sticky lg:top-[calc(var(--header-h)+2.5rem)] lg:self-start">
-        <Eyebrow className="mb-4">{contentsLabel}</Eyebrow>
-        <ol className="space-y-2.5">
-          {sections.map((section, i) => (
-            <li key={section.heading} className="flex gap-3 py-1">
-              <span className="tnum mt-1.5 text-eyebrow font-semibold text-lime-deep">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <a
-                href={`#${slugifyHeading(section.heading)}`}
-                className="block py-1 text-small leading-snug text-graphite-soft transition-colors hover:text-lime-deep"
-              >
-                {section.heading}
-              </a>
-            </li>
-          ))}
-        </ol>
-      </nav>
+      <ContentsRail
+        label={contentsLabel}
+        items={sections.map((section) => ({
+          id: slugifyHeading(section.heading),
+          label: section.heading,
+        }))}
+      />
 
       <article className="prose-mengo min-w-0">
         {heroVisual ? <div className="not-prose mb-10">{heroVisual}</div> : null}

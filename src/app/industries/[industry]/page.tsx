@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
+import { SectionNav } from "@/components/layout/SectionNav";
+import { outline } from "@/lib/outline";
 import { relatedGroups, mergeGroups } from "@/lib/depth";
 import {
   DefinitionList,
@@ -54,6 +56,18 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
     ...new Set([...industry.useCases, ...take(useCasesByIndustry.get(industry.slug), 4).map((u) => u.slug)]),
   ].slice(0, 6);
 
+  // Labels are the words these sections already print — the eyebrow where a
+  // band has one, otherwise a noun taken from its own heading.
+  const sections = outline([
+    Boolean(industry.depth?.intro) && { id: "overview", label: "Overview" },
+    { id: "realities", label: "Realities" },
+    { id: "channel-priority", label: "Channel priority" },
+    { id: "formats-objections", label: "Formats and objections" },
+    { id: "the-plan", label: "The plan" },
+    Boolean(industry.depth?.explain?.length) && { id: "in-this-sector", label: "In this sector" },
+    { id: "questions", label: "Questions" },
+  ]);
+
   return (
     <>
       <JsonLd data={[breadcrumbSchema([{ label: "Home", href: "/" }, ...crumbs]), faqSchema(industry.faqs)]} />
@@ -79,11 +93,13 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
         backdrop={getIndustrySectionImage(industry.slug, "hero", industry.title)}
       />
 
+      <SectionNav items={sections} />
+
       {/* Sector context, written for this industry rather than derived from its fields. */}
-      <Explainer tone="paper" intro={industry.depth?.intro} />
+      <Explainer id="overview" tone="paper" intro={industry.depth?.intro} />
 
       {/* Realities — the substance of an industry page */}
-      <Section photo={getIndustrySectionImage(industry.slug, "realities", `Sector Realities: ${industry.title}`)}>
+      <Section id="realities" photo={getIndustrySectionImage(industry.slug, "realities", `Sector Realities: ${industry.title}`)}>
         <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
           <Heading
             eyebrow="What is actually true here"
@@ -107,7 +123,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
       </Section>
 
       {/* Channel priority — ordered, because the order is the recommendation */}
-      <Section photo={getIndustrySectionImage(industry.slug, "channels", `Channel Strategy: ${industry.title}`)} photoLayout="inline">
+      <Section id="channel-priority" photo={getIndustrySectionImage(industry.slug, "channels", `Channel Strategy: ${industry.title}`)} photoLayout="inline">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <Heading
             eyebrow="Channel priority"
@@ -153,7 +169,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
       </Section>
 
       {/* Formats and objections side by side */}
-      <Section tone="forest">
+      <Section id="formats-objections" tone="forest">
         <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
           <div>
             <Eyebrow as="h3" className="mb-5">Formats that convert here</Eyebrow>
@@ -175,7 +191,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
         </div>
       </Section>
 
-      <Section tone="paper">
+      <Section id="the-plan" tone="paper">
         <Heading
           eyebrow="What Mengo builds for this industry"
           title="The plan, concretely"
@@ -207,13 +223,14 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
       </Section>
 
       <Explainer
+        id="in-this-sector"
         tone="warm"
         eyebrow="In this sector"
         title={`What marketing for ${industry.title.toLowerCase()} actually involves`}
         sections={industry.depth?.explain}
       />
 
-      <Section tone="paper">
+      <Section id="questions" tone="paper">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Heading eyebrow="Questions" title={`Marketing for ${industry.title.toLowerCase()}`} as="h2" size="d4" />
           <FaqList faqs={industry.faqs} />

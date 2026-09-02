@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { IndexHero, Directory, CtaBand } from "@/components/sections/page";
+import { IndexHero, CtaBand } from "@/components/sections/page";
+import { DirectoryBrowser } from "@/components/sections/DirectoryBrowser";
 import { JsonLd, Section } from "@/components/ui/primitives";
 import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
@@ -46,7 +47,10 @@ export default function AssetTypesIndexPage() {
       />
 
       <Section tone="paper">
-        <Directory
+        <DirectoryBrowser
+          facetLabel="Channel"
+          placeholder="Search asset formats"
+          noun="formats"
           groups={channels.map((channel) => ({
             heading: channel.title,
             id: channel.slug,

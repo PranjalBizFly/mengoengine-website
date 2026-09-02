@@ -19,7 +19,9 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 
-const APP_DIR = join(process.cwd(), ".next", "server", "app");
+// Honours NEXT_DIST_DIR so this gate can read an isolated build rather than a
+// .next that a running dev server is rewriting underneath it.
+const APP_DIR = join(process.cwd(), process.env.NEXT_DIST_DIR || ".next", "server", "app");
 const MAX_DEPTH_TARGET = 4;
 
 /** Anchors that carry no information about the destination. */

@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
+import { SectionNav } from "@/components/layout/SectionNav";
+import { outline } from "@/lib/outline";
 import { relatedGroups, mergeGroups } from "@/lib/depth";
 import { Eyebrow, FaqList, Heading, JsonLd, ProcessRail, Section } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
@@ -39,6 +41,14 @@ export default async function UseCasePage({ params }: { params: Promise<{ useCas
     { label: useCase.title, href: path },
   ];
 
+  const sections = outline([
+    Boolean(useCase.depth?.intro) && { id: "overview", label: "Overview" },
+    { id: "before-after", label: "Without a system, with Mengo" },
+    { id: "the-workflow", label: "The workflow" },
+    Boolean(useCase.depth?.explain?.length) && { id: "why-it-is-hard", label: "Why it is hard" },
+    { id: "questions", label: "Questions" },
+  ]);
+
   return (
     <>
       <JsonLd
@@ -59,11 +69,13 @@ export default async function UseCasePage({ params }: { params: Promise<{ useCas
         backdrop={getUseCaseSectionImage(useCase.slug, "hero", useCase.title)}
       />
 
+      <SectionNav items={sections} />
+
       {/* What this job actually involves, written for this job. */}
-      <Explainer tone="paper" intro={useCase.depth?.intro} />
+      <Explainer id="overview" tone="paper" intro={useCase.depth?.intro} />
 
       {/* Before / after — the one place in the system where a direct contrast earns its keep */}
-      <Section photo={getUseCaseSectionImage(useCase.slug, "transformation", `Transformation: ${useCase.title}`)} photoLayout="panel">
+      <Section id="before-after" photo={getUseCaseSectionImage(useCase.slug, "transformation", `Transformation: ${useCase.title}`)} photoLayout="panel">
         <div className="grid gap-10 md:grid-cols-2 md:gap-16">
           <div data-reveal>
             <Eyebrow as="h2" className="mb-5">Without a system</Eyebrow>
@@ -80,19 +92,20 @@ export default async function UseCasePage({ params }: { params: Promise<{ useCas
         </div>
       </Section>
 
-      <Section photo={getUseCaseSectionImage(useCase.slug, "workflow", `Workflow: ${useCase.title}`)} photoLayout="inline">
+      <Section id="the-workflow" photo={getUseCaseSectionImage(useCase.slug, "workflow", `Workflow: ${useCase.title}`)} photoLayout="inline">
         <Heading eyebrow="The workflow" title="How the job actually gets done" />
         <ProcessRail steps={useCase.workflow} />
       </Section>
 
       <Explainer
+        id="why-it-is-hard"
         tone="warm"
         eyebrow="Why it is hard, and what you get"
         title="The part most attempts get wrong"
         sections={useCase.depth?.explain}
       />
 
-      <Section tone="paper">
+      <Section id="questions" tone="paper">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Heading eyebrow="Questions" title={`About ${useCase.title.toLowerCase()}`} as="h2" size="d4" />
           <FaqList faqs={useCase.faqs} />

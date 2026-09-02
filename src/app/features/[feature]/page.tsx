@@ -2,7 +2,11 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
+import { SectionNav } from "@/components/layout/SectionNav";
+import { outline } from "@/lib/outline";
 import { relatedGroups, mergeGroups } from "@/lib/depth";
+import { PrevNext } from "@/components/layout/PrevNext";
+import { neighbours } from "@/lib/outline";
 import { DefinitionList, Eyebrow, FaqList, Heading, JsonLd, PullQuote, Section, TextLink } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
@@ -46,6 +50,18 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
     .slice(0, 6)
     .map((f) => f.slug);
 
+  // The run is the engine this capability belongs to, matching how the
+  // capabilities hub groups them.
+  const inEngine = neighbours(featuresForProduct(feature.product), feature.slug);
+
+  const sections = outline([
+    { id: "the-problem", label: "The problem" },
+    Boolean(feature.depth?.explain?.length) && { id: "inputs-outputs", label: "Inputs and outputs" },
+    { id: "in-detail", label: "In detail" },
+    Boolean(feature.depth?.connects) && { id: "in-the-system", label: "In the system" },
+    { id: "questions", label: "Questions" },
+  ]);
+
   return (
     <>
       <JsonLd data={[breadcrumbSchema([{ label: "Home", href: "/" }, ...crumbs]), faqSchema(feature.faqs)]} />
@@ -63,8 +79,10 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
         backdrop={getFeatureSectionImage(feature.slug, "hero", feature.title)}
       />
 
+      <SectionNav items={sections} />
+
       {/* Problem then mechanism — the two-beat structure every feature page uses */}
-      <Section photo={getFeatureSectionImage(feature.slug, "problem", `The Problem: ${feature.problem}`)} photoLayout="start">
+      <Section id="the-problem" photo={getFeatureSectionImage(feature.slug, "problem", `The Problem: ${feature.problem}`)} photoLayout="start">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <div>
             <PullQuote attribution="The problem">{feature.problem}</PullQuote>
@@ -82,20 +100,21 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
       </Section>
 
       <Explainer
+        id="inputs-outputs"
         tone="paper"
         eyebrow="Inputs and outputs"
         title={`What ${feature.title} needs and what it returns`}
         sections={feature.depth?.explain}
       />
 
-      <Section photo={getFeatureSectionImage(feature.slug, "mechanism", `In Practice: ${feature.title}`)}>
+      <Section id="in-detail" photo={getFeatureSectionImage(feature.slug, "mechanism", `In Practice: ${feature.title}`)}>
         <Heading eyebrow="In detail" title="What that means in practice" size="d4" />
         <DefinitionList items={feature.detail} columns={1} />
       </Section>
 
       {/* How this capability sits in the wider system — the thing a single feature page most often fails to say. */}
       {feature.depth?.connects ? (
-        <Section tone="forest">
+        <Section id="in-the-system" tone="forest">
           <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
             <Heading eyebrow="In the system" title="What this connects to" as="h2" size="d4" />
             <p className="max-w-[52ch] text-lead" data-reveal>
@@ -105,7 +124,7 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
         </Section>
       ) : null}
 
-      <Section tone="paper">
+      <Section id="questions" tone="paper">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Heading eyebrow="Questions" title={`About ${feature.title}`} as="h2" size="d4" />
           <FaqList faqs={feature.faqs} />
@@ -135,6 +154,13 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
           relatedGroups(feature.depth, 1),
           4,
         )}
+      />
+
+      <PrevNext
+        tone="paper"
+        within={product ? product.title : "the platform"}
+        previous={inEngine.previous ? { label: inEngine.previous.title, href: routes.feature(inEngine.previous.slug) } : undefined}
+        next={inEngine.next ? { label: inEngine.next.title, href: routes.feature(inEngine.next.slug) } : undefined}
       />
 
       <CtaBand

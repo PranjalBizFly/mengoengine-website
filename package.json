@@ -14,13 +14,17 @@
     "images:audit": "node scripts/image-audit.mjs",
     "audit": "node scripts/audit.mjs",
     "qa:responsive": "node scripts/responsive.mjs",
-    "verify": "npm run photos:curate && npm run validate && npm run check:depth && tsc --noEmit && next build && node scripts/image-audit.mjs && node scripts/audit.mjs && node scripts/seo-graph.mjs",
+    "verify": "npm run photos:curate && npm run validate && npm run check:depth && npm run search:index && tsc --noEmit && next build && node scripts/image-audit.mjs && node scripts/audit.mjs && node scripts/seo-graph.mjs",
     "docs": "node --experimental-strip-types --no-warnings scripts/inventory.mjs",
     "validate": "node --experimental-strip-types --no-warnings scripts/validate-content.mjs",
     "check:depth": "node --experimental-strip-types --no-warnings scripts/check-depth.mjs",
-    "prebuild": "npm run photos:curate && npm run validate && npm run check:depth",
+    "prebuild": "npm run photos:curate && npm run validate && npm run check:depth && npm run search:index",
     "seo:graph": "node scripts/seo-graph.mjs",
-    "qa:final": "node scripts/final-qa.mjs"
+    "qa:final": "node scripts/final-qa.mjs",
+    "search:index": "node --experimental-strip-types --no-warnings scripts/build-search-index.mjs",
+    "content:snapshot": "node scripts/content-snapshot.mjs --out .content-baseline.json",
+    "content:verify": "node scripts/content-snapshot.mjs --compare .content-baseline.json",
+    "qa:navigation": "node scripts/qa-navigation.mjs"
   },
   "dependencies": {
     "next": "15.5.4",

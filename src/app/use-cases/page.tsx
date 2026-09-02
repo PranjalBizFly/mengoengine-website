@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { IndexHero, Directory, CtaBand } from "@/components/sections/page";
+import { IndexHero, CtaBand } from "@/components/sections/page";
+import { DirectoryBrowser } from "@/components/sections/DirectoryBrowser";
 import { JsonLd, Section } from "@/components/ui/primitives";
 import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
@@ -63,7 +64,10 @@ export default function UseCasesIndexPage() {
       />
 
       <Section tone="paper">
-        <Directory
+        <DirectoryBrowser
+          facetLabel="Engine"
+          placeholder="Search use cases"
+          noun="jobs"
           groups={[
             ...groups.filter((g) => g.items.length > 0),
             ...(uncategorised.length > 0

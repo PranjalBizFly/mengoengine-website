@@ -206,8 +206,15 @@
 :root {
   color-scheme: light;
   --header-h: 4.25rem;
+  /* Height of the contextual section strip, when a page carries one. Anchor
+     offsets have to clear both bars or every jump lands under the navigation. */
+  --section-nav-h: 0rem;
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--header-h) + 1.5rem);
+  scroll-padding-top: calc(var(--header-h) + var(--section-nav-h) + 1.5rem);
+}
+
+:root:has(.section-nav) {
+  --section-nav-h: 3.5rem;
 }
 
 @media (min-width: 1024px) {
@@ -815,6 +822,32 @@ html.js-reveal [data-reveal-lines] > * {
 [data-parallax] img {
   transform: translate3d(0, var(--parallax, 0px), 0) scale(1.12);
   transition: none;
+}
+
+/* ============================================================
+   Site search — the one modal surface on the site.
+   Both animations are opacity/transform only, and the global
+   reduced-motion rule above collapses them to nothing.
+   ============================================================ */
+
+@keyframes search-veil {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes search-panel {
+  from {
+    opacity: 0;
+    transform: translateY(-0.75rem) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Reading-progress hairline, pinned under the header. */

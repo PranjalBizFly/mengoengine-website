@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { Eyebrow, RowLink, Section, TextLink } from "@/components/ui/primitives";
+import { Eyebrow, Section, TextLink } from "@/components/ui/primitives";
+export { Directory } from "@/components/ui/rows";
 import { LeadButton, type LeadIntent } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
 import type { Cta as CtaData, Section as ContentSection } from "@/lib/types";
@@ -442,34 +443,6 @@ export function RelatedRail({
         ))}
       </div>
     </Section>
-  );
-}
-
-/** Dense directory listing used by every hub page. */
-export function Directory({
-  groups,
-}: {
-  groups: { heading: string; id?: string; blurb?: string; items: { label: string; href: string; blurb?: string; meta?: string }[] }[];
-}) {
-  return (
-    <div className="grid gap-14">
-      {groups.map((group) => (
-        <div key={group.heading} id={group.id} data-reveal>
-          <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-paper-line pb-5">
-            <h2 className="text-d3">{group.heading}</h2>
-            <span className="eyebrow">
-              {group.items.length} {group.items.length === 1 ? "page" : "pages"}
-            </span>
-          </div>
-          {group.blurb ? <p className="mt-5 max-w-[54ch] text-lead text-graphite-soft">{group.blurb}</p> : null}
-          <div className="mt-6" data-reveal-stagger>
-            {group.items.map((item) => (
-              <RowLink key={item.href} href={item.href} label={item.label} blurb={item.blurb} meta={item.meta} />
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
   );
 }
 

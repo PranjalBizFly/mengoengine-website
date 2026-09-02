@@ -11,7 +11,9 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 
-const APP_DIR = join(process.cwd(), ".next", "server", "app");
+// Honours NEXT_DIST_DIR so this gate can read an isolated build rather than a
+// .next that a running dev server is rewriting underneath it.
+const APP_DIR = join(process.cwd(), process.env.NEXT_DIST_DIR || ".next", "server", "app");
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
@@ -34,6 +36,10 @@ function extract(html, regex) {
 }
 
 const files = walk(APP_DIR);
+if (files.length === 0) {
+  console.error(`No prerendered pages under ${APP_DIR}. Run the build first.`);
+  process.exit(1);
+}
 const pages = new Map();
 
 for (const file of files) {

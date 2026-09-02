@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
 import { Eyebrow, Heading, JsonLd, Section, TextLink } from "@/components/ui/primitives";
 import { relatedGroups } from "@/lib/depth";
+import { PrevNext } from "@/components/layout/PrevNext";
 import { entityMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, definedTermSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
@@ -120,6 +121,13 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
 
       {/* Per-term, from the record's own cross-references — not three slugs typed into this file. */}
       <RelatedRail tone="paper" groups={relatedGroups(term.depth)} />
+
+      <PrevNext
+        tone="warm"
+        within="the glossary, A–Z"
+        previous={previous ? { label: previous.title, href: routes.glossaryTerm(previous.slug) } : undefined}
+        next={next ? { label: next.title, href: routes.glossaryTerm(next.slug) } : undefined}
+      />
 
       <CtaBand
         action={defaultCta(term)}

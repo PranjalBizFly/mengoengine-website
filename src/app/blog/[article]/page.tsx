@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { CtaBand, Explainer, Takeaways } from "@/components/sections/page";
 import { LongForm } from "@/components/sections/longform";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { PrevNext } from "@/components/layout/PrevNext";
+import { neighbours } from "@/lib/outline";
 import { Eyebrow, JsonLd, RowLink, Section } from "@/components/ui/primitives";
 import { entityMetadata } from "@/seo/metadata";
 import { articleSchema, breadcrumbSchema } from "@/seo/schema";
@@ -45,6 +47,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
   const moreInCategory = articlesByCategory(article.category)
     .filter((a) => a.slug !== article.slug)
     .slice(0, 4);
+
+  // The run is the topic, which is also the breadcrumb the reader arrived by.
+  const inTopic = neighbours(articlesByCategory(article.category), article.slug);
 
   return (
     <>
@@ -136,6 +141,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
           ))}
         </div>
       </Section>
+
+      <PrevNext
+        tone="paper"
+        within={category ? category.label : "the writing"}
+        previous={inTopic.previous ? { label: inTopic.previous.title, href: routes.article(inTopic.previous.slug) } : undefined}
+        next={inTopic.next ? { label: inTopic.next.title, href: routes.article(inTopic.next.slug) } : undefined}
+      />
 
       <CtaBand
         action={defaultCta(article)}

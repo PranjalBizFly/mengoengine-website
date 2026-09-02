@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 
 import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
 import { relatedGroups, mergeGroups } from "@/lib/depth";
+import { PrevNext } from "@/components/layout/PrevNext";
+import { neighbours } from "@/lib/outline";
 import { DefinitionList, Eyebrow, Heading, JsonLd, MarkerList, Section, TextLink } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
@@ -46,6 +48,11 @@ export default async function AssetTypePage({ params }: { params: Promise<{ asse
     .filter((a) => a.slug !== asset.slug)
     .slice(0, 6)
     .map((a) => a.slug);
+
+  // Sequential navigation runs inside the channel, which is the order the
+  // asset library itself is grouped by — "next format" across all fourteen
+  // channels would be an arbitrary jump.
+  const siblingRun = neighbours(assetTypesForChannel(asset.channel), asset.slug);
 
   return (
     <>
@@ -118,6 +125,19 @@ export default async function AssetTypePage({ params }: { params: Promise<{ asse
           ],
           relatedGroups(asset.depth),
         )}
+      />
+
+      <PrevNext
+        tone="paper"
+        within={channel ? `${channel.title} formats` : "the asset library"}
+        previous={
+          siblingRun.previous
+            ? { label: siblingRun.previous.title, href: routes.assetType(siblingRun.previous.slug) }
+            : undefined
+        }
+        next={
+          siblingRun.next ? { label: siblingRun.next.title, href: routes.assetType(siblingRun.next.slug) } : undefined
+        }
       />
 
       <CtaBand

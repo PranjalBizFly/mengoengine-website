@@ -7,6 +7,7 @@ import { Logo } from "@/components/brand/Logo";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { primaryNav, type NavGroup } from "@/lib/nav";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { SearchButton, SearchDialog, useSearchHotkey } from "@/components/search/SiteSearch";
 import { EVENTS, track } from "@/lib/analytics";
 import { routes } from "@/lib/site";
 
@@ -21,6 +22,7 @@ import { routes } from "@/lib/site";
 export function Header() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [condensed, setCondensed] = useState(false);
   const pathname = usePathname();
   const closeTimer = useRef<number | null>(null);
@@ -31,7 +33,18 @@ export function Header() {
   useEffect(() => {
     setOpenIndex(null);
     setMobileOpen(false);
+    setSearchOpen(false);
   }, [pathname]);
+
+  const openSearch = useCallback(() => {
+    // Search and the mega menu are both overlays; opening one closes the other.
+    setOpenIndex(null);
+    setMobileOpen(false);
+    setSearchOpen(true);
+    track(EVENTS.navOpen, { label: "search", source: pathname });
+  }, [pathname]);
+
+  useSearchHotkey(openSearch, searchOpen);
 
   useEffect(() => {
     const onScroll = () => setCondensed(window.scrollY > 12);
@@ -40,12 +53,15 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // One owner for the scroll lock. Two overlays each saving and restoring the
+  // body's overflow would race: the second to mount captures the first's
+  // "hidden" and puts it back on close, leaving the page permanently locked.
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    document.body.style.overflow = mobileOpen || searchOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [mobileOpen]);
+  }, [mobileOpen, searchOpen]);
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
@@ -158,6 +174,7 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex">
+          <SearchButton onOpen={openSearch} />
           <ThemeToggle />
           <Link
             href={routes.contact()}
@@ -171,6 +188,7 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-1 lg:hidden">
+          <SearchButton onOpen={openSearch} variant="icon" />
           <ThemeToggle />
           <button
           type="button"
@@ -299,6 +317,8 @@ export function Header() {
           </div>
         </div>
       </div>
+
+      <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 }

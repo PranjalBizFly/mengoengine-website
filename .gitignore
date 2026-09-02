@@ -5,3 +5,9 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
+
+# Content-preservation baseline, regenerated per redesign pass.
+.content-baseline.json
+
+# Isolated QA build output (see NEXT_DIST_DIR in next.config.ts).
+.next-qa/

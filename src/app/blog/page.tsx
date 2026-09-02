@@ -2,7 +2,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { IndexHero, CtaBand } from "@/components/sections/page";
-import { Eyebrow, JsonLd, RowLink, Section } from "@/components/ui/primitives";
+import { Eyebrow, JsonLd, Section } from "@/components/ui/primitives";
+import { DirectoryBrowser } from "@/components/sections/DirectoryBrowser";
 import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
@@ -79,18 +80,31 @@ export default function BlogIndexPage() {
         </Section>
       ) : null}
 
+      {/* Grouped by topic and filterable. Every remaining article still ships
+          in the HTML; the controls only narrow what is on screen. */}
       <Section tone="warm">
         <Eyebrow>Everything else</Eyebrow>
         <div className="mt-8">
-          {rest.map((article) => (
-            <RowLink
-              key={article.slug}
-              href={routes.article(article.slug)}
-              label={article.title}
-              blurb={article.summary}
-              meta={`${article.readingTime} min`}
-            />
-          ))}
+          <DirectoryBrowser
+            facetLabel="Topic"
+            placeholder="Search the writing"
+            noun="articles"
+            groups={articleCategories
+              .map((category) => ({
+                heading: category.label,
+                id: category.slug,
+                blurb: category.blurb,
+                items: rest
+                  .filter((article) => article.category === category.slug)
+                  .map((article) => ({
+                    label: article.title,
+                    href: routes.article(article.slug),
+                    blurb: article.summary,
+                    meta: `${article.readingTime} min`,
+                  })),
+              }))
+              .filter((group) => group.items.length > 0)}
+          />
         </div>
       </Section>
 

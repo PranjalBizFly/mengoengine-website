@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { IndexHero, Directory, CtaBand } from "@/components/sections/page";
+import { IndexHero, CtaBand } from "@/components/sections/page";
+import { DirectoryBrowser } from "@/components/sections/DirectoryBrowser";
 import { Eyebrow, JsonLd, Section, TextLink } from "@/components/ui/primitives";
 import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema, collectionSchema } from "@/seo/schema";
@@ -52,7 +53,10 @@ export default function ResourcesIndexPage() {
       />
 
       <Section tone="paper">
-        <Directory
+        <DirectoryBrowser
+          facetLabel="Format"
+          placeholder="Search resources"
+          noun="resources"
           groups={FORMAT_GROUPS.map((group) => ({
             heading: group.heading,
             id: group.format,

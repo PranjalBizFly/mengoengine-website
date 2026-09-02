@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { EditorialHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
+import { SectionNav } from "@/components/layout/SectionNav";
+import { outline } from "@/lib/outline";
 import { relatedGroups, mergeGroups } from "@/lib/depth";
 import {
   Eyebrow,
@@ -57,6 +59,19 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
   const relatedSolutions = take(solutionsByProduct.get(product.slug), 5).map((s) => s.slug);
   const relatedUseCases = take(useCasesByProduct.get(product.slug), 5).map((u) => u.slug);
 
+  // Declared next to the sections it points at, and labelled with the eyebrows
+  // those sections already print, so the strip never names a band something
+  // the page does not call it.
+  const hasOverview = Boolean(product.depth?.intro || product.depth?.explain?.length);
+  const sections = outline([
+    hasOverview && { id: "overview", label: "Overview" },
+    { id: "inputs-outputs", label: "Inputs and outputs" },
+    { id: "how-it-works", label: "How it works" },
+    { id: "capabilities", label: "Capabilities" },
+    Boolean(product.depth?.connects) && { id: "one-system", label: "One system" },
+    { id: "questions", label: "Questions" },
+  ]);
+
   return (
     <>
       <JsonLd
@@ -102,15 +117,18 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
         backdrop={getProductSectionImage(product.slug, "hero", product.title)}
       />
 
+      <SectionNav items={sections} />
+
       {/* The problem this engine removes, and what it deliberately does not do. */}
       <Explainer
+        id="overview"
         tone="paper"
         intro={product.depth?.intro}
         sections={product.depth?.explain}
       />
 
       {/* Inputs and outputs, stated plainly before any persuasion */}
-      <Section photo={getProductSectionImage(product.slug, "inputs-outputs", `${product.title} Architecture`)} photoLayout="end">
+      <Section id="inputs-outputs" photo={getProductSectionImage(product.slug, "inputs-outputs", `${product.title} Architecture`)} photoLayout="end">
         <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
           <div>
             <Heading
@@ -129,13 +147,13 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
       </Section>
 
       {/* How it works */}
-      <Section photo={getProductSectionImage(product.slug, "how-it-works", `${product.title} Workflow`)} photoLayout="inline">
+      <Section id="how-it-works" photo={getProductSectionImage(product.slug, "how-it-works", `${product.title} Workflow`)} photoLayout="inline">
         <Heading eyebrow="How it works" title={`Inside ${product.title}`} />
         <ProcessRail steps={product.how} />
       </Section>
 
       {/* Capabilities — dense index, not a card grid */}
-      <Section tone="warm">
+      <Section id="capabilities" tone="warm">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <Heading
             eyebrow="Capabilities"
@@ -166,7 +184,7 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
 
       {/* How this engine connects to the other four — the platform argument, per engine. */}
       {product.depth?.connects ? (
-        <Section tone="forest">
+        <Section id="one-system" tone="forest">
           <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
             <Heading eyebrow="One system" title="What it hands to the rest of the platform" as="h2" size="d4" />
             <p className="max-w-[52ch] text-lead" data-reveal>
@@ -176,7 +194,7 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
         </Section>
       ) : null}
 
-      <Section tone="paper">
+      <Section id="questions" tone="paper">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Heading eyebrow="Questions" title={`About ${product.title}`} as="h2" />
           <FaqList faqs={product.faqs} />
