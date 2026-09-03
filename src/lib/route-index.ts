@@ -162,6 +162,37 @@ export function routeGroups(): RouteGroup[] {
   ];
 }
 
+/**
+ * Routes the site builds but the directory and the XML sitemap deliberately
+ * omit, each with its reason.
+ *
+ * Declared rather than merely absent. The directory is only trustworthy if the
+ * difference between "pages Next builds" and "pages the directory lists" is
+ * exactly this list — `npm run audit:routes` asserts that, so a page dropped by
+ * accident fails the audit instead of quietly shrinking the count.
+ */
+export interface ExcludedRoute {
+  href: string;
+  reason: string;
+}
+
+export function excludedRoutes(): ExcludedRoute[] {
+  return [
+    {
+      href: routes.caseStudies(),
+      reason: "Case-study hub — noindex until there is at least one study to list.",
+    },
+    {
+      href: "/design-system/",
+      reason: "Internal design reference — noindex, deliberately absent from both sitemaps.",
+    },
+    ...content.campaigns.map((campaign) => ({
+      href: routes.campaign(campaign.slug),
+      reason: "Paid campaign landing page — noindex/nofollow.",
+    })),
+  ];
+}
+
 /** Flat list of every indexable URL, de-duplicated. */
 export function allRoutes(): RouteEntry[] {
   const seen = new Set<string>();

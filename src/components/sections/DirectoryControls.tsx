@@ -23,6 +23,11 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
  * `hidden` rather than a class, because it removes the row from the
  * accessibility tree as well as the layout — a filtered-out link should not be
  * reachable by a screen reader or by tabbing.
+ *
+ * It also owns the per-category disclosure state. Collapsing is presentation
+ * only: it hides rows from view, changes no count, removes nothing from the
+ * directory, and is overridden the moment a search would otherwise leave a
+ * match folded away.
  */
 
 const ALL = "__all__";
@@ -46,20 +51,28 @@ export function DirectoryControls({
   const [query, setQuery] = useState("");
   const [facet, setFacet] = useState(ALL);
   const [shown, setShown] = useState(total);
+  /** Category slugs the reader has folded away. Never affects what is counted. */
+  const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(() => new Set());
   const inputId = useId();
   const frame = useRef(0);
 
   const apply = useCallback(
-    (nextQuery: string, nextFacet: string) => {
+    (nextQuery: string, nextFacet: string, nextCollapsed: ReadonlySet<string>) => {
       const list = document.getElementById(listId);
       if (!list) return;
 
       const needle = nextQuery.trim().toLowerCase();
-      const terms = needle ? needle.split(/\s+/) : [];
+      // Split on slashes and hyphens as well as spaces. The row corpus holds
+      // URL words already broken apart, so without this a pasted path or a
+      // typed slug — "customer-acquisition-cost" — matches nothing, which is
+      // the one query where the reader is most certain the page exists.
+      const terms = needle ? needle.split(/[\s/-]+/).filter(Boolean) : [];
+      const searching = terms.length > 0;
       let visible = 0;
 
       for (const section of list.querySelectorAll<HTMLElement>("[data-category]")) {
-        const inFacet = nextFacet === ALL || section.dataset.category === nextFacet;
+        const slug = section.dataset.category ?? "";
+        const inFacet = nextFacet === ALL || slug === nextFacet;
         let matches = 0;
 
         for (const row of section.querySelectorAll<HTMLElement>("[data-entry]")) {
@@ -74,6 +87,15 @@ export function DirectoryControls({
         // A category with nothing left in it is hidden entirely, heading and
         // count included — an empty section under a heading reads as a bug.
         section.hidden = matches === 0;
+
+        // A search overrides collapse. Folding a category away is a reading
+        // preference, not a filter, and it must never be the reason a page the
+        // reader just searched for is off screen.
+        const open = searching || !nextCollapsed.has(slug);
+        const entries = section.querySelector<HTMLElement>("[data-entries]");
+        if (entries) entries.hidden = !open;
+        section.querySelector<HTMLElement>("[data-toggle]")?.setAttribute("aria-expanded", String(open));
+
         const counter = section.querySelector<HTMLElement>("[data-category-count]");
         if (counter) {
           const totalInCategory = counter.dataset.categoryCount ?? "0";
@@ -95,9 +117,30 @@ export function DirectoryControls({
   // and coalescing to one pass per frame keeps typing smooth.
   useEffect(() => {
     cancelAnimationFrame(frame.current);
-    frame.current = requestAnimationFrame(() => apply(query, facet));
+    frame.current = requestAnimationFrame(() => apply(query, facet, collapsed));
     return () => cancelAnimationFrame(frame.current);
-  }, [apply, query, facet]);
+  }, [apply, query, facet, collapsed]);
+
+  // The disclosure buttons are server-rendered inside the list, so they are
+  // listened for by delegation rather than wired one by one — the alternative
+  // is a client island per category carrying one boolean each.
+  useEffect(() => {
+    const list = document.getElementById(listId);
+    if (!list) return;
+    function onClick(event: MouseEvent) {
+      const target = event.target as HTMLElement | null;
+      const slug = target?.closest<HTMLElement>("[data-toggle]")?.dataset.toggle;
+      if (!slug) return;
+      setCollapsed((current) => {
+        const next = new Set(current);
+        if (next.has(slug)) next.delete(slug);
+        else next.add(slug);
+        return next;
+      });
+    }
+    list.addEventListener("click", onClick);
+    return () => list.removeEventListener("click", onClick);
+  }, [listId]);
 
   // Nothing has been filtered until this mounts, so the rows start visible and
   // stay that way if the component never runs.
@@ -109,7 +152,25 @@ export function DirectoryControls({
   const clear = () => {
     setQuery("");
     setFacet(ALL);
+    setCollapsed(new Set());
   };
+
+  // Choosing a category is a request to see it, so it also unfolds it —
+  // otherwise the chip narrows the page to one heading with nothing under it.
+  const chooseFacet = (slug: string) => {
+    setFacet((current) => (current === slug ? ALL : slug));
+    setCollapsed((current) => {
+      if (!current.has(slug)) return current;
+      const next = new Set(current);
+      next.delete(slug);
+      return next;
+    });
+  };
+
+  const searching = query.trim().length > 0;
+  const allCollapsed = collapsed.size === facets.length;
+  const toggleAll = () =>
+    setCollapsed(allCollapsed ? new Set() : new Set(facets.map((item) => item.slug)));
 
   const narrowed = shown !== total;
   const activeLabel = useMemo(
@@ -166,6 +227,18 @@ export function DirectoryControls({
             Clear
           </button>
         ) : null}
+
+        {/* Hidden while searching, where every category is forced open and this
+            would appear to do nothing. */}
+        {searching ? null : (
+          <button
+            type="button"
+            onClick={toggleAll}
+            className="eyebrow shrink-0 underline decoration-paper-line decoration-[1.5px] underline-offset-[4px] transition-colors hover:text-lime-deep hover:decoration-lime-deep"
+          >
+            {allCollapsed ? "Expand all" : "Collapse all"}
+          </button>
+        )}
       </div>
 
       {/* Seventeen chips wrap to seven rows on a phone, and this bar is sticky
@@ -180,7 +253,7 @@ export function DirectoryControls({
             label={item.heading}
             count={item.count}
             active={facet === item.slug}
-            onClick={() => setFacet(facet === item.slug ? ALL : item.slug)}
+            onClick={() => chooseFacet(item.slug)}
           />
         ))}
       </div>

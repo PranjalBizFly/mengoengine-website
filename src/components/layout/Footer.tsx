@@ -1,12 +1,26 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { NewsletterSignup } from "@/components/forms/NewsletterSignup";
+import { FooterColumns } from "@/components/layout/FooterNav";
 import { ecosystemColumns, footerColumns, legalLinks } from "@/lib/nav";
 import { site } from "@/lib/site";
 
 /**
- * One footer for the entire site. It is the secondary navigation for a 500-page
- * ecosystem, so it lists real routes rather than a token five links.
+ * One footer for the entire site. It is the secondary navigation for a
+ * five-hundred-page ecosystem, so it lists real routes rather than a token
+ * five links.
+ *
+ * One architecture, not two stacked ones. The brand block, the site columns,
+ * the ecosystem and the legal line are four registers of a single grid,
+ * separated by the same hairline at the same rhythm and stepping down in
+ * emphasis as they go — rather than a "top footer" and an unrelated second
+ * footer bolted underneath it.
+ *
+ * The rule the structure enforces is one destination, one location. Anything
+ * that lives on its own host appears in the ecosystem band and nowhere else;
+ * `footerColumns` carries pages of this site only. That is why the Company
+ * column has no "About" and no "Invest in Mengo" — both are subdomains, and
+ * listing them twice was the duplication this footer existed to remove.
  */
 export function Footer() {
   const year = new Date().getFullYear();
@@ -23,8 +37,16 @@ export function Footer() {
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(52%_70%_at_12%_0%,rgb(163_230_37/0.1),transparent_60%)]"
       />
-      <div className="container-page py-20 md:py-24">
-        <div className="grid gap-14 lg:grid-cols-[minmax(0,22rem)_1fr] lg:gap-20">
+
+      {/* Without JavaScript the accordion cannot open, so the lists it would
+          collapse are shown instead. A footer that hides forty links from a
+          reader who has scripting off is worse than a long one. */}
+      <noscript>
+        <style>{`.footer-links{display:block !important}`}</style>
+      </noscript>
+
+      <div className="container-page py-16 md:py-20">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,20rem)_1fr] lg:gap-16">
           <div data-reveal>
             <Logo tone="light" />
             <p className="mt-6 max-w-[24rem] text-body leading-relaxed">
@@ -34,47 +56,29 @@ export function Footer() {
             <NewsletterSignup />
           </div>
 
-          <nav
-            aria-label="Footer"
-            className="grid gap-x-8 gap-y-12 sm:grid-cols-2 xl:grid-cols-5"
-            data-reveal-stagger
-          >
-            {footerColumns.map((column) => (
-              <div key={column.heading} data-reveal>
-                <p className="eyebrow mb-5">{column.heading}</p>
-                <ul className="space-y-3">
-                  {column.links.map((item) => (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        className="inline-block text-small leading-snug text-sage transition-[color,transform] duration-300 ease-[var(--ease-out-expo)] hover:text-lime motion-safe:hover:translate-x-0.5"
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </nav>
+          <FooterColumns columns={footerColumns} />
         </div>
 
-        {/* The subdomain ecosystem.
-            Kept as its own band rather than folded into the five columns
-            above, because these are separate destinations on their own hosts
-            rather than more pages on this site — and because grouping them by
-            reader (customer, business, technical, company) only reads as a
-            grouping when it is visually one. */}
-        <div className="mt-20 rule-t pt-12">
-          <p className="eyebrow mb-8">More from Mengo</p>
+        {/* The subdomain ecosystem: the single source of truth for every
+            destination that is not a page of this site.
+
+            Its own band, because these run on their own hosts — but on the
+            same hairline and the same rhythm as everything above it, and set
+            one step quieter, so it reads as the last register of this footer
+            rather than as a second footer. Grouped by who the reader is
+            rather than by what the destination is called: somebody looking
+            for help does not know whether the answer is in "support" or
+            "docs", but they do know they are a customer. */}
+        <section className="mt-14 border-t border-sage/12 pt-10">
+          <h2 className="eyebrow text-sage-dim">More from Mengo</h2>
           <nav
             aria-label="Mengo ecosystem"
-            className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
+            className="mt-7 grid grid-cols-2 gap-x-8 gap-y-8 md:grid-cols-4"
             data-reveal-stagger
           >
             {ecosystemColumns.map((column) => (
               <div key={column.heading} data-reveal>
-                <p className="eyebrow mb-4 text-sage-dim">{column.heading}</p>
+                <h3 className="eyebrow mb-4 text-sage-dim">{column.heading}</h3>
                 <ul className="space-y-2.5">
                   {column.links.map((item) => (
                     <li key={item.href}>
@@ -90,29 +94,26 @@ export function Footer() {
               </div>
             ))}
           </nav>
-        </div>
+        </section>
 
-        <div className="mt-16 rule-t pt-10">
-          <ul className="flex flex-wrap gap-x-5 gap-y-2">
-            {site.social.map((item) => (
-              <li key={item.href}>
-                <a
-                  href={item.href}
-                  rel="me noopener"
-                  target="_blank"
-                  className="text-fine text-sage transition-colors hover:text-lime"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-6 flex flex-col gap-4 text-fine text-sage-dim sm:flex-row sm:items-center sm:justify-between">
-            <p>
-              © {year} {site.legalName}. All rights reserved.
-            </p>
+        <div className="mt-12 border-t border-sage/12 pt-8">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <ul className="flex flex-wrap gap-x-5 gap-y-2">
+              {site.social.map((item) => (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    rel="me noopener"
+                    target="_blank"
+                    className="text-fine text-sage transition-colors hover:text-lime"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <ul className="flex flex-wrap gap-x-5 gap-y-2 text-fine text-sage-dim">
               {legalLinks.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="transition-colors hover:text-lime">
@@ -122,6 +123,10 @@ export function Footer() {
               ))}
             </ul>
           </div>
+
+          <p className="mt-6 text-fine text-sage-dim">
+            © {year} {site.legalName}. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

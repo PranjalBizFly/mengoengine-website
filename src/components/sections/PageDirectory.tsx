@@ -14,6 +14,11 @@ import type { DirectoryCategory } from "@/lib/directory";
  * haystack on the element rather than in a client-side index is what lets the
  * filter run without the data being shipped a second time — the string is
  * already needed for nothing else, so it costs one attribute per row.
+ *
+ * Categories can be collapsed, which hides rows from view and from nothing
+ * else: the entries stay in the document and stay searchable, and a query
+ * re-opens whatever it matches. Collapsing is never allowed to change what the
+ * directory contains or what it counts.
  */
 
 const LIST_ID = "page-directory";
@@ -64,17 +69,47 @@ export function PageDirectory({
                   category.heading
                 )}
               </h2>
-              {/* The count is rewritten in place as the filter narrows, so the
-                  total it started from has to travel with it. */}
-              <p
-                className="eyebrow tnum shrink-0"
-                data-category-count={category.entries.length}
-              >
-                {category.entries.length} pages
-              </p>
+              <div className="flex shrink-0 items-baseline gap-3">
+                {/* The count is rewritten in place as the filter narrows, so the
+                    total it started from has to travel with it. */}
+                <p className="eyebrow tnum" data-category-count={category.entries.length}>
+                  {category.entries.length} pages
+                </p>
+                {/* Rendered collapsed-capable but inert until the controls
+                    island marks the list filterable — a disclosure button that
+                    cannot disclose is worse than no button, so without
+                    JavaScript this never appears and every row stays open. */}
+                <button
+                  type="button"
+                  data-toggle={category.slug}
+                  aria-expanded="true"
+                  aria-controls={`${category.slug}-entries`}
+                  className="hidden h-6 w-6 items-center justify-center rounded-full text-graphite-soft transition-colors hover:bg-paper-warm hover:text-lime-deep [[data-filterable=true]_&]:inline-flex [&[aria-expanded=false]_svg]:-rotate-90"
+                >
+                  <span className="sr-only">Show or hide {category.heading}</span>
+                  <svg
+                    aria-hidden
+                    width="11"
+                    height="11"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="transition-transform duration-300 ease-[var(--ease-out-expo)]"
+                  >
+                    <path d="M2.5 4.25 6 7.75l3.5-3.5" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
-            <ul className="mt-5 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
+            <ul
+              id={`${category.slug}-entries`}
+              data-entries
+              className="mt-5 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3"
+            >
               {category.entries.map((entry) => (
                 <li key={entry.href} data-entry data-keywords={entry.keywords}>
                   {entry.external ? (
