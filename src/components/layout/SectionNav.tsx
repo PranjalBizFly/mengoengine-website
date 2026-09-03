@@ -142,10 +142,18 @@ export function SectionNav({ items, label = "On this page" }: { items: OutlineIt
 }
 
 /**
- * The contents rail beside a long-form article, with the reader's position
- * tracked. Same numbering and links as before; the only addition is that the
- * entry you are currently reading is marked, which on a fifteen-section
- * playbook is the difference between a list and a position indicator.
+ * The contents rail beside a long-form article.
+ *
+ * One component, two presentations of the same list. On a wide screen it is a
+ * sticky editorial rail in the left column: numbered entries against a hairline,
+ * with the entry you are currently reading marked by weight and by the rule
+ * beside it, never by colour alone. Below that breakpoint three columns are a
+ * fiction, so the same list collapses into a native disclosure above the
+ * article — the pattern the documentation sidebar already uses, rather than a
+ * second overlay on top of the one the header owns.
+ *
+ * Only one of the two is ever in the accessibility tree: the other is
+ * `display: none`, so the duplicated landmark label costs nothing.
  */
 export function ContentsRail({
   items,
@@ -159,34 +167,68 @@ export function ContentsRail({
     0,
   );
 
-  return (
-    <nav aria-label={label} className="lg:sticky lg:top-[calc(var(--header-h)+2.5rem)] lg:self-start">
-      <p className="eyebrow mb-4">{label}</p>
-      <ol className="space-y-2.5">
-        {items.map((item, i) => {
-          const current = item.id === active;
-          return (
-            <li key={item.id} className="flex gap-3 py-1">
+  /* A single entry is not a table of contents, it is a restatement of the
+     title. `LongForm` asks the same question before it reserves the column. */
+  if (items.length < 2) return null;
+
+  const list = (
+    <ol className="border-l border-paper-line">
+      {items.map((item, i) => {
+        const current = item.id === active;
+        return (
+          <li key={item.id}>
+            <a
+              href={`#${item.id}`}
+              aria-current={current ? "true" : undefined}
+              className={`-ml-px flex min-h-11 items-baseline gap-3 border-l py-2.5 pl-4 text-small leading-snug transition-[color,border-color] duration-300 lg:min-h-0 lg:py-2 ${
+                current
+                  ? // The lime rule and the weight both carry the position, so
+                    // it survives greyscale and a colour-blind reader alike.
+                    "border-lime-deep font-semibold text-graphite"
+                  : "border-transparent text-graphite-soft hover:border-paper-line hover:text-graphite"
+              }`}
+            >
+              {/* Graphite rather than lime: at 12px this is text, and lime-deep
+                  on paper resolves to 2.93:1. The lime is spent on the rule
+                  beside the entry, where it is a redundant marker rather than
+                  the only thing carrying the state. */}
               <span
-                className={`tnum mt-1.5 text-eyebrow font-semibold transition-colors ${
-                  current ? "text-lime-deep" : "text-lime-deep/55"
+                className={`tnum shrink-0 text-eyebrow font-semibold transition-colors ${
+                  current ? "text-graphite" : "text-graphite-soft"
                 }`}
               >
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <a
-                href={`#${item.id}`}
-                aria-current={current ? "true" : undefined}
-                className={`block py-1 text-small leading-snug transition-colors hover:text-lime-deep ${
-                  current ? "font-semibold text-graphite" : "text-graphite-soft"
-                }`}
-              >
-                {item.label}
-              </a>
-            </li>
-          );
-        })}
-      </ol>
-    </nav>
+              <span className="min-w-0">{item.label}</span>
+            </a>
+          </li>
+        );
+      })}
+    </ol>
+  );
+
+  return (
+    <>
+      <nav
+        aria-label={label}
+        className="rule-t hidden lg:sticky lg:top-[calc(var(--header-h)+2.5rem)] lg:block lg:max-h-[calc(100vh-var(--header-h)-5rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:pb-2 lg:pt-5"
+      >
+        <p className="eyebrow mb-4 pl-4">{label}</p>
+        {list}
+      </nav>
+
+      <details className="group rule-b rule-t lg:hidden">
+        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between py-3.5 type-title text-h7 text-graphite [&::-webkit-details-marker]:hidden">
+          {label}
+          <span
+            aria-hidden
+            className="relative h-3 w-3 shrink-0 before:absolute before:left-0 before:top-1/2 before:h-px before:w-3 before:-translate-y-1/2 before:bg-current after:absolute after:left-1/2 after:top-0 after:h-3 after:w-px after:-translate-x-1/2 after:bg-current after:transition-transform after:duration-300 group-open:after:scale-y-0"
+          />
+        </summary>
+        <nav aria-label={label} className="pb-5 pt-1">
+          {list}
+        </nav>
+      </details>
+    </>
   );
 }

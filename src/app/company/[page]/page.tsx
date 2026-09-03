@@ -26,6 +26,9 @@ export async function generateMetadata({ params }: { params: Promise<{ page: str
   return entityMetadata(entity, { section: "Company" });
 }
 
+/** The company page that stands in for a section index, since there is no /company/ route. */
+const COMPANY_LANDING = "about";
+
 /** Page-specific conversion intent, so the invest page does not ask for a waitlist signup. */
 const INTENT: Record<string, { intent: "waitlist" | "investor" | "expert" | "speaking"; cta: string }> = {
   invest: { intent: "investor", cta: "Start an investor conversation" },
@@ -39,10 +42,18 @@ export default async function CompanyPage({ params }: { params: Promise<{ page: 
   if (!page) notFound();
 
   const path = routes.company(page.slug);
-  const crumbs = [
-    { label: "Company", href: routes.company("about") },
-    { label: page.title, href: path },
-  ];
+  /* There is no /company/ index — About is the section landing, which is what
+     the parent crumb points at. On About itself that crumb is the page you are
+     already on, so it is dropped rather than repeated: two identical hrefs
+     rendered a self-link, a duplicate React key, and a BreadcrumbList with the
+     same URL twice. */
+  const crumbs =
+    page.slug === COMPANY_LANDING
+      ? [{ label: page.title, href: path }]
+      : [
+          { label: "Company", href: routes.company(COMPANY_LANDING) },
+          { label: page.title, href: path },
+        ];
   const action = INTENT[page.slug] ?? { intent: "waitlist" as const, cta: "Join our waitlist" };
 
   return (
@@ -72,7 +83,10 @@ export default async function CompanyPage({ params }: { params: Promise<{ page: 
         aside={
           <AsideBlock
             eyebrow="Also worth reading"
-            items={companyPages.filter((p) => p.slug !== page.slug).map((p) => p.title)}
+            links={link(
+              "company",
+              companyPages.filter((p) => p.slug !== page.slug).map((p) => p.slug),
+            )}
           />
         }
       />

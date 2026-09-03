@@ -465,6 +465,61 @@ export function MarkerList({ items, className = "" }: { items: string[]; classNa
   );
 }
 
+/**
+ * The one list of onward links, shared by every "related" surface: the rail
+ * beside long-form content, the grouped related band at the foot of a page, and
+ * the same band on the subdomain sites.
+ *
+ * Two things it is careful about, because they were what looked wrong wherever
+ * this was hand-rolled:
+ *
+ *  - Hanging indent. The marker and the label are separate grid columns, so a
+ *    label that runs to a second line aligns under its own first line rather
+ *    than under the bullet. `MarkerList` gets this from padding on the item;
+ *    a grid does it without a magic padding value that has to match the dot.
+ *  - The marker sits on the first line, not the centre of the block. `0.6em`
+ *    is half the leading minus half the dot, so it holds at either size.
+ *
+ * Rows are 44px tall at the compact size and taller at the body size, which is
+ * the touch target without a min-height fighting the rhythm.
+ */
+export function RelatedLinkList({
+  links,
+  size = "body",
+  className = "",
+}: {
+  links: { href: string; label: string; external?: boolean }[];
+  /** `compact` for a sidebar rail, `body` for a full-width band. */
+  size?: "body" | "compact";
+  className?: string;
+}) {
+  if (links.length === 0) return null;
+  const type = size === "compact" ? "text-small" : "text-body";
+
+  return (
+    <ul className={className}>
+      {links.map((link) => (
+        <li key={link.href}>
+          <Link
+            href={link.href}
+            {...(link.external ? { rel: "noopener" } : {})}
+            /* `min-h-11` is the floor, not the height: at the body size the
+               padding already clears 44px, and at the compact size one line
+               lands on 43. A two-line label grows past it either way. */
+            className={`grid min-h-11 grid-cols-[auto_minmax(0,1fr)] items-start gap-x-3 py-2.5 ${type} leading-relaxed text-graphite-soft transition-colors duration-300 hover:text-lime-deep [.on-dark_&]:text-sage [.on-dark_&]:hover:text-lime`}
+          >
+            <span
+              aria-hidden
+              className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-lime-deep [.on-dark_&]:bg-lime"
+            />
+            <span>{link.label}</span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 /** A pull statement. Sparingly used — it is the loudest device in the system. */
 export function PullQuote({ children, attribution }: { children: ReactNode; attribution?: string }) {
   return (

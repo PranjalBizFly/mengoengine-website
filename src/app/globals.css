@@ -1353,11 +1353,19 @@ html.js-reveal [data-reveal-lines] > * {
 }
 
 /* The index or kicker takes its own column once there is room for it; below
-   that it sits above the title rather than stealing width from it. */
+   that it sits above the title rather than stealing width from it.
+
+   The third track is declared only on rows that actually render that cell.
+   Declaring it unconditionally put a two-child row's title into the 3.25rem
+   column and handed the arrow the remaining width, which collapsed the text
+   to one word per line on every viewport at or above this breakpoint. */
 @media (min-width: 480px) {
   .story-row-inner {
-    grid-template-columns: 3.25rem 1fr auto;
     column-gap: 1.25rem;
+  }
+
+  .story-row-inner[data-lead] {
+    grid-template-columns: 3.25rem 1fr auto;
   }
 }
 
