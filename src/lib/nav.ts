@@ -290,14 +290,22 @@ export const footerColumns: FooterColumn[] = [
     ],
   },
   {
+    /**
+     * "About" and "Invest in Mengo" are deliberately absent.
+     *
+     * Both have a dedicated host in the ecosystem — about. and investors. —
+     * and the footer's rule is one destination, one location. Listing them
+     * here as well made the same two things appear twice within a screen of
+     * each other, once as a page and once as a subdomain, which reads as a
+     * mistake rather than as emphasis. The pages themselves are untouched and
+     * still reachable from the company pages, the sitemap and search.
+     */
     heading: "Company",
     links: [
-      { label: "About", href: routes.company("about") },
       { label: "How it works", href: routes.company("how-it-works") },
       { label: "Who it is for", href: routes.company("who-its-for") },
       { label: "The founder", href: routes.company("founder") },
       { label: "Responsible AI", href: routes.company("responsible-ai") },
-      { label: "Invest in Mengo", href: routes.invest() },
       { label: "Contact", href: routes.contact() },
     ],
   },

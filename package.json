@@ -13,8 +13,9 @@
     "photos:validate": "node --experimental-strip-types --no-warnings scripts/validate-photos-http.mjs",
     "images:audit": "node scripts/image-audit.mjs",
     "audit": "node scripts/audit.mjs",
+    "audit:routes": "node --experimental-strip-types --no-warnings scripts/route-audit.mjs",
     "qa:responsive": "node scripts/responsive.mjs",
-    "verify": "npm run photos:curate && npm run validate && npm run check:depth && npm run search:index && tsc --noEmit && next build && node scripts/image-audit.mjs && node scripts/audit.mjs && node scripts/seo-graph.mjs",
+    "verify": "npm run photos:curate && npm run validate && npm run check:depth && npm run search:index && npm run audit:routes && tsc --noEmit && next build && node scripts/image-audit.mjs && node scripts/audit.mjs && node scripts/seo-graph.mjs",
     "docs": "node --experimental-strip-types --no-warnings scripts/inventory.mjs",
     "validate": "node --experimental-strip-types --no-warnings scripts/validate-content.mjs",
     "check:depth": "node --experimental-strip-types --no-warnings scripts/check-depth.mjs",
@@ -27,7 +28,7 @@
     "qa:navigation": "node scripts/qa-navigation.mjs"
   },
   "dependencies": {
-    "next": "15.5.4",
+    "next": "^15.5.24",
     "react": "19.1.1",
     "react-dom": "19.1.1"
   },

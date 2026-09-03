@@ -256,8 +256,19 @@ const STARTING_POINTS: { label: string; href: string }[] = [
   { label: "All solutions", href: "/solutions/" },
   { label: "All industries", href: "/industries/" },
   { label: "Resources", href: "/resources/" },
-  { label: "Explore all pages", href: "/sitemap/" },
 ];
+
+/**
+ * The page directory.
+ *
+ * Deliberately not one of the starting points above. Search and the directory
+ * answer different questions — "take me to the page I can already name" versus
+ * "show me everything there is" — and while "Explore all pages" sat in that
+ * list it read as a sixth suggestion rather than the door out of search. It is
+ * pinned to the panel instead, present in every state including no-results,
+ * which is exactly when a reader wants to stop guessing at words and browse.
+ */
+const DIRECTORY = { href: "/sitemap/", label: "Explore all pages" };
 
 export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [index, setIndex] = useState<Index | null>(cached);
@@ -437,11 +448,7 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
         <div ref={listRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-3 sm:px-3">
           {failed ? (
             <Message>
-              Search could not load. The{" "}
-              <Link href="/sitemap/" onClick={onClose} className="underline decoration-lime-deep underline-offset-2">
-                sitemap
-              </Link>{" "}
-              lists every page on this site.
+              Search could not load. The directory below lists every page on this site.
             </Message>
           ) : !searching ? (
             <>
@@ -461,8 +468,8 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
                 ))}
               </ul>
               <p className="px-3 pb-1 pt-4 text-fine text-graphite-soft">
-                {index ? `Searching ${index.entries.length} pages.` : "Loading the index…"} Use ↑ ↓ to move, Enter to
-                open.
+                {index ? "Type to search every page on the site." : "Loading the index…"} Use ↑ ↓ to move, Enter
+                to open.
               </p>
             </>
           ) : flat.length === 0 ? (
@@ -528,11 +535,33 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
           )}
         </div>
 
-        {searching && flat.length > 0 ? (
-          <p className="border-t border-paper-line px-5 py-2.5 text-fine text-graphite-soft">
-            {flat.length === MAX_RESULTS ? `Top ${MAX_RESULTS} matches` : `${flat.length} ${flat.length === 1 ? "match" : "matches"}`} · ↑ ↓ to move · Enter to open
-          </p>
-        ) : null}
+        <div className="border-t border-paper-line">
+          {searching && flat.length > 0 ? (
+            <p className="px-5 pt-2.5 text-fine text-graphite-soft">
+              {flat.length === MAX_RESULTS ? `Top ${MAX_RESULTS} matches` : `${flat.length} ${flat.length === 1 ? "match" : "matches"}`} · ↑ ↓ to move · Enter to open
+            </p>
+          ) : null}
+
+          {/* Not a result row and not styled like one: this leaves search for
+              the directory, and the count is the directory's size, not a limit
+              on what was searched. */}
+          <Link
+            href={DIRECTORY.href}
+            onClick={onClose}
+            className="group flex items-center justify-between gap-4 px-5 py-3.5 transition-colors hover:bg-paper-warm"
+          >
+            <span className="flex min-w-0 items-center gap-2.5">
+              <DirectoryIcon />
+              <span className="text-body font-medium text-graphite transition-colors group-hover:text-lime-deep">
+                {DIRECTORY.label}
+              </span>
+            </span>
+            <span className="flex shrink-0 items-center gap-2 text-fine text-graphite-soft">
+              {index ? `${index.entries.length} pages` : "Full directory"}
+              <Arrow />
+            </span>
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -540,6 +569,27 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
 
 function Message({ children }: { children: ReactNode }) {
   return <p className="px-3 py-8 text-center text-body text-graphite-soft">{children}</p>;
+}
+
+function DirectoryIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      aria-hidden
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      className="shrink-0 text-graphite-soft transition-colors group-hover:text-lime-deep"
+    >
+      <rect x="1.25" y="1.25" width="4.5" height="4.5" rx="1.2" />
+      <rect x="8.25" y="1.25" width="4.5" height="4.5" rx="1.2" />
+      <rect x="1.25" y="8.25" width="4.5" height="4.5" rx="1.2" />
+      <rect x="8.25" y="8.25" width="4.5" height="4.5" rx="1.2" />
+    </svg>
+  );
 }
 
 function Arrow() {
