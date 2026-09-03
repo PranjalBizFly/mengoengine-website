@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 
 import { EditorialHero, CtaBand, RelatedRail } from "@/components/sections/page";
 import {
+  ButtonLink,
   DefinitionList,
   Eyebrow,
   FaqList,
@@ -12,7 +13,6 @@ import {
   ProcessRail,
   PullQuote,
   Section,
-  TextLink,
 } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
@@ -28,6 +28,7 @@ import { industries } from "@/data/industries";
 import { solutions } from "@/data/solutions";
 import { guides } from "@/data/guides";
 import { PageVisual } from "@/components/ui/PageVisual";
+import { StoryRows } from "@/components/ui/story";
 import { getHomeSectionImage } from "@/lib/images";
 
 export const metadata: Metadata = pageMetadata({
@@ -198,9 +199,11 @@ export default function HomePage() {
               brief. That shared context is what stops a year of output sounding like it came from five different
               companies.
             </p>
-            <p className="mt-6 text-body">
-              <TextLink href={routes.platform()}>Explore the platform</TextLink>
-            </p>
+            <div className="mt-9">
+              <ButtonLink href={routes.platform()} variant="secondary">
+                Explore the platform
+              </ButtonLink>
+            </div>
           </div>
 
           <ol>
@@ -236,9 +239,11 @@ export default function HomePage() {
               title="Artefacts, not advice"
               lead="Everything Mengo produces is something you can open, edit, hand to someone else, or publish. None of it is a recommendation to go and do the work yourself."
             />
-            <p className="mt-8 text-body">
-              <TextLink href={routes.assetTypes()}>Browse all {assetTypes.length} asset formats</TextLink>
-            </p>
+            <div className="mt-9">
+              <ButtonLink href={routes.assetTypes()} variant="secondary">
+                Browse all {assetTypes.length} asset formats
+              </ButtonLink>
+            </div>
           </div>
           <div data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties}>
             <MarkerList
@@ -283,9 +288,11 @@ export default function HomePage() {
               It is also why editorial guardrails matter more here than fluency. A confident, specific, entirely
               invented claim published under your name does more damage than a hundred merely average posts.
             </p>
-            <p className="mt-6 text-body">
-              <TextLink href={routes.company("responsible-ai")}>How we use AI responsibly</TextLink>
-            </p>
+            <div className="mt-8">
+              <ButtonLink href={routes.company("responsible-ai")} variant="secondary" size="sm">
+                How we use AI responsibly
+              </ButtonLink>
+            </div>
           </div>
         </div>
       </Section>
@@ -298,28 +305,24 @@ export default function HomePage() {
             title="What are you actually trying to fix?"
             className="max-w-[30ch]"
           />
-          <p className="text-body">
-            <TextLink href={routes.solutions()}>All {solutions.length} solutions</TextLink>
-          </p>
+          <ButtonLink href={routes.solutions()} variant="secondary" size="sm">
+            All {solutions.length} solutions
+          </ButtonLink>
         </div>
-        <div className="mt-10 grid gap-x-12 sm:grid-cols-2">
-          {goalSolutions.map((solution, i) => (
-            <Link
-              key={solution.slug}
-              href={routes.solution(solution.slug)}
-              className="group rule-t py-5 transition-colors"
-              data-reveal
-              style={{ "--reveal-delay": `${i * 40}ms` } as React.CSSProperties}
-            >
-              <span className="block type-title text-h7 transition-colors group-hover:text-lime-deep">
-                {solution.title}
-              </span>
-              <span className="mt-1.5 block text-small leading-relaxed text-graphite-soft">
-                {solution.situation}
-              </span>
-            </Link>
-          ))}
-        </div>
+        {/* The `summary` line is the record's own one-sentence statement of
+            what the solution replaces. It was already written and already on
+            the solution's own page; showing it on hover gives a reader the
+            answer to "and then what?" without another click, and without a
+            word of new copy. */}
+        <StoryRows
+          className="mt-10"
+          items={goalSolutions.map((solution) => ({
+            href: routes.solution(solution.slug),
+            title: solution.title,
+            body: solution.situation,
+            more: solution.summary,
+          }))}
+        />
       </Section>
 
       {/* Industries strip */}
@@ -331,9 +334,11 @@ export default function HomePage() {
               title={`${industries.length} industries, each with its own plan`}
               lead="Buying cycle, objections and regulatory constraints change the channel ranking, the nurture cadence and the content formats. Mengo treats those as inputs rather than as garnish."
             />
-            <p className="mt-8 text-body">
-              <TextLink href={routes.industries()}>Browse all industries</TextLink>
-            </p>
+            <div className="mt-9">
+              <ButtonLink href={routes.industries()} variant="secondary">
+                Browse all industries
+              </ButtonLink>
+            </div>
           </div>
           <div className="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
             {industries.slice(0, 18).map((industry) => (
@@ -358,9 +363,11 @@ export default function HomePage() {
               Industry, channel and job-specific questions are answered on the pages that own them, where the answer
               can be specific.
             </p>
-            <p className="mt-4 text-body">
-              <TextLink href={routes.faq()}>Browse every question we answer</TextLink>
-            </p>
+            <div className="mt-6">
+              <ButtonLink href={routes.faq()} variant="secondary" size="sm">
+                Browse every question we answer
+              </ButtonLink>
+            </div>
           </div>
           <FaqList faqs={HOME_FAQS} />
         </div>

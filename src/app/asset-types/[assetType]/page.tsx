@@ -5,7 +5,7 @@ import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sect
 import { relatedGroups, mergeGroups } from "@/lib/depth";
 import { PrevNext } from "@/components/layout/PrevNext";
 import { neighbours } from "@/lib/outline";
-import { DefinitionList, Eyebrow, Heading, JsonLd, MarkerList, Section, TextLink } from "@/components/ui/primitives";
+import { ButtonLink, DefinitionList, Eyebrow, Heading, JsonLd, MarkerList, Section, TextLink } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
 import { entityMetadata } from "@/seo/metadata";
@@ -98,9 +98,11 @@ export default async function AssetTypePage({ params }: { params: Promise<{ asse
                 "Your positioning and voice profile, as constraints rather than suggestions",
               ]}
             />
-            <p className="mt-6 text-body">
-              <TextLink href={routes.feature("content-briefs")}>How content briefs work</TextLink>
-            </p>
+            <div className="mt-8">
+              <ButtonLink href={routes.feature("content-briefs")} variant="secondary" size="sm">
+                How content briefs work
+              </ButtonLink>
+            </div>
           </div>
         </div>
       </Section>

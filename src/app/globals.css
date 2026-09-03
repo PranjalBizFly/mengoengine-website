@@ -1281,3 +1281,171 @@ html.js-reveal [data-reveal-lines] > * {
     background: linear-gradient(180deg, rgb(2 32 24 / 0.6) 0%, rgb(2 32 24 / 0.5) 100%);
   }
 }
+
+/* ============================================================
+   Editorial story rows
+
+   The replacement for the site's flattest device: a column of
+   links with a sentence under each. Three things make the row
+   read as authored rather than listed — a rule that carries a
+   lime segment drawn in from the left, an arrow that travels,
+   and a second line that is there for a reader who wants it.
+
+   All of it is transform and opacity, so a section of twenty
+   rows composites on the GPU and costs nothing to hover.
+   ============================================================ */
+
+.story-rows {
+  display: grid;
+}
+
+@media (min-width: 640px) {
+  .story-rows {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 3rem;
+  }
+}
+
+.story-row {
+  position: relative;
+  display: block;
+  padding-block: 1.5rem;
+}
+
+/* The rule is a child rather than a border so the lime segment can be drawn
+   over it without a second element per row. */
+.story-row-rule {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: var(--color-paper-line);
+}
+
+.on-dark .story-row-rule {
+  background: color-mix(in oklab, var(--color-sage) 22%, transparent);
+}
+
+.story-row-rule::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-lime-deep);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s var(--ease-out-expo);
+}
+
+.on-dark .story-row-rule::after {
+  background: var(--color-lime);
+}
+
+.story-row:hover .story-row-rule::after,
+.story-row:focus-visible .story-row-rule::after {
+  transform: scaleX(1);
+}
+
+.story-row-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 1rem;
+  align-items: start;
+}
+
+/* The index or kicker takes its own column once there is room for it; below
+   that it sits above the title rather than stealing width from it. */
+@media (min-width: 480px) {
+  .story-row-inner {
+    grid-template-columns: 3.25rem 1fr auto;
+    column-gap: 1.25rem;
+  }
+}
+
+.story-row-index {
+  grid-column: 1 / -1;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-display);
+  font-size: var(--text-fine);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+@media (min-width: 480px) {
+  .story-row-index {
+    grid-column: auto;
+    margin-bottom: 0;
+    padding-top: 0.2rem;
+  }
+}
+
+/* The second line: collapsed to nothing, opened by the row's own hover or by
+   keyboard focus. `grid-template-rows` animates where `height: auto` cannot,
+   and needs no measurement in JavaScript. */
+.story-row-more {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.5s var(--ease-out-expo),
+    opacity 0.4s var(--ease-out-expo);
+}
+
+/* `min-height: 0` is load-bearing: a grid item defaults to `min-height: auto`,
+   which refuses to shrink below its content and leaves the collapsed row the
+   height of its own padding rather than nothing. */
+.story-row-more > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.story-row:hover .story-row-more,
+.story-row:focus-visible .story-row-more {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.story-row-arrow {
+  display: flex;
+  align-items: center;
+  padding-top: 0.3rem;
+  color: var(--color-lime-deep);
+  opacity: 0;
+  transform: translateX(-0.4rem);
+  transition:
+    opacity 0.4s var(--ease-out-expo),
+    transform 0.5s var(--ease-out-expo);
+}
+
+.on-dark .story-row-arrow {
+  color: var(--color-lime);
+}
+
+.story-row:hover .story-row-arrow,
+.story-row:focus-visible .story-row-arrow {
+  opacity: 1;
+  transform: none;
+}
+
+/* A touch reader gets no hover, so the affordances that depend on it are
+   simply on: the arrow is visible and the second line is open. Hiding content
+   behind a gesture that device cannot perform is the one failure mode this
+   pattern must not have. */
+@media (hover: none) {
+  .story-row-arrow {
+    opacity: 0.55;
+    transform: none;
+  }
+
+  .story-row-more {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-row-rule::after,
+  .story-row-more,
+  .story-row-arrow {
+    transition: none;
+  }
+}

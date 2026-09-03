@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import {
+  ButtonLink,
   DefinitionList,
   FaqList,
   Heading,
@@ -8,7 +9,6 @@ import {
   ProcessRail,
   PullQuote,
   Section,
-  TextLink,
 } from "@/components/ui/primitives";
 import type { SiteBlock, SiteKey, SiteLink } from "@/lib/subdomains";
 import { sitePath } from "@/lib/subdomains";
@@ -249,9 +249,11 @@ function Pending({
         ))}
       </ul>
       {action ? (
-        <p className="mt-7 text-body">
-          <TextLink href={hrefFor(site, action)}>{action.label}</TextLink>
-        </p>
+        <div className="mt-8">
+          <ButtonLink href={hrefFor(site, action)} variant="secondary" size="sm">
+            {action.label}
+          </ButtonLink>
+        </div>
       ) : null}
     </div>
   );
@@ -268,9 +270,11 @@ function Callout({ site, heading, body, action }: { site: SiteKey; heading: stri
         {body}
       </p>
       {action ? (
-        <p className="mt-5 text-body">
-          <TextLink href={hrefFor(site, action)}>{action.label}</TextLink>
-        </p>
+        <div className="mt-6">
+          <ButtonLink href={hrefFor(site, action)} variant="secondary" size="sm">
+            {action.label}
+          </ButtonLink>
+        </div>
       ) : null}
     </aside>
   );

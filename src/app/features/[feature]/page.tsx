@@ -33,6 +33,29 @@ export async function generateMetadata({ params }: { params: Promise<{ feature: 
   return entityMetadata(entity, { section: "Capabilities" });
 }
 
+/**
+ * Composition rotation.
+ *
+ * Forty-six capability pages built from one template composed identically —
+ * same photograph geometry, same content edge, every time — which is what made
+ * the set read as generated rather than authored. The layout is derived from
+ * the slug, so it is stable across builds and identical between server and
+ * client, and it adds no photograph: the two pictures the page already has are
+ * simply given a different frame.
+ *
+ * Both rotations stay within the dark photographic variants. Letting `inline`
+ * in here would flip the section to a light ground and put two light bands
+ * together, which changes the page's tonal rhythm rather than its composition.
+ */
+const PROBLEM_LAYOUTS = ["start", "panel", "end"] as const;
+const DETAIL_LAYOUTS = ["full", "end", "panel", "start"] as const;
+
+function rotate<T>(options: readonly T[], slug: string): T {
+  let hash = 0;
+  for (let i = 0; i < slug.length; i += 1) hash = (hash * 31 + slug.charCodeAt(i)) >>> 0;
+  return options[hash % options.length];
+}
+
 export default async function FeaturePage({ params }: { params: Promise<{ feature: string }> }) {
   const { feature: slug } = await params;
   const feature = featureBySlug.get(slug);
@@ -82,7 +105,11 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
       <SectionNav items={sections} />
 
       {/* Problem then mechanism — the two-beat structure every feature page uses */}
-      <Section id="the-problem" photo={getFeatureSectionImage(feature.slug, "problem", `The Problem: ${feature.problem}`)} photoLayout="start">
+      <Section
+        id="the-problem"
+        photo={getFeatureSectionImage(feature.slug, "problem", `The Problem: ${feature.problem}`)}
+        photoLayout={rotate(PROBLEM_LAYOUTS, feature.slug)}
+      >
         <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <div>
             <PullQuote attribution="The problem">{feature.problem}</PullQuote>
@@ -107,7 +134,11 @@ export default async function FeaturePage({ params }: { params: Promise<{ featur
         sections={feature.depth?.explain}
       />
 
-      <Section id="in-detail" photo={getFeatureSectionImage(feature.slug, "mechanism", `In Practice: ${feature.title}`)}>
+      <Section
+        id="in-detail"
+        photo={getFeatureSectionImage(feature.slug, "mechanism", `In Practice: ${feature.title}`)}
+        photoLayout={rotate(DETAIL_LAYOUTS, feature.slug)}
+      >
         <Heading eyebrow="In detail" title="What that means in practice" size="d4" />
         <DefinitionList items={feature.detail} columns={1} />
       </Section>

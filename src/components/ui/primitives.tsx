@@ -265,19 +265,33 @@ type ButtonVariant = "primary" | "secondary" | "ghost";
 /** "sm" is the header/toolbar size: it matches the 44px icon buttons it sits beside. */
 export type ButtonSize = "md" | "sm";
 
+/* `max-w-full` and a centred label are what stop a long action — "How to
+   write case studies without data" — running past the edge of a 320px
+   screen. The label wraps inside the pill rather than the pill growing
+   wider than the viewport it sits in. */
 const BUTTON_BASE =
-  "type-button inline-flex items-center justify-center gap-2 rounded-full transition-[background-color,color,border-color,transform,box-shadow] duration-300 ease-[var(--ease-out-expo)] active:translate-y-px motion-safe:hover:-translate-y-0.5";
+  "type-button inline-flex max-w-full items-center justify-center gap-2 text-balance rounded-full text-center transition-[background-color,color,border-color,transform,box-shadow] duration-300 ease-[var(--ease-out-expo)] active:translate-y-px motion-safe:hover:-translate-y-0.5";
 
 const BUTTON_SIZE: Record<ButtonSize, string> = {
   md: "min-h-12 px-7 py-3.5",
-  sm: "min-h-11 whitespace-nowrap px-5 py-2.5",
+  /* No `whitespace-nowrap` here: the header is the one place that needs it and
+     it opts in with its own class. Forcing it globally is what made a long
+     label overflow instead of wrapping. */
+  sm: "min-h-11 px-5 py-2.5",
 };
 
 const BUTTON_VARIANT: Record<ButtonVariant, string> = {
   primary:
     "bg-lime text-on-accent shadow-[0_8px_22px_-8px_rgb(111_159_26/0.65)] hover:bg-lime-bright hover:shadow-[0_16px_34px_-10px_rgb(111_159_26/0.6)]",
+  /**
+   * The section-action button, and the one that most often lands on a
+   * photograph. A 22% hairline vanishes over a busy frame, so on a dark ground
+   * the border is carried at 35% over a faint wash of its own — enough to read
+   * as a button against any part of a picture without turning into a filled
+   * one and competing with the page's actual primary action.
+   */
   secondary:
-    "border border-graphite/25 bg-transparent text-graphite hover:border-graphite/60 [.on-dark_&]:border-ink-invert/22 [.on-dark_&]:text-ink-invert [.on-dark_&]:hover:border-lime [.on-dark_&]:hover:text-lime",
+    "border border-graphite/25 bg-transparent text-graphite hover:border-graphite/60 hover:bg-graphite/[0.04] [.on-dark_&]:border-ink-invert/35 [.on-dark_&]:bg-ink-invert/[0.07] [.on-dark_&]:text-ink-invert [.on-dark_&]:hover:border-lime [.on-dark_&]:hover:bg-lime/15 [.on-dark_&]:hover:text-lime",
   ghost: "px-0 text-graphite underline decoration-lime decoration-2 underline-offset-[6px] hover:decoration-lime-deep [.on-dark_&]:text-ink-invert",
 };
 

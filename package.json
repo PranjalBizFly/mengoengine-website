@@ -14,6 +14,7 @@
     "images:audit": "node scripts/image-audit.mjs",
     "audit": "node scripts/audit.mjs",
     "audit:routes": "node --experimental-strip-types --no-warnings scripts/route-audit.mjs",
+    "audit:images": "node scripts/image-uniqueness.mjs",
     "qa:responsive": "node scripts/responsive.mjs",
     "verify": "npm run photos:curate && npm run validate && npm run check:depth && npm run search:index && npm run audit:routes && tsc --noEmit && next build && node scripts/image-audit.mjs && node scripts/audit.mjs && node scripts/seo-graph.mjs",
     "docs": "node --experimental-strip-types --no-warnings scripts/inventory.mjs",

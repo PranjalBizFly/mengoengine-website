@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 
 import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
 import {
+  ButtonLink,
   DefinitionList,
   Eyebrow,
   FaqList,
@@ -225,9 +226,11 @@ export default async function ChannelIndustryPage({
             <RowLink key={format.slug} href={routes.assetType(format.slug)} label={format.title} blurb={format.summary} />
           ))}
         </div>
-        <p className="mt-6 text-body">
-          <TextLink href={routes.channel(channel.slug)}>All {formats.length} {channel.title} formats</TextLink>
-        </p>
+        <div className="mt-8">
+          <ButtonLink href={routes.channel(channel.slug)} variant="secondary" size="sm">
+            All {formats.length} {channel.title} formats
+          </ButtonLink>
+        </div>
       </Section>
 
       <Section tone="paper">

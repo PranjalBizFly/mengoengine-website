@@ -7,6 +7,7 @@ import { SectionNav } from "@/components/layout/SectionNav";
 import { outline } from "@/lib/outline";
 import { relatedGroups, mergeGroups } from "@/lib/depth";
 import {
+  ButtonLink,
   Eyebrow,
   FaqList,
   Heading,
@@ -14,7 +15,6 @@ import {
   MarkerList,
   ProcessRail,
   Section,
-  TextLink,
 } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
@@ -160,9 +160,9 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
             title={`${ownFeatures.length} capabilities inside this engine`}
             className="max-w-[26ch]"
           />
-          <p className="text-body">
-            <TextLink href={routes.features()}>All capabilities across the platform</TextLink>
-          </p>
+          <ButtonLink href={routes.features()} variant="secondary" size="sm">
+            All capabilities across the platform
+          </ButtonLink>
         </div>
         <div className="mt-10 grid gap-x-12 sm:grid-cols-2">
           {ownFeatures.map((feature, i) => (

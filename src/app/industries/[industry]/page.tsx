@@ -7,6 +7,7 @@ import { SectionNav } from "@/components/layout/SectionNav";
 import { outline } from "@/lib/outline";
 import { relatedGroups, mergeGroups } from "@/lib/depth";
 import {
+  ButtonLink,
   DefinitionList,
   Eyebrow,
   FaqList,
@@ -130,9 +131,9 @@ export default async function IndustryPage({ params }: { params: Promise<{ indus
             title="Where the effort belongs, in order"
             className="max-w-[26ch]"
           />
-          <p className="text-body">
-            <TextLink href={routes.channels()}>How Mengo plans each channel</TextLink>
-          </p>
+          <ButtonLink href={routes.channels()} variant="secondary" size="sm">
+            How Mengo plans each channel
+          </ButtonLink>
         </div>
         <ol className="mt-10">
           {industry.channels.map((channelSlug, i) => {
