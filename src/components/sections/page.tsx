@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { Eyebrow, Section, TextLink } from "@/components/ui/primitives";
+import { Eyebrow, RelatedLinkList, Section, TextLink } from "@/components/ui/primitives";
 export { Directory } from "@/components/ui/rows";
 import { LeadButton, type LeadIntent } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
@@ -457,17 +457,9 @@ export function RelatedRail({
         {populated.map((group) => (
           <div key={group.heading} data-reveal>
             <h2 className="text-h6 tracking-[-0.02em]">{group.heading}</h2>
-            <div className="mt-4">
-              {group.links.map((linkRef) => (
-                <Link
-                  key={linkRef.href}
-                  href={linkRef.href}
-                  className="-mx-3 block rounded-xl px-3 py-3 text-body text-graphite-soft transition-[color,background-color,transform] duration-300 ease-[var(--ease-out-expo)] hover:bg-paper-warm/70 hover:text-lime-deep motion-safe:hover:translate-x-1 [.on-dark_&]:text-sage [.on-dark_&]:hover:bg-forest-700 [.on-dark_&]:hover:text-lime"
-                >
-                  {linkRef.label}
-                </Link>
-              ))}
-            </div>
+            {/* Same list as the sidebar rail, one size up: the bullet, the
+                hanging indent and the row rhythm are defined once. */}
+            <RelatedLinkList links={group.links} className="mt-3" />
             {group.seeAll ? (
               <p className="mt-4 text-small">
                 <TextLink href={group.seeAll.href}>{group.seeAll.label}</TextLink>

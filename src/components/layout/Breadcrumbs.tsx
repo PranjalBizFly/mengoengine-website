@@ -20,7 +20,12 @@ export function Breadcrumbs({ crumbs, tone = "paper" }: { crumbs: Crumb[]; tone?
         {trail.map((crumb, i) => {
           const last = i === trail.length - 1;
           return (
-            <li key={crumb.href} className="flex items-center gap-2">
+            /* Keyed by position, not href. The trail is a fixed-order list, and
+               a template whose parent crumb resolves to the page itself would
+               otherwise hand React two identical keys and have it drop a
+               crumb. The repeated entry is a bug worth fixing where it is
+               built; it should not also break rendering here. */
+            <li key={`${i}-${crumb.href}`} className="flex items-center gap-2">
               {last ? (
                 <span aria-current="page" className="font-medium">
                   {crumb.label}

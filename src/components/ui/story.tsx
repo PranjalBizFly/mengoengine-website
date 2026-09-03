@@ -55,6 +55,18 @@ export function StoryRows({
   const List = numbered ? "ol" : "ul";
   const dark = tone === "dark";
 
+  /*
+   * Whether this list carries a leading cell at all, decided once for the whole
+   * list rather than per row.
+   *
+   * Per row it would let one row use a three-track template and its neighbour a
+   * two-track one, so the titles in a column would not line up. Deciding it here
+   * means every row in a list has the same shape: where the list has a lead
+   * column, a row without a kicker renders the cell empty and keeps the
+   * alignment; where it has none, the track is never declared.
+   */
+  const hasLead = numbered || items.some((item) => Boolean(item.kicker));
+
   return (
     <List className={`story-rows ${className}`} data-reveal-stagger>
       {items.map((item, i) => (
@@ -62,7 +74,7 @@ export function StoryRows({
           <Link href={item.href} className="story-row group">
             <span aria-hidden className="story-row-rule" />
 
-            <span className="story-row-inner">
+            <span className="story-row-inner" {...(hasLead ? { "data-lead": "" } : {})}>
               {numbered ? (
                 <span
                   aria-hidden
@@ -70,9 +82,9 @@ export function StoryRows({
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
-              ) : item.kicker ? (
+              ) : hasLead ? (
                 <span className={`eyebrow story-row-index ${dark ? "text-sage" : "text-graphite-soft"}`}>
-                  {item.kicker}
+                  {item.kicker ?? ""}
                 </span>
               ) : null}
 

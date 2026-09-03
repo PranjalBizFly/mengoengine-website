@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
-import { Eyebrow, Section, TextLink } from "@/components/ui/primitives";
+import { Eyebrow, RelatedLinkList, Section, TextLink } from "@/components/ui/primitives";
 import { hrefFor } from "@/components/subsite/blocks";
 import { SubSiteNav } from "@/components/subsite/nav";
 import {
@@ -364,19 +364,15 @@ export function RelatedRail({
         {populated.map((group) => (
           <div key={group.heading} data-reveal>
             <h2 className="text-h6 tracking-[-0.02em]">{group.heading}</h2>
-            <ul className="mt-4">
-              {group.links.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={hrefFor(site, link)}
-                    {...(link.external ? { rel: "noopener" } : {})}
-                    className="-mx-3 block rounded-xl px-3 py-2.5 text-body text-graphite-soft transition-[color,background-color,transform] duration-300 ease-[var(--ease-out-expo)] hover:bg-paper/70 hover:text-lime-deep motion-safe:hover:translate-x-1"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            {/* The apex site's related band and this one are the same list. */}
+            <RelatedLinkList
+              className="mt-3"
+              links={group.links.map((link) => ({
+                href: hrefFor(site, link),
+                label: link.label,
+                external: link.external,
+              }))}
+            />
           </div>
         ))}
       </div>
