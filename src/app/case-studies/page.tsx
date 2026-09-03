@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { IndexHero, CtaBand } from "@/components/sections/page";
-import { Eyebrow, JsonLd, MarkerList, RowLink, Section, TextLink } from "@/components/ui/primitives";
+import { ButtonLink, Eyebrow, JsonLd, MarkerList, RowLink, Section, TextLink } from "@/components/ui/primitives";
 import { pageMetadata } from "@/seo/metadata";
 import { breadcrumbSchema } from "@/seo/schema";
 import { routes } from "@/lib/site";
@@ -101,11 +101,15 @@ export default function CaseStudiesIndexPage() {
                   client-identifiable. Method transparency frequently outperforms unverifiable numbers, because a
                   sophisticated buyer discounts figures they cannot check.
                 </p>
-                <p className="mt-6 text-body">
-                  <TextLink href={routes.useCase("write-case-studies-without-data")}>
+                <div className="mt-8">
+                  <ButtonLink
+                    href={routes.useCase("write-case-studies-without-data")}
+                    variant="secondary"
+                    size="sm"
+                  >
                     How to write case studies without data
-                  </TextLink>
-                </p>
+                  </ButtonLink>
+                </div>
                 <p className="mt-3 text-body">
                   <TextLink href={routes.useCases()}>Browse the use cases</TextLink> for what the work looks like in
                   practice.

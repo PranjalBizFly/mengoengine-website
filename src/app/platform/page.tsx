@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { EditorialHero, CtaBand, RelatedRail } from "@/components/sections/page";
-import { Eyebrow, Heading, JsonLd, MarkerList, Section, TextLink } from "@/components/ui/primitives";
+import { ButtonLink, Eyebrow, Heading, JsonLd, MarkerList, Section } from "@/components/ui/primitives";
 import { LeadButton } from "@/components/forms/LeadModal";
 import { Cta } from "@/components/forms/Cta";
 import { pageMetadata } from "@/seo/metadata";
@@ -92,9 +92,11 @@ export default function PlatformPage() {
                   </Link>
                 </h3>
                 <p className="mt-3 text-body leading-relaxed text-graphite-soft">{product.tagline}</p>
-                <p className="mt-5 text-small">
-                  <TextLink href={routes.product(product.slug)}>Explore {product.title}</TextLink>
-                </p>
+                <div className="mt-6">
+                  <ButtonLink href={routes.product(product.slug)} variant="secondary" size="sm">
+                    Explore {product.title}
+                  </ButtonLink>
+                </div>
               </div>
 
               <div className="grid gap-8 sm:grid-cols-2">
@@ -146,9 +148,11 @@ export default function PlatformPage() {
                 "No media production — filming, design and photography stay with you",
               ]}
             />
-            <p className="mt-8 text-body">
-              <TextLink href={routes.compare()}>Compare Mengo with the alternatives</TextLink>
-            </p>
+            <div className="mt-9">
+              <ButtonLink href={routes.compare()} variant="secondary">
+                Compare Mengo with the alternatives
+              </ButtonLink>
+            </div>
           </div>
         </div>
       </Section>

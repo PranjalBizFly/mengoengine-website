@@ -187,7 +187,7 @@ export function Header() {
             >
               Contact
             </Link>
-            <LeadButton intent="waitlist" size="sm" className="shrink-0">
+            <LeadButton intent="waitlist" size="sm" className="shrink-0 whitespace-nowrap">
               Join our waitlist
             </LeadButton>
           </div>

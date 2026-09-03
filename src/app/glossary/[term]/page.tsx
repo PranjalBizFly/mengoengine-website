@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { DocumentHero, CtaBand, RelatedRail, Explainer } from "@/components/sections/page";
-import { Eyebrow, Heading, JsonLd, Section, TextLink } from "@/components/ui/primitives";
+import { ButtonLink, Eyebrow, Heading, JsonLd, Section } from "@/components/ui/primitives";
 import { relatedGroups } from "@/lib/depth";
 import { PrevNext } from "@/components/layout/PrevNext";
 import { entityMetadata } from "@/seo/metadata";
@@ -112,9 +112,11 @@ export default async function GlossaryTermPage({ params }: { params: Promise<{ t
                 <span className="mt-1 block text-body leading-relaxed text-graphite-soft">{ref.blurb}</span>
               </a>
             ))}
-            <p className="mt-6 text-body">
-              <TextLink href={routes.glossary()}>Back to the full glossary</TextLink>
-            </p>
+            <div className="mt-8">
+              <ButtonLink href={routes.glossary()} variant="secondary" size="sm">
+                Back to the full glossary
+              </ButtonLink>
+            </div>
           </div>
         </div>
       </Section>
